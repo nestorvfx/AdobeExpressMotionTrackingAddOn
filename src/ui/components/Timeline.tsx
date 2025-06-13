@@ -87,21 +87,10 @@ export const Timeline: React.FC<TimelineProps> = ({
     const jumpFrames = useCallback((frameCount: number) => {
         const newFrame = Math.max(0, Math.min(totalFrames - 1, currentFrame + frameCount));
         onSeek(newFrame);
-    }, [currentFrame, totalFrames, onSeek]);
-
-    return (
+    }, [currentFrame, totalFrames, onSeek]);    return (
         <div className="timeline-container">
             <div className="timeline-controls">
                 <div className="playback-controls">
-                    <Button 
-                        size="s" 
-                        onClick={() => jumpFrames(-10)}
-                        disabled={currentFrame <= 0}
-                        variant="secondary"
-                        title="Jump back 10 frames"
-                    >
-                        ⏪
-                    </Button>
                     <Button 
                         size="s" 
                         onClick={onStepBackward}
@@ -128,23 +117,8 @@ export const Timeline: React.FC<TimelineProps> = ({
                     >
                         ⏭
                     </Button>
-                    <Button 
-                        size="s" 
-                        onClick={() => jumpFrames(10)}
-                        disabled={currentFrame >= totalFrames - 1}
-                        variant="secondary"
-                        title="Jump forward 10 frames"
-                    >
-                        ⏩
-                    </Button>
                 </div>
                 
-                <div className="time-display">
-                    <span className="current-time">{formatTime(currentFrame)}</span>
-                    <span className="separator">/</span>
-                    <span className="total-time">{formatTime(totalFrames - 1)}</span>
-                </div>
-
                 <div className="frame-display">
                     <span>Frame: {currentFrame + 1} / {totalFrames}</span>
                 </div>
@@ -166,11 +140,11 @@ export const Timeline: React.FC<TimelineProps> = ({
                     disabled={totalFrames <= 1}
                     title="Drag to scrub through timeline"
                 />
-                <div className="timeline-ticks">
-                    {/* Generate tick marks for major time intervals */}
-                    {Array.from({ length: Math.min(11, totalFrames) }, (_, i) => {
-                        const frame = Math.floor((i / 10) * (totalFrames - 1));
+                <div className="timeline-ticks">                    {/* Generate tick marks for start and end only */}
+                    {Array.from({ length: 2 }, (_, i) => {
+                        const frame = i === 0 ? 0 : totalFrames - 1;
                         const position = totalFrames > 1 ? (frame / (totalFrames - 1)) * 100 : 0;
+                        const label = i === 0 ? 'Start' : 'End';
                         return (
                             <div 
                                 key={i} 
@@ -179,7 +153,7 @@ export const Timeline: React.FC<TimelineProps> = ({
                                 onClick={() => onSeek(frame)}
                             >
                                 <div className="tick-mark"></div>
-                                <div className="tick-label">{formatTime(frame)}</div>
+                                <div className="tick-label">{label}</div>
                             </div>
                         );
                     })}

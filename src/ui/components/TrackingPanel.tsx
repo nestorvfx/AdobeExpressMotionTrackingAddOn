@@ -229,8 +229,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
                                     disabled={isTracking}
                                 />
                             </div>
-                            
-                            <div className="tracking-buttons">
+                              <div className="tracking-buttons">
                                 <Button 
                                     size="s" 
                                     variant="primary"
@@ -248,18 +247,14 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
                                     title="Track this point forward through video"
                                 >
                                     Track Forward →
-                                </Button>
-                            </div>
-
-                            <div className="track-all-buttons">
-                                <Button 
+                                </Button>                                <Button 
                                     size="s" 
                                     variant="secondary"
                                     onClick={handleTrackAllBackward}
                                     disabled={isTracking || trackingPoints.filter(p => p.isActive).length === 0}
                                     title="Track all active points backward through video"
                                 >
-                                    Track All Backward
+                                    ← All Back
                                 </Button>
                                 <Button 
                                     size="s" 
@@ -268,7 +263,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
                                     disabled={isTracking || trackingPoints.filter(p => p.isActive).length === 0}
                                     title="Track all active points forward through video"
                                 >
-                                    Track All Forward
+                                    All Forward →
                                 </Button>
                             </div>
 

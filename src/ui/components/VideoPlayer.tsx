@@ -10,6 +10,7 @@ interface VideoPlayerProps {
     onMetadataLoaded: (duration: number, width: number, height: number) => void;
     onAddTrackingPoint: (x: number, y: number) => void;
     onUpdateSearchRadius: (pointId: string, radius: number) => void;
+    onMovePoint?: (pointId: string, x: number, y: number) => void;
     getPointColor: (index: number) => string;
     // New props for frame-specific rendering
     getPointsAtFrame?: (frame: number) => Array<TrackingPoint & { framePosition?: { x: number; y: number } }>;
@@ -17,6 +18,8 @@ interface VideoPlayerProps {
         pointId: string;
         path: Array<{ x: number; y: number; frame: number }>;
     }>;
+    // Mode control
+    interactionMode?: 'scale' | 'move';
 }
 
 export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
@@ -27,9 +30,11 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     onMetadataLoaded,
     onAddTrackingPoint,
     onUpdateSearchRadius,
+    onMovePoint,
     getPointColor,
     getPointsAtFrame,
-    getTrajectoryPaths
+    getTrajectoryPaths,
+    interactionMode = 'scale'
 }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -39,17 +44,23 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });    const [dragState, setDragState] = useState<{
         pointId: string | null;
         isScaling: boolean;
+        isMoving: boolean;
         startRadius: number;
         startX: number;
+        startY: number;
         mouseDownPos: { x: number; y: number } | null;
         pendingAddPoint: { x: number; y: number } | null;
+        currentMovePos?: { x: number; y: number }; // Real-time position during move
     }>({
         pointId: null,
         isScaling: false,
+        isMoving: false,
         startRadius: 0,
         startX: 0,
+        startY: 0,
         mouseDownPos: null,
-        pendingAddPoint: null
+        pendingAddPoint: null,
+        currentMovePos: undefined
     });
     const [hoveredPointId, setHoveredPointId] = useState<string | null>(null);
 
@@ -111,16 +122,16 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             video.play().catch(console.error);
         } else {
             video.pause();
-        }    }, [isPlaying]);
-
-    // Handle mouse move for search radius adjustment
+        }    }, [isPlaying]);    // Handle mouse move for search radius adjustment or point moving
     const handleCanvasMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas || !videoSize.width || !videoSize.height) return;
 
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;        // Check if scaling search radius
+        const mouseY = event.clientY - rect.top;
+
+        // Check if scaling search radius
         if (dragState.isScaling && dragState.pointId) {
             const deltaX = mouseX - dragState.startX;
             
@@ -129,6 +140,19 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             const newRadius = Math.max(25, Math.min(140, dragState.startRadius + deltaX * scaleFactor * 0.8)); // Min 25px, Max radius 140px
             
             onUpdateSearchRadius(dragState.pointId, newRadius);
+            return;
+        }        // Check if moving point
+        if (dragState.isMoving && dragState.pointId && onMovePoint) {
+            // Convert mouse position to video coordinates
+            const videoX = (mouseX / displaySize.width) * videoSize.width;
+            const videoY = (mouseY / displaySize.height) * videoSize.height;
+            
+            // Update the real-time position for visual feedback
+            setDragState(prev => ({
+                ...prev,
+                currentMovePos: { x: videoX, y: videoY }
+            }));
+            
             return;
         }
 
@@ -148,17 +172,37 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         if (newHoveredPointId !== hoveredPointId) {
             setHoveredPointId(newHoveredPointId);
         }
-    };    // Handle mouse up - either add point or end scaling
+    };
+
+    // Handle mouse up - either add point or end scaling/moving
     const handleCanvasMouseUp = (event: React.MouseEvent<HTMLCanvasElement>) => {
         if (dragState.isScaling) {
             // End scaling operation
             setDragState({
                 pointId: null,
                 isScaling: false,
+                isMoving: false,
                 startRadius: 0,
                 startX: 0,
+                startY: 0,
                 mouseDownPos: null,
-                pendingAddPoint: null
+                pendingAddPoint: null,
+                currentMovePos: undefined
+            });
+        } else if (dragState.isMoving && dragState.pointId && dragState.currentMovePos && onMovePoint) {
+            // Finalize point move - actually update the point position
+            onMovePoint(dragState.pointId, dragState.currentMovePos.x, dragState.currentMovePos.y);
+            
+            setDragState({
+                pointId: null,
+                isScaling: false,
+                isMoving: false,
+                startRadius: 0,
+                startX: 0,
+                startY: 0,
+                mouseDownPos: null,
+                pendingAddPoint: null,
+                currentMovePos: undefined
             });
         } else if (dragState.pendingAddPoint) {
             // Add new tracking point at mouse up position
@@ -173,13 +217,17 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             setDragState({
                 pointId: null,
                 isScaling: false,
-                startRadius: 0,
-                startX: 0,
+                isMoving: false,
+                startRadius: 0,                startX: 0,
+                startY: 0,
                 mouseDownPos: null,
-                pendingAddPoint: null
+                pendingAddPoint: null,
+                currentMovePos: undefined
             });
         }
-    };// Handle mouse down to start scaling or prepare to add point
+    };
+
+    // Handle mouse down to start scaling, moving, or prepare to add point
     const handleCanvasMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas || !videoSize.width || !videoSize.height) return;
@@ -190,22 +238,40 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
 
         // Convert click coordinates to video coordinates
         const videoX = (clickX / displaySize.width) * videoSize.width;
-        const videoY = (clickY / displaySize.height) * videoSize.height;        // Check if clicking on an existing tracking point
+        const videoY = (clickY / displaySize.height) * videoSize.height;
+
+        // Check if clicking on an existing tracking point
         for (const point of trackingPoints) {
             const displayX = (point.x / videoSize.width) * displaySize.width;
             const displayY = (point.y / videoSize.height) * displaySize.height;
             const distance = Math.sqrt((clickX - displayX) ** 2 + (clickY - displayY) ** 2);
             
             if (distance <= 15) { // 15px click tolerance
-                // Start search radius adjustment
-                setDragState({
-                    pointId: point.id,
-                    isScaling: true,
-                    startRadius: point.searchRadius,
-                    startX: clickX,
-                    mouseDownPos: { x: clickX, y: clickY },
-                    pendingAddPoint: null
-                });
+                if (interactionMode === 'scale') {
+                    // Start search radius adjustment
+                    setDragState({
+                        pointId: point.id,
+                        isScaling: true,
+                        isMoving: false,
+                        startRadius: point.searchRadius,
+                        startX: clickX,
+                        startY: clickY,
+                        mouseDownPos: { x: clickX, y: clickY },
+                        pendingAddPoint: null
+                    });
+                } else if (interactionMode === 'move') {
+                    // Start point moving
+                    setDragState({
+                        pointId: point.id,
+                        isScaling: false,
+                        isMoving: true,
+                        startRadius: point.searchRadius,
+                        startX: clickX,
+                        startY: clickY,
+                        mouseDownPos: { x: clickX, y: clickY },
+                        pendingAddPoint: null
+                    });
+                }
                 return;
             }
         }
@@ -214,12 +280,15 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         setDragState({
             pointId: null,
             isScaling: false,
+            isMoving: false,
             startRadius: 0,
             startX: 0,
+            startY: 0,
             mouseDownPos: { x: clickX, y: clickY },
-            pendingAddPoint: { x: videoX, y: videoY }
-        });
-    };    // Draw tracking points and paths - frame-aware rendering
+            pendingAddPoint: { x: videoX, y: videoY }        });
+    };
+
+    // Draw tracking points and paths - frame-aware rendering
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas || !displaySize.width || !displaySize.height) return;
@@ -232,51 +301,81 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         const framePoints = getPointsAtFrame ? getPointsAtFrame(currentFrame) : trackingPoints.map(p => ({ ...p, framePosition: undefined }));
         const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];
 
-        // Draw trajectory paths first (background)
+        // Draw trajectory paths first (background) - show full ±5 frames paths
         trajectoryPaths.forEach((pathData, pathIndex) => {
             const pointIndex = framePoints.findIndex(p => p.id === pathData.pointId);
             if (pointIndex === -1 || pathData.path.length < 2) return;
 
             const color = getPointColor(pointIndex);
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
-            ctx.setLineDash([3, 3]);
-            ctx.globalAlpha = 0.6; // Make paths semi-transparent
 
-            ctx.beginPath();
-            pathData.path.forEach((trajPoint, trajIndex) => {
-                const trajDisplayX = (trajPoint.x / videoSize.width) * displaySize.width;
-                const trajDisplayY = (trajPoint.y / videoSize.height) * displaySize.height;
-                
-                if (trajIndex === 0) {
-                    ctx.moveTo(trajDisplayX, trajDisplayY);
-                } else {
-                    ctx.lineTo(trajDisplayX, trajDisplayY);
-                }
-            });
-            ctx.stroke();
+            // Draw the full trajectory path
+            if (pathData.path.length > 1) {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([3, 3]);
+                ctx.globalAlpha = 0.7; // Make paths more visible
 
-            // Draw small dots at trajectory points
+                ctx.beginPath();
+                pathData.path.forEach((trajPoint, trajIndex) => {
+                    const trajDisplayX = (trajPoint.x / videoSize.width) * displaySize.width;
+                    const trajDisplayY = (trajPoint.y / videoSize.height) * displaySize.height;
+                    
+                    if (trajIndex === 0) {
+                        ctx.moveTo(trajDisplayX, trajDisplayY);
+                    } else {
+                        ctx.lineTo(trajDisplayX, trajDisplayY);
+                    }
+                });
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Draw trajectory points with frame indicators
             pathData.path.forEach(trajPoint => {
                 const trajDisplayX = (trajPoint.x / videoSize.width) * displaySize.width;
                 const trajDisplayY = (trajPoint.y / videoSize.height) * displaySize.height;
                 
-                ctx.fillStyle = color;
-                ctx.globalAlpha = 0.4;
-                ctx.beginPath();
-                ctx.arc(trajDisplayX, trajDisplayY, 2, 0, 2 * Math.PI);
-                ctx.fill();
+                // Different styles for past, current, and future frames
+                const isCurrentFrame = trajPoint.frame === currentFrame;
+                const isPastFrame = trajPoint.frame < currentFrame;
+                
+                if (isCurrentFrame) {
+                    // Current frame - larger, fully opaque
+                    ctx.fillStyle = color;
+                    ctx.globalAlpha = 1.0;
+                    ctx.beginPath();
+                    ctx.arc(trajDisplayX, trajDisplayY, 4, 0, 2 * Math.PI);
+                    ctx.fill();
+                } else if (isPastFrame) {
+                    // Past frames - smaller, semi-transparent
+                    ctx.fillStyle = color;
+                    ctx.globalAlpha = 0.5;
+                    ctx.beginPath();
+                    ctx.arc(trajDisplayX, trajDisplayY, 2, 0, 2 * Math.PI);
+                    ctx.fill();
+                } else {
+                    // Future frames - hollow circles
+                    ctx.strokeStyle = color;
+                    ctx.globalAlpha = 0.5;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(trajDisplayX, trajDisplayY, 2, 0, 2 * Math.PI);
+                    ctx.stroke();
+                }
             });
 
-            ctx.setLineDash([]);
             ctx.globalAlpha = 1.0;
-        });
-
-        // Draw tracking points at their frame-specific positions
+        });        // Draw tracking points at their frame-specific positions
         framePoints.forEach((point, index) => {
             // Use frame-specific position if available, otherwise use current position
-            const pointX = (point as any).framePosition?.x ?? point.x;
-            const pointY = (point as any).framePosition?.y ?? point.y;
+            let pointX = (point as any).framePosition?.x ?? point.x;
+            let pointY = (point as any).framePosition?.y ?? point.y;
+            
+            // Override with real-time move position if this point is being moved
+            if (dragState.isMoving && dragState.pointId === point.id && dragState.currentMovePos) {
+                pointX = dragState.currentMovePos.x;
+                pointY = dragState.currentMovePos.y;
+            }
             
             // Convert video coordinates to display coordinates
             const displayX = (pointX / videoSize.width) * displaySize.width;
@@ -366,7 +465,9 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 height={displaySize.height}                style={{
                     width: displaySize.width,
                     height: displaySize.height,
-                    cursor: hoveredPointId ? 'ew-resize' : 'crosshair'
+                    cursor: hoveredPointId ? 
+                        (interactionMode === 'scale' ? 'ew-resize' : 'move') : 
+                        'crosshair'
                 }}
                 onMouseMove={handleCanvasMouseMove}
                 onMouseUp={handleCanvasMouseUp}

@@ -189,27 +189,20 @@
 }
 
 .tracking-buttons {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin: 12px 0;
 }
 
 .tracking-buttons button {
-    flex: 1;
-    padding: 8px 12px;
-    font-size: 12px;
-}
-
-.track-all-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 8px;
-}
-
-.track-all-buttons button {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 6px 8px;
+    font-size: 11px;
+    min-height: 32px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tracking-progress {

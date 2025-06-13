@@ -1,5 +1,4 @@
 // Lucas-Kanade Optical Flow Tracker using OpenCV.js
-// Simplified version without debug logging
 
 export interface TrackingPoint {
   id: string;
@@ -9,6 +8,9 @@ export interface TrackingPoint {
   isActive: boolean;
   trajectory: Array<{ x: number; y: number; frame: number }>;
   searchRadius: number;
+  lastManualMoveFrame?: number; // Track when point was last manually positioned
+  manualPositions: Map<number, { x: number; y: number }>; // Manual positions by frame number
+  trackedPositions: Map<number, { x: number; y: number }>; // Tracked positions by frame number
 }
 
 export interface TrackingOptions {
@@ -39,9 +41,9 @@ export class LucasKanadeTracker {
   private initializationPromise: Promise<boolean> | null = null;
   private logger: MinimalDebugger = new MinimalDebugger();
   private debugger: MinimalDebugger | null = null; // Debugger instance
-  constructor(options?: Partial<TrackingOptions>) {
-    this.options = {
-      winSize: { width: 21, height: 21 }, // Increased from 15x15 for better robustness
+  private isContinuousTracking: boolean = false; // Flag to ensure fresh detection during tracking
+  constructor(options?: Partial<TrackingOptions>) {    this.options = {
+      winSize: { width: 29, height: 29 }, // Increased by 40% from 21x21 for better feature detection
       maxLevel: 3, // Increased from 2 for multi-scale tracking
       criteria: {
         type: 0, // Will be set properly after OpenCV initialization
@@ -155,11 +157,21 @@ export class LucasKanadeTracker {
             this.currGray.delete();
           }
           this.currGray = newGray.clone();
-          
-          this.logger.log(this.frameCount, 'FRAME_PROCESSING', {
+            this.logger.log(this.frameCount, 'FRAME_PROCESSING', {
             ...beforeState,
             action: 'updating_frames',
-            willTrack: activePointsBeforeTracking.length > 0
+            willTrack: activePointsBeforeTracking.length > 0,
+            pointPositions: this.points.map(p => ({
+              id: p.id.substring(0, 8),
+              currentPos: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
+              authoritativePos: this.getPointPositionAtFrame(p, this.frameCount),
+              hasManualForFrame: p.manualPositions.has(this.frameCount),
+              hasTrackedForFrame: p.trackedPositions.has(this.frameCount),
+              authority: p.manualPositions.has(this.frameCount) ? 'manual' : 
+                        (p.trackedPositions.has(this.frameCount) ? 'tracked' : 'fallback'),
+              isActive: p.isActive,
+              confidence: p.confidence
+            }))
           });
           
           if (activePointsBeforeTracking.length > 0) {
@@ -187,10 +199,20 @@ export class LucasKanadeTracker {
             this.currGray.delete();
           }
           this.prevGray = newGray.clone();
-          this.currGray = newGray.clone();
-          this.logger.log(this.frameCount, 'FRAME_PROCESSING', {
+          this.currGray = newGray.clone();          this.logger.log(this.frameCount, 'FRAME_PROCESSING', {
             ...beforeState,
-            action: 'no_points_reset_frames'
+            action: 'no_points_reset_frames',
+            pointPositions: this.points.map(p => ({
+              id: p.id.substring(0, 8),
+              currentPos: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
+              authoritativePos: this.getPointPositionAtFrame(p, this.frameCount),
+              hasManualForFrame: p.manualPositions.has(this.frameCount),
+              hasTrackedForFrame: p.trackedPositions.has(this.frameCount),
+              authority: p.manualPositions.has(this.frameCount) ? 'manual' : 
+                        (p.trackedPositions.has(this.frameCount) ? 'tracked' : 'fallback'),
+              isActive: p.isActive,
+              confidence: p.confidence
+            }))
           });
         }
       } finally {
@@ -235,9 +257,7 @@ export class LucasKanadeTracker {
         }
       });
     }
-    this.lastProcessedFrame = this.frameCount;
-
-    const activePoints = this.points.filter(p => p.isActive);
+    this.lastProcessedFrame = this.frameCount;    const activePoints = this.points.filter(p => p.isActive);
     if (activePoints.length === 0) {
       this.logger.log(this.frameCount, 'NO_ACTIVE_POINTS', { 
         totalPoints: this.points.length,
@@ -248,6 +268,9 @@ export class LucasKanadeTracker {
         }))
       }, 'warn');
       return;
+    }    // Force fresh tracking detection for all active points only during continuous tracking
+    if (this.isContinuousTracking) {
+      this.forcePointTracking();
     }
 
     this.logger.log(this.frameCount, 'TRACKING_START', {
@@ -298,10 +321,11 @@ export class LucasKanadeTracker {
         maxCount: this.options.criteria.maxCount,
         epsilon: this.options.criteria.epsilon      });
         // Perform optical flow for all points at once
-      try {
-        this.logger.log(this.frameCount, 'OPTICAL_FLOW_CALLING', {
+      try {        this.logger.log(this.frameCount, 'OPTICAL_FLOW_CALLING', {
           aboutToCall: true,
-          hasAllParams: true
+          hasAllParams: true,
+          ...(this.isContinuousTracking && { freshTrackingForced: true }),
+          activePointsCount: activePoints.length
         });
 
         this.cv.calcOpticalFlowPyrLK(
@@ -456,37 +480,61 @@ export class LucasKanadeTracker {
         
         // Calculate movement distance
         const distance = isPositionValid ? Math.sqrt((newX - point.x) ** 2 + (newY - point.y) ** 2) : Infinity;
-        const maxMovement = point.searchRadius;
-          // Stricter tracking criteria to avoid following random features
-        const maxError = 15; // Much stricter error threshold (was 100)
-        const maxReasonableMovement = Math.min(point.searchRadius * 0.5, 50); // Max half of search radius, capped at 50px
+        const maxMovement = point.searchRadius;        // Intelligent tracking criteria that prioritizes tracking error over OpenCV status
+        const baseMaxError = 15;
+        const veryLowErrorThreshold = 5; // If error is this low, trust it regardless of OpenCV status
+        const maxReasonableMovement = Math.min(point.searchRadius * 0.6, 60); // Slightly more lenient movement
+          // Check if point was recently manually repositioned (within last 2 frames)
+        const wasRecentlyManual = point.lastManualMoveFrame !== undefined && 
+                                 (this.frameCount - point.lastManualMoveFrame) <= 2;
         
-        // Accept tracking only if ALL criteria are met:
-        // 1. OpenCV status indicates success (isTracked = true)
-        // 2. Position is valid (within bounds, not NaN)
-        // 3. Movement is reasonable (not too far)
-        // 4. Tracking error is low (high confidence)
-        const shouldAcceptTracking = isTracked && // Must have OpenCV success
-                                   isPositionValid && 
-                                   distance <= maxReasonableMovement && 
-                                   trackingError < maxError;
-          this.logger.log(this.frameCount, 'TRACKING_DECISION', {
+        // Adaptive error threshold based on confidence and recent manual positioning
+        let maxError = baseMaxError;
+        if (point.confidence >= 0.8) {
+          maxError = baseMaxError * 1.5; // More lenient for high confidence points
+        }
+        if (wasRecentlyManual) {
+          maxError = baseMaxError * 2; // Very lenient for recently repositioned points
+        }
+        
+        // Smart acceptance criteria:
+        // 1. Always accept if tracking error is very low (excellent template match)
+        // 2. For moderate errors, require OpenCV success AND reasonable movement
+        // 3. Position must always be valid
+        const isVeryLowError = trackingError < veryLowErrorThreshold;
+        const isModerateError = trackingError < maxError;
+        const isMovementReasonable = distance <= maxReasonableMovement;
+        
+        const shouldAcceptTracking = isPositionValid && (
+          isVeryLowError || // Trust very low error regardless of OpenCV status
+          (isTracked && isModerateError && isMovementReasonable) // Traditional criteria for moderate errors
+        );        this.logger.log(this.frameCount, 'TRACKING_DECISION', {
           pointId: point.id.substring(0, 6),
           isTracked,
           isPositionValid,
           distance: Math.round(distance * 100) / 100,
           maxMovement: maxReasonableMovement,
           trackingError: Math.round(trackingError * 100) / 100,
-          maxError,
+          baseMaxError,
+          adaptiveMaxError: maxError,
+          veryLowErrorThreshold,
+          isVeryLowError,
+          wasRecentlyManual,
           shouldAcceptTracking,
           decision: shouldAcceptTracking ? 'ACCEPT' : 'REJECT',
-          stricterCriteria: 'requiring_opencv_success_and_low_error'
+          intelligentCriteria: isVeryLowError ? 'accepted_for_very_low_error' : 
+                              (isTracked && isModerateError) ? 'accepted_for_opencv_success_and_moderate_error' : 'rejected'
         });
-        
-        if (shouldAcceptTracking) {
-          // Successful tracking - update position
-          this.points[pointIndex].x = newX;
-          this.points[pointIndex].y = newY;
+          if (shouldAcceptTracking) {
+          // Successful tracking - store as tracked position (only if not manually overridden)
+          if (!this.points[pointIndex].manualPositions.has(this.frameCount)) {
+            this.points[pointIndex].x = newX;
+            this.points[pointIndex].y = newY;
+            
+            // Store as tracked position
+            this.setTrackedPosition(point.id, newX, newY, this.frameCount);
+          }
+          
           this.points[pointIndex].confidence = Math.min(1.0, point.confidence + 0.1); // Increase confidence
           
           this.points[pointIndex].trajectory.push({
@@ -510,35 +558,43 @@ export class LucasKanadeTracker {
             trajectoryLength: this.points[pointIndex].trajectory.length,
             distance: Math.round(distance * 100) / 100,
             trackingError: Math.round(trackingError * 100) / 100,
-            openCvStatus: isTracked
-          });        } else {
-          // Failed tracking - more aggressive confidence reduction with stricter criteria
+            openCvStatus: isTracked,
+            hasManualOverride: this.points[pointIndex].manualPositions.has(this.frameCount)
+          });} else {
+          // Failed tracking - adjust confidence reduction based on context
           const oldConfidence = this.points[pointIndex].confidence;
-          this.points[pointIndex].confidence *= 0.75; // More aggressive reduction (was 0.95)
+          
+          // Be more lenient with recently manually positioned points
+          const confidenceReduction = wasRecentlyManual ? 0.9 : 0.75; // Less aggressive for manual points
+          this.points[pointIndex].confidence *= confidenceReduction;
           failureCount++;
           
           this.logger.log(this.frameCount, 'POINT_TRACKING_FAILED', {
             pointId: point.id.substring(0, 6),
-            reason: !isTracked ? 'opencv_status_failed' :
-                   !isPositionValid ? 'invalid_position' : 
-                   distance > maxReasonableMovement ? 'moved_too_far' : 'high_error',
+            reason: !isPositionValid ? 'invalid_position' :
+                   !isVeryLowError && !isTracked ? 'opencv_status_failed_and_moderate_error' :
+                   distance > maxReasonableMovement ? 'moved_too_far' : 'error_too_high',
             isTracked,
             trackingError: Math.round(trackingError * 100) / 100,
             distance: Math.round(distance * 100) / 100,
             maxMovement: maxReasonableMovement,
+            wasRecentlyManual,
+            confidenceReduction,
             oldConfidence: Math.round(oldConfidence * 1000) / 1000,
             newConfidence: Math.round(this.points[pointIndex].confidence * 1000) / 1000,
-            stricterCriteria: true
-          }, 'warn');
+            intelligentCriteria: true          }, 'warn');
           
-          // Deactivate more quickly with stricter criteria
-          if (this.points[pointIndex].confidence < 0.1) { // Higher threshold (was 0.02)
+          // Deactivate with different thresholds based on context
+          const deactivationThreshold = wasRecentlyManual ? 0.05 : 0.1; // More lenient for manual points
+          if (this.points[pointIndex].confidence < deactivationThreshold) {
             this.points[pointIndex].isActive = false;
             deactivationCount++;
             this.logger.log(this.frameCount, 'POINT_DEACTIVATED', {
               pointId: point.id.substring(0, 6),
-              reason: 'confidence_too_low_strict',
-              finalConfidence: this.points[pointIndex].confidence
+              reason: wasRecentlyManual ? 'confidence_too_low_after_manual_move' : 'confidence_too_low_intelligent',
+              finalConfidence: this.points[pointIndex].confidence,
+              deactivationThreshold,
+              wasRecentlyManual
             }, 'warn');
           }
         }}
@@ -570,7 +626,6 @@ export class LucasKanadeTracker {
       if (err) err.delete();
     }
   }
-
   addTrackingPoint(x: number, y: number): string {
     const pointId = `point_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const newPoint: TrackingPoint = {
@@ -580,7 +635,9 @@ export class LucasKanadeTracker {
       confidence: 1.0,
       isActive: true,
       trajectory: [{ x, y, frame: this.frameCount }],
-      searchRadius: 100 // Increased from 75 for better tracking tolerance
+      searchRadius: 100, // Increased from 75 for better tracking tolerance
+      manualPositions: new Map(), // Initialize manual positions map
+      trackedPositions: new Map()  // Initialize tracked positions map
     };
 
     this.points.push(newPoint);
@@ -609,36 +666,115 @@ export class LucasKanadeTracker {
 
   clearAllPoints(): void {
     this.points = [];
+  }  // Method to manually update a point's position at current frame
+  updatePointPosition(pointId: string, newX: number, newY: number): boolean {
+    const index = this.points.findIndex(p => p.id === pointId);
+    if (index !== -1) {
+      // Set manual position with absolute authority
+      this.setManualPosition(pointId, newX, newY, this.frameCount);
+      
+      // Fully reactivate point when manually positioned
+      this.points[index].confidence = 1.0;
+      this.points[index].isActive = true;
+      this.points[index].lastManualMoveFrame = this.frameCount; // Mark as recently manually moved
+      
+      // Add to trajectory for this frame (replace if same frame exists)
+      const existingFrameIndex = this.points[index].trajectory.findIndex(t => t.frame === this.frameCount);
+      if (existingFrameIndex !== -1) {
+        this.points[index].trajectory[existingFrameIndex] = {
+          x: newX,
+          y: newY,
+          frame: this.frameCount
+        };
+      } else {
+        this.points[index].trajectory.push({
+          x: newX,
+          y: newY,
+          frame: this.frameCount
+        });
+      }
+
+      // Keep trajectory length manageable
+      if (this.points[index].trajectory.length > 100) {
+        this.points[index].trajectory.shift();
+      }
+      
+      this.logger.log(this.frameCount, 'POINT_MANUALLY_MOVED', {
+        pointId: pointId.substring(0, 6),
+        newX: Math.round(newX * 100) / 100,
+        newY: Math.round(newY * 100) / 100,
+        frame: this.frameCount,
+        newConfidence: this.points[index].confidence,
+        wasReactivated: !this.points[index].isActive,
+        authority: 'manual_absolute'
+      });
+      
+      return true;
+    }
+    return false;
   }
   getTrackingPoints(): TrackingPoint[] {
     return [...this.points];
   }
 
-  // Get points at their positions for a specific frame
-  getPointsAtFrame(targetFrame: number): Array<TrackingPoint & { framePosition?: { x: number; y: number } }> {
-    return this.points.map(point => {
-      // Find the closest trajectory point to the target frame
-      const trajectoryPoint = this.findTrajectoryPointAtFrame(point, targetFrame);
-      
-      return {
-        ...point,
-        framePosition: trajectoryPoint
-      };
-    });
+  // Get points with their authoritative positions for a specific frame
+  getPointsAtFrame(frame: number): Array<TrackingPoint & { framePosition?: { x: number; y: number } }> {
+    return this.points.map(point => ({
+      ...point,
+      framePosition: this.getPointPositionAtFrame(point, frame)
+    }));
   }
 
-  // Get trajectory paths for a frame range (±frameRange around target frame)
-  getTrajectoryPaths(targetFrame: number, frameRange: number = 5): Array<{
+  // Get trajectory paths for visualization (shows both manual and tracked positions)
+  getTrajectoryPaths(currentFrame: number, range: number = 5): Array<{
     pointId: string;
     path: Array<{ x: number; y: number; frame: number }>;
   }> {
-    const minFrame = Math.max(0, targetFrame - frameRange);
-    const maxFrame = targetFrame + frameRange;
+    const trajectories: Array<{
+      pointId: string;
+      path: Array<{ x: number; y: number; frame: number }>;
+    }> = [];
+
+    this.points.forEach(point => {
+      const path: Array<{ x: number; y: number; frame: number }> = [];
+      
+      // Collect positions from both manual and tracked maps within the range
+      const startFrame = Math.max(0, currentFrame - range);
+      const endFrame = currentFrame + range;
+      
+      for (let frame = startFrame; frame <= endFrame; frame++) {
+        const position = this.getPointPositionAtFrame(point, frame);
+        
+        // Only add if we have a meaningful position (not just the default current position)
+        if (point.manualPositions.has(frame) || point.trackedPositions.has(frame)) {
+          path.push({
+            x: position.x,
+            y: position.y,
+            frame: frame
+          });
+        }
+      }
+      
+      // Sort by frame number
+      path.sort((a, b) => a.frame - b.frame);
+      
+      if (path.length > 0) {
+        trajectories.push({
+          pointId: point.id,
+          path: path
+        });
+      }
+    });
+
+    return trajectories;
+  }
+
+  // Public method to get authoritative position for UI components
+  public getPointPositionAtFramePublic(pointId: string, frame: number): { x: number; y: number } | null {
+    const point = this.points.find(p => p.id === pointId);
+    if (!point) return null;
     
-    return this.points.map(point => ({
-      pointId: point.id,
-      path: point.trajectory.filter(t => t.frame >= minFrame && t.frame <= maxFrame)
-    })).filter(pathData => pathData.path.length > 0);
+    return this.getPointPositionAtFrame(point, frame);
   }
 
   private findTrajectoryPointAtFrame(point: TrackingPoint, targetFrame: number): { x: number; y: number } | undefined {
@@ -671,7 +807,6 @@ export class LucasKanadeTracker {
 
     return undefined;
   }
-
   updatePointSearchRadius(pointId: string, radius: number): boolean {
     const index = this.points.findIndex(p => p.id === pointId);
     if (index !== -1) {
@@ -680,7 +815,42 @@ export class LucasKanadeTracker {
     }
     return false;
   }
+  // Manually move a point to a new position
+  movePointToPosition(pointId: string, x: number, y: number): boolean {
+    const index = this.points.findIndex(p => p.id === pointId);
+    if (index !== -1) {
+      this.points[index].x = x;
+      this.points[index].y = y;
+      this.points[index].lastManualMoveFrame = this.frameCount; // Mark as recently manually moved
+      
+      // Add this manual position to trajectory
+      this.points[index].trajectory.push({
+        x,
+        y,
+        frame: this.frameCount
+      });
 
+      if (this.points[index].trajectory.length > 100) {
+        this.points[index].trajectory.shift();
+      }
+
+      // Boost confidence when manually positioned
+      this.points[index].confidence = Math.min(1.0, this.points[index].confidence + 0.2);
+      this.points[index].isActive = true; // Reactivate if inactive
+
+      this.logger.log(this.frameCount, 'POINT_MANUALLY_MOVED', {
+        pointId: pointId.substring(0, 6),
+        newX: Math.round(x * 100) / 100,
+        newY: Math.round(y * 100) / 100,
+        newConfidence: Math.round(this.points[index].confidence * 1000) / 1000,
+        reactivated: true,
+        markedFrame: this.frameCount
+      });
+
+      return true;
+    }
+    return false;
+  }
   resetTracker(): void {
     if (this.prevGray) {
       this.prevGray.delete();
@@ -693,12 +863,45 @@ export class LucasKanadeTracker {
     
     this.frameCount = 0;
     this.lastProcessedFrame = null;
+    
+    // Reset continuous tracking mode when resetting tracker
+    this.isContinuousTracking = false;
   }
 
+  resetFrameBuffers(): void {
+    if (this.prevGray) {
+      this.prevGray.delete();
+      this.prevGray = null;
+    }
+    if (this.currGray) {
+      this.currGray.delete();
+      this.currGray = null;
+    }
+    
+    this.lastProcessedFrame = null;
+  }
   setCurrentFrame(frameNumber: number): void {
+    const oldFrame = this.frameCount;
     this.frameCount = frameNumber;
+    
+    // Log frame change with current point positions
+    if (oldFrame !== frameNumber) {
+      this.logger.log(frameNumber, 'FRAME_SCRUBBED', {
+        fromFrame: oldFrame,
+        toFrame: frameNumber,
+        totalPoints: this.points.length,
+        activePoints: this.points.filter(p => p.isActive).length,
+        pointPositions: this.points.map(p => ({
+          id: p.id.substring(0, 8),
+          position: this.getPointPositionAtFrame(p, frameNumber),
+          hasManualForFrame: p.manualPositions.has(frameNumber),
+          hasTrackedForFrame: p.trackedPositions.has(frameNumber),
+          authority: p.manualPositions.has(frameNumber) ? 'manual' : 
+                    (p.trackedPositions.has(frameNumber) ? 'tracked' : 'fallback')
+        }))
+      });
+    }
   }
-
   handleSeek(): void {
     if (this.prevGray) {
       this.prevGray.delete();
@@ -709,6 +912,9 @@ export class LucasKanadeTracker {
       this.currGray = null;
     }
     this.lastProcessedFrame = null;
+    
+    // Disable continuous tracking mode during seeks to prevent interference
+    this.isContinuousTracking = false;
   }
 
   dispose(): void {
@@ -847,6 +1053,130 @@ export class LucasKanadeTracker {
     
     report.push('=== END TEST ===');
     return report.join('\n');
+  }  // Force fresh optical flow tracking regardless of existing trajectory data
+  private forcePointTracking(): void {
+    // During continuous tracking, we always perform fresh optical flow detection
+    // We don't rely on existing trajectory data or cached positions
+    // The point's current x,y coordinates will be used as starting position for optical flow
+    const activeCount = this.points.filter(p => p.isActive).length;
+    
+    this.logger.log(this.frameCount, 'FORCING_FRESH_TRACKING', {
+      activePointsCount: activeCount,
+      continuousTrackingMode: this.isContinuousTracking,
+      frameNumber: this.frameCount,
+      willPerformOpticalFlow: true
+    });
+  }
+
+  // Enable continuous tracking mode - ensures fresh optical flow detection for every frame
+  enableContinuousTracking(): void {
+    this.isContinuousTracking = true;
+    this.logger.log(this.frameCount, 'CONTINUOUS_TRACKING_ENABLED', {
+      mode: 'fresh_detection_forced',
+      activePoints: this.points.filter(p => p.isActive).length
+    });
+  }
+
+  // Disable continuous tracking mode
+  disableContinuousTracking(): void {
+    this.isContinuousTracking = false;
+    this.logger.log(this.frameCount, 'CONTINUOUS_TRACKING_DISABLED', {
+      mode: 'normal_operation'
+    });
+  }
+
+  // Get the authoritative position for a point at a specific frame
+  // Manual positions always take precedence over tracked positions
+  private getPointPositionAtFrame(point: TrackingPoint, frame: number): { x: number; y: number } {
+    // Manual position has absolute authority
+    const manualPos = point.manualPositions.get(frame);
+    if (manualPos) {
+      return manualPos;
+    }
+    
+    // Fall back to tracked position
+    const trackedPos = point.trackedPositions.get(frame);
+    if (trackedPos) {
+      return trackedPos;
+    }
+    
+    // Fall back to current point position
+    return { x: point.x, y: point.y };
+  }
+  // Set a manual position for a point at the current frame
+  private setManualPosition(pointId: string, x: number, y: number, frame: number): void {
+    const index = this.points.findIndex(p => p.id === pointId);
+    if (index !== -1) {
+      const point = this.points[index];
+      const oldPos = { x: point.x, y: point.y };
+      const wasTrackedForThisFrame = point.trackedPositions.has(frame);
+      const trackedPosForFrame = point.trackedPositions.get(frame);
+      
+      // Set manual position for this frame
+      point.manualPositions.set(frame, { x, y });
+      
+      // Update current position
+      point.x = x;
+      point.y = y;
+      
+      // Calculate movement distance
+      const distance = Math.sqrt(Math.pow(x - oldPos.x, 2) + Math.pow(y - oldPos.y, 2));
+      
+      this.logger.log(frame, 'MANUAL_POSITION_SET', {
+        pointId: pointId.substring(0, 6),
+        frame,
+        position: { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 },
+        oldPosition: { x: Math.round(oldPos.x * 100) / 100, y: Math.round(oldPos.y * 100) / 100 },
+        distance: Math.round(distance * 100) / 100,
+        authority: 'manual',
+        overridingTracked: wasTrackedForThisFrame,
+        trackedPositionOverridden: trackedPosForFrame ? {
+          x: Math.round(trackedPosForFrame.x * 100) / 100,
+          y: Math.round(trackedPosForFrame.y * 100) / 100
+        } : null,
+        manualOverridesCount: point.manualPositions.size,
+        trackedPositionsCount: point.trackedPositions.size
+      });
+    }
+  }
+  // Set a tracked position for a point at the current frame
+  private setTrackedPosition(pointId: string, x: number, y: number, frame: number): void {
+    const index = this.points.findIndex(p => p.id === pointId);
+    if (index !== -1) {
+      const point = this.points[index];
+      const oldPos = { x: point.x, y: point.y };
+      
+      // Only set tracked position if no manual position exists for this frame
+      if (!point.manualPositions.has(frame)) {
+        point.trackedPositions.set(frame, { x, y });
+        
+        // Update current position only if not manually overridden
+        point.x = x;
+        point.y = y;
+        
+        // Calculate movement distance
+        const distance = Math.sqrt(Math.pow(x - oldPos.x, 2) + Math.pow(y - oldPos.y, 2));
+        
+        this.logger.log(frame, 'TRACKED_POSITION_SET', {
+          pointId: pointId.substring(0, 6),
+          frame,
+          position: { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 },
+          oldPosition: { x: Math.round(oldPos.x * 100) / 100, y: Math.round(oldPos.y * 100) / 100 },
+          distance: Math.round(distance * 100) / 100,
+          authority: 'tracked',
+          manualOverridesCount: point.manualPositions.size,
+          trackedPositionsCount: point.trackedPositions.size
+        });
+      } else {
+        this.logger.log(frame, 'TRACKED_POSITION_SKIPPED', {
+          pointId: pointId.substring(0, 6),
+          frame,
+          reason: 'manual_override_exists',
+          manualPosition: point.manualPositions.get(frame),
+          attemptedTrackedPosition: { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 }
+        });
+      }
+    }
   }
 }
 

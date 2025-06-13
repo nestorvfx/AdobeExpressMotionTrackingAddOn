@@ -12,6 +12,9 @@ interface TrackingControlsProps {
   onStepBackward: () => void;
   onStepForward: () => void;
   onStopTracking: () => void;
+  // New interaction mode props
+  interactionMode?: 'scale' | 'move';
+  onInteractionModeChange?: (mode: 'scale' | 'move') => void;
 }
 
 export const TrackingControls: React.FC<TrackingControlsProps> = ({
@@ -25,9 +28,10 @@ export const TrackingControls: React.FC<TrackingControlsProps> = ({
   onStepBackward,
   onStepForward,
   onStopTracking,
-}) => {
-  return (
-    <div className="tracking-controls">
+  interactionMode = 'scale',
+  onInteractionModeChange,
+}) => {  return (
+    <div className="tracking-controls">      
       <div className="control-row">
         <button 
           onClick={onTrackBackward}

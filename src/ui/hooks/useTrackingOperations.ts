@@ -13,8 +13,7 @@ export const useTrackingOperations = ({ videoTracking, showToast }: UseTrackingO
     fps: videoTracking.fps,
     showToast,
   });
-
-  const handleTrackForward = useCallback(async () => {
+  const handleTrackForward = useCallback(async (pointId?: string, frames?: number) => {
     if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;
 
     videoTracking.setIsTracking(true);
@@ -31,7 +30,9 @@ export const useTrackingOperations = ({ videoTracking, showToast }: UseTrackingO
           videoTracking.setTrackingPoints(points);
           videoTracking.setCurrentFrame(frame);
         },
-        videoTracking.trackingCancelledRef
+        videoTracking.trackingCancelledRef,
+        pointId, // Pass pointId to limit tracking to specific point
+        frames // Pass frame count limit
       );
     } finally {
       videoTracking.setIsTracking(false);
@@ -40,7 +41,7 @@ export const useTrackingOperations = ({ videoTracking, showToast }: UseTrackingO
     }
   }, [trackingService, videoTracking]);
 
-  const handleTrackBackward = useCallback(async () => {
+  const handleTrackBackward = useCallback(async (pointId?: string, frames?: number) => {
     if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;
 
     videoTracking.setIsTracking(true);
@@ -57,7 +58,9 @@ export const useTrackingOperations = ({ videoTracking, showToast }: UseTrackingO
           videoTracking.setTrackingPoints(points);
           videoTracking.setCurrentFrame(frame);
         },
-        videoTracking.trackingCancelledRef
+        videoTracking.trackingCancelledRef,
+        pointId, // Pass pointId to limit tracking to specific point
+        frames // Pass frame count limit
       );
     } finally {
       videoTracking.setIsTracking(false);
