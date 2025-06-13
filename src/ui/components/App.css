@@ -163,7 +163,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     border: 1px solid #e5e7eb;
     overflow: hidden;
-    height: 140px;
+    height: 196px; /* 1.4x the original height (140px * 1.4 = 196px) */
     display: flex;
     flex-direction: column;
 }
@@ -206,7 +206,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 16px;
+    padding: 6px 16px; /* Reduced padding */
     border-bottom: 1px solid #f3f4f6;
     transition: background-color 0.2s ease;
 }
@@ -227,8 +227,8 @@
 }
 
 .point-color {
-    width: 12px;
-    height: 12px;
+    width: 10px; /* Smaller */
+    height: 10px; /* Smaller */
     border-radius: 50%;
     border: 1px solid rgba(0, 0, 0, 0.1);
     flex-shrink: 0;
@@ -244,11 +244,13 @@
     font-size: 12px;
     font-weight: 500;
     color: #374151;
+    line-height: 1.2;
 }
 
-.point-coords {
-    font-size: 11px;
+.point-meta {
+    font-size: 10px; /* Smaller meta info */
     color: #6b7280;
+    line-height: 1.2;
 }
 
 .point-remove {

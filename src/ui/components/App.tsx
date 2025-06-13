@@ -18,12 +18,11 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     const [currentFrame, setCurrentFrame] = useState(0);
     const [totalFrames, setTotalFrames] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [fps] = useState(30);
-
-    // Tracking state
+    const [fps] = useState(30);    // Tracking state
     const [trackingPoints, setTrackingPoints] = useState<TrackingPoint[]>([]);
     const [isTracking, setIsTracking] = useState(false);
     const [trackingProgress, setTrackingProgress] = useState(0);
+    const trackingCancelledRef = useRef(false);
 
     // Toast state
     const [toast, setToast] = useState<{message: string, type: 'info' | 'success' | 'error'} | null>(null);
@@ -91,18 +90,36 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     // Playback handlers
     const handlePlayPause = () => {
         setIsPlaying(!isPlaying);
-    };
-
-    const handleFrameChange = (frame: number) => {
-        setCurrentFrame(Math.max(0, Math.min(frame, totalFrames - 1)));
+    };    const handleFrameChange = (frame: number) => {
+        const newFrame = Math.max(0, Math.min(frame, totalFrames - 1));
+        setCurrentFrame(newFrame);
         setIsPlaying(false);
-    };
+        
+        // Reset tracking state when seeking to ensure optical flow consistency
+        if (trackerRef.current) {
+            trackerRef.current.handleSeek();
+            trackerRef.current.setCurrentFrame(newFrame);
+        }
+    };    // Tracking point handlers
+    const handleAddTrackingPoint = async (x: number, y: number) => {
+        if (!trackerRef.current || !videoRef.current) return;        try {
+            // Ensure tracker is initialized first
+            const isInitialized = await trackerRef.current.initialize();
+            if (!isInitialized) {
+                showToast('Tracker not initialized', 'error');
+                return;
+            }
 
-    // Tracking point handlers
-    const handleAddTrackingPoint = (x: number, y: number) => {
-        if (!trackerRef.current || !videoRef.current) return;
-
-        try {
+            // First, process the current frame to ensure we have reference data
+            const canvasElement = document.createElement('canvas');
+            trackerRef.current.setCurrentFrame(currentFrame);
+            
+            // Small delay to ensure video frame is stable
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            trackerRef.current.processFrame(videoRef.current, canvasElement);
+            
+            // Now add the tracking point
             const pointId = trackerRef.current.addTrackingPoint(x, y);
             if (pointId) {
                 const updatedPoints = trackerRef.current.getTrackingPoints();
@@ -136,90 +153,170 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
             setTrackingPoints([]);
             showToast('All tracking points cleared', 'info');
         } catch (error) {
-            console.error('Error clearing tracking points:', error);
-        }
+            console.error('Error clearing tracking points:', error);        }
     };
 
     // Tracking handlers
     const handleTrackForward = async () => {
-        if (!trackerRef.current || !videoRef.current || trackingPoints.length === 0) return;
+        if (!trackerRef.current || !videoRef.current || trackingPoints.length === 0) {
+            showToast('Please add tracking points first', 'error');
+            return;
+        }
+
+        // Ensure tracker is initialized
+        const isInitialized = await trackerRef.current.initialize();
+        if (!isInitialized) {
+            showToast('Failed to initialize tracker', 'error');
+            return;
+        }        // Reset tracker state for new tracking session
+        trackerRef.current.resetTracker();
+        trackerRef.current.setCurrentFrame(currentFrame);
 
         setIsTracking(true);
         setTrackingProgress(0);
+        trackingCancelledRef.current = false;
 
         try {
             const framesToTrack = totalFrames - currentFrame - 1;
-            let trackedFrames = 0;
-
-            for (let i = currentFrame + 1; i < totalFrames; i++) {
+            let trackedFrames = 0;            for (let i = currentFrame + 1; i < totalFrames && !trackingCancelledRef.current; i++) {
                 if (videoRef.current) {
+                    // Seek to the new frame and wait for it to complete
                     videoRef.current.currentTime = i / fps;
+                    
+                    // Wait for video to seek properly
+                    await new Promise<void>((resolve) => {
+                        const video = videoRef.current!;
+                        const handleSeeked = () => {
+                            video.removeEventListener('seeked', handleSeeked);
+                            resolve();
+                        };
+                        video.addEventListener('seeked', handleSeeked);
+                        
+                        // Fallback timeout in case seeked event doesn't fire
+                        setTimeout(() => {
+                            video.removeEventListener('seeked', handleSeeked);
+                            resolve();
+                        }, 100);
+                    });
+
+                    // Additional delay to ensure frame is fully rendered
                     await new Promise(resolve => setTimeout(resolve, 50));
 
+                    // Process the frame
                     const canvasElement = document.createElement('canvas');
+                    console.log(`Tracking frame ${i}, video time: ${videoRef.current.currentTime}`);
+                    trackerRef.current.setCurrentFrame(i);
                     trackerRef.current.processFrame(videoRef.current, canvasElement);
                     const updatedPoints = trackerRef.current.getTrackingPoints();
-                    setTrackingPoints([...updatedPoints]);
-
-                    trackedFrames++;
+                    setTrackingPoints([...updatedPoints]);trackedFrames++;
                     setTrackingProgress(trackedFrames / framesToTrack);
+                    setCurrentFrame(i);
+                    
+                    // Small delay to allow UI updates and cancellation checks
+                    await new Promise(resolve => setTimeout(resolve, 10));
                 }
             }
 
-            showToast('Forward tracking completed', 'success');
+            if (trackingCancelledRef.current) {
+                showToast('Forward tracking stopped', 'info');
+            } else {
+                showToast('Forward tracking completed', 'success');
+            }
         } catch (error) {
             console.error('Error during forward tracking:', error);
             showToast('Tracking failed', 'error');
         } finally {
             setIsTracking(false);
             setTrackingProgress(0);
+            trackingCancelledRef.current = false;
         }
-    };
+    };    const handleTrackBackward = async () => {
+        if (!trackerRef.current || !videoRef.current || trackingPoints.length === 0) {
+            showToast('Please add tracking points first', 'error');
+            return;
+        }
 
-    const handleTrackBackward = async () => {
-        if (!trackerRef.current || !videoRef.current || trackingPoints.length === 0) return;
+        // Ensure tracker is initialized
+        const isInitialized = await trackerRef.current.initialize();
+        if (!isInitialized) {
+            showToast('Failed to initialize tracker', 'error');
+            return;
+        }
 
         setIsTracking(true);
         setTrackingProgress(0);
+        trackingCancelledRef.current = false;
 
         try {
             const framesToTrack = currentFrame;
             let trackedFrames = 0;
 
-            for (let i = currentFrame - 1; i >= 0; i--) {
+            for (let i = currentFrame - 1; i >= 0 && !trackingCancelledRef.current; i--) {
                 if (videoRef.current) {
+                    // Seek to the new frame and wait for it to complete
                     videoRef.current.currentTime = i / fps;
+                    
+                    // Wait for video to seek properly
+                    await new Promise<void>((resolve) => {
+                        const video = videoRef.current!;
+                        const handleSeeked = () => {
+                            video.removeEventListener('seeked', handleSeeked);
+                            resolve();
+                        };
+                        video.addEventListener('seeked', handleSeeked);
+                        
+                        // Fallback timeout in case seeked event doesn't fire
+                        setTimeout(() => {
+                            video.removeEventListener('seeked', handleSeeked);
+                            resolve();
+                        }, 100);                    });
+
+                    // Additional delay to ensure frame is fully rendered
                     await new Promise(resolve => setTimeout(resolve, 50));
 
+                    // Process the frame
                     const canvasElement = document.createElement('canvas');
+                    console.log(`Tracking frame ${i}, video time: ${videoRef.current.currentTime}`);
+                    trackerRef.current.setCurrentFrame(i);
                     trackerRef.current.processFrame(videoRef.current, canvasElement);
                     const updatedPoints = trackerRef.current.getTrackingPoints();
                     setTrackingPoints([...updatedPoints]);
 
                     trackedFrames++;
                     setTrackingProgress(trackedFrames / framesToTrack);
+                    setCurrentFrame(i);
+                    
+                    // Small delay to allow UI updates and cancellation checks
+                    await new Promise(resolve => setTimeout(resolve, 10));
                 }
             }
 
-            showToast('Backward tracking completed', 'success');
+            if (trackingCancelledRef.current) {
+                showToast('Backward tracking stopped', 'info');
+            } else {
+                showToast('Backward tracking completed', 'success');
+            }
         } catch (error) {
             console.error('Error during backward tracking:', error);
             showToast('Tracking failed', 'error');
         } finally {
             setIsTracking(false);
             setTrackingProgress(0);
+            trackingCancelledRef.current = false;
         }
     };
 
     const handleStepForward = async () => {
         if (!trackerRef.current || !videoRef.current || currentFrame >= totalFrames - 1) return;
 
-        const nextFrame = currentFrame + 1;
-        if (videoRef.current) {
+        const nextFrame = currentFrame + 1;        if (videoRef.current) {
             videoRef.current.currentTime = nextFrame / fps;
-            await new Promise(resolve => setTimeout(resolve, 50));
+            
+            // Wait for video seeking to complete
+            await new Promise(resolve => setTimeout(resolve, 100));
 
             const canvasElement = document.createElement('canvas');
+            trackerRef.current.setCurrentFrame(nextFrame);
             trackerRef.current.processFrame(videoRef.current, canvasElement);
             const updatedPoints = trackerRef.current.getTrackingPoints();
             setTrackingPoints([...updatedPoints]);
@@ -230,17 +327,32 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     const handleStepBackward = async () => {
         if (!trackerRef.current || !videoRef.current || currentFrame <= 0) return;
 
-        const prevFrame = currentFrame - 1;
-        if (videoRef.current) {
+        const prevFrame = currentFrame - 1;        if (videoRef.current) {
             videoRef.current.currentTime = prevFrame / fps;
             await new Promise(resolve => setTimeout(resolve, 50));
 
             const canvasElement = document.createElement('canvas');
+            trackerRef.current.setCurrentFrame(prevFrame);
             trackerRef.current.processFrame(videoRef.current, canvasElement);
             const updatedPoints = trackerRef.current.getTrackingPoints();
             setTrackingPoints([...updatedPoints]);
             setCurrentFrame(prevFrame);
         }
+    };
+
+    const handleUpdateSearchRadius = (pointId: string, radius: number) => {
+        if (!trackerRef.current) return;
+
+        try {
+            trackerRef.current.updatePointSearchRadius(pointId, radius);
+            const updatedPoints = trackerRef.current.getTrackingPoints();
+            setTrackingPoints(updatedPoints);
+        } catch (error) {
+            console.error('Error updating search radius:', error);
+        }
+    };    const handleStopTracking = () => {
+        trackingCancelledRef.current = true;
+        showToast('Stopping tracking...', 'info');
     };
 
     return (
@@ -280,6 +392,7 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                             trackingPoints={trackingPoints}
                             onMetadataLoaded={handleVideoLoaded}
                             onAddTrackingPoint={handleAddTrackingPoint}
+                            onUpdateSearchRadius={handleUpdateSearchRadius}
                             getPointColor={(index) => `hsl(${(index * 60) % 360}, 70%, 50%)`}
                         />
                     )}
@@ -330,9 +443,7 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                                     Step Forward →
                                 </button>
                             </div>
-                        </div>
-
-                        {isTracking && (
+                        </div>                        {isTracking && (
                             <div className="tracking-progress">
                                 <div className="progress-text">
                                     Tracking... {Math.round(trackingProgress * 100)}%
@@ -343,6 +454,23 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                                         style={{ width: `${trackingProgress * 100}%` }}
                                     />
                                 </div>
+                                <button 
+                                    onClick={handleStopTracking}
+                                    className="stop-tracking-btn"
+                                    style={{
+                                        marginTop: '8px',
+                                        padding: '6px 12px',
+                                        border: '1px solid #ef4444',
+                                        background: '#ef4444',
+                                        color: 'white',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                        fontSize: '12px',
+                                        width: '100%'
+                                    }}
+                                >
+                                    Stop Tracking
+                                </button>
                             </div>
                         )}
                     </section>
@@ -354,10 +482,12 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                             <h3>Tracking Points</h3>
                             <span className="point-count">{trackingPoints.length}</span>
                         </div>
-                        
-                        {trackingPoints.length === 0 ? (
+                          {trackingPoints.length === 0 ? (
                             <div className="empty-state">
                                 <p>Click on the video to add tracking points</p>
+                                <p style={{ fontSize: '10px', marginTop: '8px', color: '#9ca3af' }}>
+                                    Click and drag on points to adjust search area
+                                </p>
                             </div>
                         ) : (
                             <div className="tracking-points-list">
@@ -369,13 +499,12 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                                                 style={{ 
                                                     backgroundColor: `hsl(${(index * 60) % 360}, 70%, 50%)` 
                                                 }}
-                                            />
-                                            <div className="point-details">
+                                            />                                            <div className="point-details">
                                                 <div className="point-id">
-                                                    Point {point.id.substring(0, 6)}
+                                                    Point {point.id.substring(0, 6)} • X: {Math.round(point.x)}, Y: {Math.round(point.y)}
                                                 </div>
-                                                <div className="point-coords">
-                                                    X: {Math.round(point.x)}, Y: {Math.round(point.y)}
+                                                <div className="point-meta">
+                                                    Search: {Math.round(point.searchRadius)}px • {point.isActive ? 'Active' : 'Lost'}
                                                 </div>
                                             </div>
                                         </div>

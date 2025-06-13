@@ -9,6 +9,7 @@ interface VideoPlayerProps {
     trackingPoints: TrackingPoint[];
     onMetadataLoaded: (duration: number, width: number, height: number) => void;
     onAddTrackingPoint: (x: number, y: number) => void;
+    onUpdateSearchRadius: (pointId: string, radius: number) => void;
     getPointColor: (index: number) => string;
 }
 
@@ -19,6 +20,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     trackingPoints,
     onMetadataLoaded,
     onAddTrackingPoint,
+    onUpdateSearchRadius,
     getPointColor
 }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -26,7 +28,22 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     const containerRef = useRef<HTMLDivElement>(null);
     
     const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
-    const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });
+    const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });    const [dragState, setDragState] = useState<{
+        pointId: string | null;
+        isScaling: boolean;
+        startRadius: number;
+        startX: number;
+        mouseDownPos: { x: number; y: number } | null;
+        pendingAddPoint: { x: number; y: number } | null;
+    }>({
+        pointId: null,
+        isScaling: false,
+        startRadius: 0,
+        startX: 0,
+        mouseDownPos: null,
+        pendingAddPoint: null
+    });
+    const [hoveredPointId, setHoveredPointId] = useState<string | null>(null);
 
     // Expose video ref to parent
     useImperativeHandle(ref, () => videoRef.current!, []);
@@ -86,14 +103,78 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             video.play().catch(console.error);
         } else {
             video.pause();
-        }
-    }, [isPlaying]);
+        }    }, [isPlaying]);
 
-    // Handle canvas click to add tracking points
-    const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    // Handle mouse move for search radius adjustment
+    const handleCanvasMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
-        const video = videoRef.current;
-        if (!canvas || !video || !videoSize.width || !videoSize.height) return;
+        if (!canvas || !videoSize.width || !videoSize.height) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;        // Check if scaling search radius
+        if (dragState.isScaling && dragState.pointId) {
+            const deltaX = mouseX - dragState.startX;
+            
+            // Calculate new radius with proper scaling
+            const scaleFactor = videoSize.width / displaySize.width; // Convert display pixels to video pixels
+            const newRadius = Math.max(25, Math.min(140, dragState.startRadius + deltaX * scaleFactor * 0.8)); // Min 25px, Max radius 140px
+            
+            onUpdateSearchRadius(dragState.pointId, newRadius);
+            return;
+        }
+
+        // Check if hovering over a tracking point
+        let newHoveredPointId: string | null = null;
+        for (const point of trackingPoints) {
+            const displayX = (point.x / videoSize.width) * displaySize.width;
+            const displayY = (point.y / videoSize.height) * displaySize.height;
+            const distance = Math.sqrt((mouseX - displayX) ** 2 + (mouseY - displayY) ** 2);
+            
+            if (distance <= 15) {
+                newHoveredPointId = point.id;
+                break;
+            }
+        }
+        
+        if (newHoveredPointId !== hoveredPointId) {
+            setHoveredPointId(newHoveredPointId);
+        }
+    };    // Handle mouse up - either add point or end scaling
+    const handleCanvasMouseUp = (event: React.MouseEvent<HTMLCanvasElement>) => {
+        if (dragState.isScaling) {
+            // End scaling operation
+            setDragState({
+                pointId: null,
+                isScaling: false,
+                startRadius: 0,
+                startX: 0,
+                mouseDownPos: null,
+                pendingAddPoint: null
+            });
+        } else if (dragState.pendingAddPoint) {
+            // Add new tracking point at mouse up position
+            const rect = event.currentTarget.getBoundingClientRect();
+            const upX = event.clientX - rect.left;
+            const upY = event.clientY - rect.top;
+            
+            const videoX = (upX / displaySize.width) * videoSize.width;
+            const videoY = (upY / displaySize.height) * videoSize.height;
+            
+            onAddTrackingPoint(videoX, videoY);
+            setDragState({
+                pointId: null,
+                isScaling: false,
+                startRadius: 0,
+                startX: 0,
+                mouseDownPos: null,
+                pendingAddPoint: null
+            });
+        }
+    };// Handle mouse down to start scaling or prepare to add point
+    const handleCanvasMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
+        const canvas = canvasRef.current;
+        if (!canvas || !videoSize.width || !videoSize.height) return;
 
         const rect = canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
@@ -101,9 +182,35 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
 
         // Convert click coordinates to video coordinates
         const videoX = (clickX / displaySize.width) * videoSize.width;
-        const videoY = (clickY / displaySize.height) * videoSize.height;
+        const videoY = (clickY / displaySize.height) * videoSize.height;        // Check if clicking on an existing tracking point
+        for (const point of trackingPoints) {
+            const displayX = (point.x / videoSize.width) * displaySize.width;
+            const displayY = (point.y / videoSize.height) * displaySize.height;
+            const distance = Math.sqrt((clickX - displayX) ** 2 + (clickY - displayY) ** 2);
+            
+            if (distance <= 15) { // 15px click tolerance
+                // Start search radius adjustment
+                setDragState({
+                    pointId: point.id,
+                    isScaling: true,
+                    startRadius: point.searchRadius,
+                    startX: clickX,
+                    mouseDownPos: { x: clickX, y: clickY },
+                    pendingAddPoint: null
+                });
+                return;
+            }
+        }
 
-        onAddTrackingPoint(videoX, videoY);
+        // No point clicked, prepare to add new point
+        setDragState({
+            pointId: null,
+            isScaling: false,
+            startRadius: 0,
+            startX: 0,
+            mouseDownPos: { x: clickX, y: clickY },
+            pendingAddPoint: { x: videoX, y: videoY }
+        });
     };
 
     // Draw tracking points and paths
@@ -112,18 +219,33 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         if (!canvas || !displaySize.width || !displaySize.height) return;
 
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        // Clear canvas
+        if (!ctx) return;        // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Debug log
+        if (trackingPoints.length > 0) {
+            console.log('Drawing', trackingPoints.length, 'tracking points with search areas');
+        }
 
         // Draw tracking points
         trackingPoints.forEach((point, index) => {
             // Convert video coordinates to display coordinates
             const displayX = (point.x / videoSize.width) * displaySize.width;
             const displayY = (point.y / videoSize.height) * displaySize.height;
+            const displayRadius = (point.searchRadius / videoSize.width) * displaySize.width;
 
-            // Draw point
+            console.log(`Point ${index}: searchRadius=${point.searchRadius}, displayRadius=${displayRadius}`);
+
+            // Draw search area (outer circle)
+            ctx.strokeStyle = getPointColor(index);
+            ctx.lineWidth = 2; // Make it more visible
+            ctx.setLineDash([4, 4]); // Make dashes more visible
+            ctx.beginPath();
+            ctx.arc(displayX, displayY, displayRadius, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw tracking point (inner circle)
             ctx.fillStyle = getPointColor(index);
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
@@ -131,7 +253,15 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             ctx.beginPath();
             ctx.arc(displayX, displayY, 6, 0, 2 * Math.PI);
             ctx.fill();
-            ctx.stroke();
+            ctx.stroke();            // Highlight if currently being scaled
+            if (dragState.isScaling && dragState.pointId === point.id) {
+                ctx.strokeStyle = '#ffff00';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([]);
+                ctx.beginPath();
+                ctx.arc(displayX, displayY, displayRadius, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
 
             // Draw trajectory path (last 5 frames)
             if (point.trajectory && point.trajectory.length > 1) {
@@ -163,7 +293,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             ctx.textAlign = 'center';
             ctx.fillText(`${index + 1}`, displayX, displayY - 10);
         });
-    }, [trackingPoints, displaySize, videoSize, getPointColor]);
+    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId]);
 
     return (
         <div 
@@ -190,13 +320,14 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 ref={canvasRef}
                 className="video-overlay"
                 width={displaySize.width}
-                height={displaySize.height}
-                style={{
+                height={displaySize.height}                style={{
                     width: displaySize.width,
                     height: displaySize.height,
-                    cursor: 'crosshair'
+                    cursor: hoveredPointId ? 'ew-resize' : 'crosshair'
                 }}
-                onClick={handleCanvasClick}
+                onMouseMove={handleCanvasMouseMove}
+                onMouseUp={handleCanvasMouseUp}
+                onMouseDown={handleCanvasMouseDown}
             />
         </div>
     );
