@@ -8,6 +8,9 @@ interface TrackingPanelProps {
   onClearAllPoints: () => void;
   onExportDebugLogs: () => void;
   onClearDebugLogs: () => void;
+  onForceTracking?: () => void;
+  onReactivatePoints?: () => void;
+  onGetDiagnostics?: () => void;
   getPointColor: (index: number) => string;
 }
 
@@ -18,6 +21,9 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
   onClearAllPoints,
   onExportDebugLogs,
   onClearDebugLogs,
+  onForceTracking,
+  onReactivatePoints,
+  onGetDiagnostics,
   getPointColor,
 }) => {
   return (
@@ -138,8 +144,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
               }}
             >
               View Debug Logs
-            </button>
-            <button 
+            </button>            <button 
               onClick={onClearDebugLogs}
               style={{
                 flex: 1,
@@ -155,6 +160,64 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
               Clear Logs
             </button>
           </div>
+          
+          {/* Diagnostic Controls */}
+          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+            {onReactivatePoints && (
+              <button 
+                onClick={onReactivatePoints}
+                style={{
+                  flex: 1,
+                  padding: '6px',
+                  border: '1px solid #f59e0b',
+                  background: 'white',
+                  color: '#f59e0b',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              >
+                Reactivate Points
+              </button>
+            )}
+            {onForceTracking && (
+              <button 
+                onClick={onForceTracking}
+                style={{
+                  flex: 1,
+                  padding: '6px',
+                  border: '1px solid #ef4444',
+                  background: 'white',
+                  color: '#ef4444',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              >
+                Force Track Test
+              </button>
+            )}
+          </div>
+          
+          {onGetDiagnostics && (
+            <div style={{ marginTop: '8px' }}>
+              <button 
+                onClick={onGetDiagnostics}
+                style={{
+                  width: '100%',
+                  padding: '6px',
+                  border: '1px solid #10b981',
+                  background: 'white',
+                  color: '#10b981',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              >
+                Get Diagnostics
+              </button>
+            </div>
+          )}
         </div>
       )}
     </section>

@@ -173,24 +173,33 @@ export const DebugModal: React.FC<DebugModalProps> = ({
             ) : (
               <div style={{ color: '#6b7280' }}>Click "Refresh" to load tracking summary...</div>
             )}
+          </div>        ) : (
+          <div style={{
+            width: '600px',
+            height: '400px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
+          }}>
+            <div style={{ fontSize: '12px', color: '#6b7280' }}>
+              Showing most recent debug logs (limited for performance)
+            </div>
+            <textarea
+              value={debugLogs}
+              readOnly
+              style={{
+                flex: 1,
+                fontFamily: 'monospace',
+                fontSize: '11px',
+                padding: '12px',
+                border: '1px solid #d1d5db',
+                borderRadius: '4px',
+                resize: 'both',
+                backgroundColor: '#f9fafb'
+              }}
+              placeholder="Debug logs will appear here after tracking operations..."
+            />
           </div>
-        ) : (
-          <textarea
-            value={debugLogs}
-            readOnly
-            style={{
-              width: '600px',
-              height: '400px',
-              fontFamily: 'monospace',
-              fontSize: '11px',
-              padding: '12px',
-              border: '1px solid #d1d5db',
-              borderRadius: '4px',
-              resize: 'both',
-              backgroundColor: '#f9fafb'
-            }}
-            placeholder="Debug logs will appear here after tracking operations..."
-          />
         )}
         
         <div style={{ fontSize: '12px', color: '#6b7280' }}>

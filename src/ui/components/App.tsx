@@ -82,9 +82,7 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                             onStopTracking={videoTracking.handleStopTracking}
                         />
                     </section>
-                )}
-
-                {videoTracking.videoSrc && (
+                )}                {videoTracking.videoSrc && (
                     <TrackingPanel
                         trackingPoints={videoTracking.trackingPoints}
                         isTracking={videoTracking.isTracking}
@@ -92,6 +90,26 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                         onClearAllPoints={videoTracking.handleClearAllPoints}
                         onExportDebugLogs={() => debugLog.handleExportDebugLogs(videoTracking.trackerRef.current)}
                         onClearDebugLogs={() => debugLog.handleClearDebugLogs(videoTracking.trackerRef.current, showToast)}
+                        onReactivatePoints={() => {
+                            if (videoTracking.trackerRef.current) {
+                                videoTracking.trackerRef.current.reactivatePoints();
+                                showToast('Points reactivated for testing', 'info');
+                            }
+                        }}
+                        onForceTracking={() => {
+                            if (videoTracking.trackerRef.current) {
+                                const result = videoTracking.trackerRef.current.forceTrackingTest();
+                                console.log('Force tracking test result:', result);
+                                showToast('Force tracking test completed - check console', 'info');
+                            }
+                        }}
+                        onGetDiagnostics={() => {
+                            if (videoTracking.trackerRef.current) {
+                                const diagnostics = videoTracking.trackerRef.current.getDiagnosticInfo();
+                                console.log('Tracker diagnostics:', diagnostics);
+                                showToast('Diagnostics logged to console', 'info');
+                            }
+                        }}
                         getPointColor={getPointColor}
                     />
                 )}
