@@ -1,0 +1,182 @@
+/* Professional Timeline Styles */
+.timeline-container {
+    background-color: #ffffff;
+    padding: 0;
+}
+
+.timeline-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.playback-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.play-pause-btn {
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #2563eb;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.play-pause-btn:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+}
+
+.step-btn {
+    background: none;
+    border: 1px solid #d1d5db;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #374151;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.step-btn:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.step-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.time-display, .frame-display {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+    font-size: 13px;
+    color: #374151;
+    padding: 6px 10px;
+    background-color: #f3f4f6;
+    border-radius: 6px;
+    font-variant-numeric: tabular-nums;
+    min-width: 80px;
+    text-align: center;
+}
+
+.time-display .separator {
+    margin: 0 2px;
+    color: #9ca3af;
+}
+
+.timeline-slider-container {
+    position: relative;
+    margin: 16px 0;
+    padding-bottom: 16px;
+}
+
+.timeline-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #2563eb 0%, #e5e7eb 0%);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.timeline-slider:hover {
+    height: 6px;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #2563eb;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.timeline-slider:hover::-webkit-slider-thumb {
+    transform: scale(1.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.timeline-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #2563eb;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.timeline-ticks {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    margin-top: -10px;
+    pointer-events: none;
+}
+
+.timeline-tick {
+    position: absolute;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tick-mark {
+    width: 1px;
+    height: 6px;
+    background-color: #d1d5db;
+}
+
+.tick-mark.major {
+    height: 10px;
+    background-color: #9ca3af;
+}
+
+.tick-label {
+    font-size: 9px;
+    color: #9ca3af;
+    text-align: center;
+    margin-top: 2px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.timeline-current-position {
+    position: absolute;
+    top: -2px;
+    width: 2px;
+    height: 8px;
+    background-color: #dc2626;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 10;
+    border-radius: 1px;
+}

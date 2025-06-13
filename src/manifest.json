@@ -1,0 +1,46 @@
+{
+    "testId": "motion-tracking-addon-test",
+    "name": "Motion Tracking",
+    "version": "1.0.0",
+    "manifestVersion": 2,
+    "description": "Track motion in videos using computer vision algorithms. Mark points and see their path over time.",
+    "icons": [
+        {
+            "width": 24,
+            "height": 24,
+            "path": "icons/icon24.png"
+        },
+        {
+            "width": 48,
+            "height": 48,
+            "path": "icons/icon48.png"
+        }
+    ],
+    "requirements": {
+        "apps": [
+            {
+                "name": "Express",
+                "apiVersion": 1
+            }
+        ]
+    },
+    "entryPoints": [
+        {
+            "type": "panel",
+            "id": "motionTrackingPanel",
+            "main": "index.html",
+            "documentSandbox": "code.js"
+        }
+    ],
+    "host": {
+        "app": "Express",
+        "minVersion": "23.1.1.0"
+    },
+    "runtime": {
+        "capabilities": [
+            {
+                "type": "storage"
+            }
+        ]
+    }
+}

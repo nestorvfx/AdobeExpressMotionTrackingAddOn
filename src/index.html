@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="description"
+            content="Adobe Express Motion Tracking Add-on for tracking points in videos"
+        />
+        <meta name="keywords" content="Adobe, Express, Add-On, Motion Tracking, Video Tracking, React, TypeScript" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Motion Tracking Add-on</title>
+        
+        <!-- Load OpenCV.js from CDN with better error handling -->
+        <script>
+            // Create a global loading status object
+            window.opencvjs = {
+                isLoaded: false,
+                isLoading: false,
+                onloadCallbacks: []
+            };
+            
+            // Function to be called when OpenCV.js is ready
+            function onOpenCvReady() {
+                console.log('OpenCV.js is ready!');
+                window.opencvjs.isLoaded = true;
+                window.opencvjs.isLoading = false;
+                
+                if (window.cv) {
+                    console.log('OpenCV.js version:', window.cv.getBuildInformation());
+                    
+                    // Dispatch custom event for components to detect OpenCV loading
+                    window.dispatchEvent(new CustomEvent('opencv-loaded', { detail: window.cv }));
+                    
+                    // Call any registered callbacks
+                    window.opencvjs.onloadCallbacks.forEach(callback => {
+                        try {
+                            callback(window.cv);
+                        } catch (e) {
+                            console.error('Error in OpenCV.js callback:', e);
+                        }
+                    });
+                } else {
+                    console.error('OpenCV.js is not available on the window object');
+                    handleOpenCvError();
+                }
+            }
+            
+            // Function to handle OpenCV.js loading error
+            function handleOpenCvError() {
+                console.error('Failed to load OpenCV.js');
+                window.opencvjs.isLoading = false;
+                window.dispatchEvent(new CustomEvent('opencv-error'));
+                
+                // Attempt to load from alternate CDN if first attempt fails
+                if (!window.opencvjs.retryAttempted) {
+                    window.opencvjs.retryAttempted = true;
+                    loadOpenCvScript('https://cdn.jsdelivr.net/npm/opencv.js@1.2.1/opencv.min.js');
+                }
+            }
+            
+            // Function to load OpenCV.js script
+            function loadOpenCvScript(url) {
+                if (window.opencvjs.isLoaded) {
+                    return; // Already loaded
+                }
+                
+                if (window.opencvjs.isLoading) {
+                    return; // Already loading
+                }
+                
+                window.opencvjs.isLoading = true;
+                
+                const script = document.createElement('script');
+                script.setAttribute('async', 'true');
+                script.setAttribute('type', 'text/javascript');
+                script.setAttribute('src', url);
+                script.addEventListener('load', onOpenCvReady);
+                script.addEventListener('error', handleOpenCvError);
+                
+                // Setup Module for OpenCV.js initialization
+                window.Module = {
+                    onRuntimeInitialized: onOpenCvReady,
+                    onAbort: handleOpenCvError
+                };
+                
+                document.head.appendChild(script);
+            }
+            
+            // Initialize OpenCV.js loading
+            document.addEventListener('DOMContentLoaded', function() {
+                // Try loading from primary source
+                loadOpenCvScript('https://docs.opencv.org/4.7.0/opencv.js');
+                
+                // Set a timeout to check if loading completed
+                setTimeout(() => {
+                    if (!window.opencvjs.isLoaded && !window.opencvjs.retryAttempted) {
+                        console.warn('OpenCV.js loading timed out, trying alternate source');
+                        window.opencvjs.retryAttempted = true;
+                        loadOpenCvScript('https://cdn.jsdelivr.net/npm/opencv.js@1.2.1/opencv.min.js');
+                    }
+                }, 10000);
+            });
+        </script>
+        
+        <!-- Add some base styling -->
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                font-family: "Adobe Clean", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+            
+            #root {
+                height: 100%;
+            }
+            
+            .opencv-loading {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background-color: #fafafa;
+                padding: 8px;
+                text-align: center;
+                font-size: 14px;
+                z-index: 9999;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            }
+            
+            .opencv-loading.error {
+                background-color: #fff0f0;
+                color: #d32f2f;
+            }
+            
+            .opencv-loading.success {
+                background-color: #f0fff0;
+                color: #2e7d32;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="opencv-status" class="opencv-loading">
+            Loading OpenCV.js library...
+        </div>
+        <div id="root"></div>
+        
+        <script>
+            // Update the status bar based on OpenCV loading
+            window.addEventListener('opencv-loaded', function() {
+                const statusBar = document.getElementById('opencv-status');
+                if (statusBar) {
+                    statusBar.textContent = 'OpenCV.js loaded successfully!';
+                    statusBar.classList.add('success');
+                    setTimeout(() => {
+                        statusBar.style.display = 'none';
+                    }, 3000);
+                }
+            });
+            
+            window.addEventListener('opencv-error', function() {
+                const statusBar = document.getElementById('opencv-status');
+                if (statusBar) {
+                    statusBar.textContent = 'Error loading OpenCV.js, functionality may be limited.';
+                    statusBar.classList.add('error');
+                }
+            });
+        </script>
+    </body>
+</html>

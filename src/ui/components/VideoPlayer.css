@@ -1,0 +1,28 @@
+/* Video Player Component */
+.video-player {
+    position: relative;
+    width: 100%;
+    background: #000000;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.video-container {
+    position: relative;
+    max-width: 100%;
+    max-height: 240px; /* Max double the upload guide height */
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: auto;
+    z-index: 2;
+}
