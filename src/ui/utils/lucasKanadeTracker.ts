@@ -219,9 +219,7 @@ export class LucasKanadeTracker {
         if (newGray) {
           newGray.delete();
         }
-      }
-      
-      src.delete();
+      }      src.delete();
       this.frameCount++;
 
       const activePointsAfter = this.points.filter(p => p.isActive);
@@ -896,8 +894,7 @@ export class LucasKanadeTracker {
           position: this.getPointPositionAtFrame(p, frameNumber),
           hasManualForFrame: p.manualPositions.has(frameNumber),
           hasTrackedForFrame: p.trackedPositions.has(frameNumber),
-          authority: p.manualPositions.has(frameNumber) ? 'manual' : 
-                    (p.trackedPositions.has(frameNumber) ? 'tracked' : 'fallback')
+          authority: p.manualPositions.has(frameNumber) ? 'manual' :                    (p.trackedPositions.has(frameNumber) ? 'tracked' : 'fallback')
         }))
       });
     }
@@ -1084,7 +1081,6 @@ export class LucasKanadeTracker {
       mode: 'normal_operation'
     });
   }
-
   // Get the authoritative position for a point at a specific frame
   // Manual positions always take precedence over tracked positions
   private getPointPositionAtFrame(point: TrackingPoint, frame: number): { x: number; y: number } {
@@ -1100,8 +1096,87 @@ export class LucasKanadeTracker {
       return trackedPos;
     }
     
-    // Fall back to current point position
+    // IMPROVED FALLBACK: Find nearest available position instead of using stale point.x, point.y
+    // This fixes the coordinate system desynchronization issue
+    
+    // First try to find the nearest tracked position
+    let nearestTrackedPos = this.findNearestTrackedPosition(point, frame);
+    if (nearestTrackedPos) {
+      this.logger.log(frame, 'FALLBACK_NEAREST_TRACKED', {
+        pointId: point.id.substring(0, 6),
+        requestedFrame: frame,
+        foundFrame: nearestTrackedPos.frame,
+        position: nearestTrackedPos.position,
+        authority: 'nearest_tracked'
+      });
+      return nearestTrackedPos.position;
+    }
+    
+    // Try to find the nearest manual position
+    let nearestManualPos = this.findNearestManualPosition(point, frame);
+    if (nearestManualPos) {
+      this.logger.log(frame, 'FALLBACK_NEAREST_MANUAL', {
+        pointId: point.id.substring(0, 6),
+        requestedFrame: frame,
+        foundFrame: nearestManualPos.frame,
+        position: nearestManualPos.position,
+        authority: 'nearest_manual'
+      });
+      return nearestManualPos.position;
+    }
+    
+    // Last resort: use current point position but log this as a potential issue
+    this.logger.log(frame, 'FALLBACK_CURRENT_POSITION', {
+      pointId: point.id.substring(0, 6),
+      requestedFrame: frame,
+      position: { x: point.x, y: point.y },
+      authority: 'current_position_fallback',
+      warning: 'no_tracked_or_manual_data_available'
+    }, 'warn');
+    
     return { x: point.x, y: point.y };
+  }
+
+  // Helper method to find nearest tracked position
+  private findNearestTrackedPosition(point: TrackingPoint, targetFrame: number): { frame: number; position: { x: number; y: number } } | null {
+    let nearestFrame = -1;
+    let minDistance = Infinity;
+    
+    for (const [frame] of point.trackedPositions) {
+      const distance = Math.abs(frame - targetFrame);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestFrame = frame;
+      }
+    }
+    
+    if (nearestFrame >= 0) {
+      const position = point.trackedPositions.get(nearestFrame)!;
+      return { frame: nearestFrame, position };
+    }
+    
+    return null;
+  }
+
+  // Helper method to find nearest manual position
+  private findNearestManualPosition(point: TrackingPoint, targetFrame: number): { frame: number; position: { x: number; y: number } } | null {
+    let nearestFrame = -1;
+    let minDistance = Infinity;
+    
+    for (const [frame] of point.manualPositions) {
+      const distance = Math.abs(frame - targetFrame);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestFrame = frame;
+      }
+    }
+    
+    if (nearestFrame >= 0) {
+      const position = point.manualPositions.get(nearestFrame)!;
+      return { frame: nearestFrame, position };
+    }
+    
+    return null;
   }
   // Set a manual position for a point at the current frame
   private setManualPosition(pointId: string, x: number, y: number, frame: number): void {
@@ -1146,13 +1221,14 @@ export class LucasKanadeTracker {
       const point = this.points[index];
       const oldPos = { x: point.x, y: point.y };
       
-      // Only set tracked position if no manual position exists for this frame
-      if (!point.manualPositions.has(frame)) {
+      // Only set tracked position if no manual position exists for this frame      if (!point.manualPositions.has(frame)) {
         point.trackedPositions.set(frame, { x, y });
         
-        // Update current position only if not manually overridden
-        point.x = x;
-        point.y = y;
+        // Update current position ONLY if this is for the current frame to maintain coordinate sync
+        if (frame === this.frameCount) {
+          point.x = x;
+          point.y = y;
+        }
         
         // Calculate movement distance
         const distance = Math.sqrt(Math.pow(x - oldPos.x, 2) + Math.pow(y - oldPos.y, 2));
@@ -1164,21 +1240,21 @@ export class LucasKanadeTracker {
           oldPosition: { x: Math.round(oldPos.x * 100) / 100, y: Math.round(oldPos.y * 100) / 100 },
           distance: Math.round(distance * 100) / 100,
           authority: 'tracked',
+          coordinateUpdated: frame === this.frameCount,
           manualOverridesCount: point.manualPositions.size,
           trackedPositionsCount: point.trackedPositions.size
         });
-      } else {
-        this.logger.log(frame, 'TRACKED_POSITION_SKIPPED', {
+      } else {        this.logger.log(frame, 'TRACKED_POSITION_SKIPPED', {
           pointId: pointId.substring(0, 6),
           frame,
           reason: 'manual_override_exists',
-          manualPosition: point.manualPositions.get(frame),
+          manualPosition: this.points[index].manualPositions.get(frame),
           attemptedTrackedPosition: { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 }
         });
       }
     }
   }
-}
+
 
 // Minimal debug interface for essential app functionality
 export interface DebugLogEntry {
