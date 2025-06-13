@@ -39,17 +39,16 @@ export class LucasKanadeTracker {
   private initializationPromise: Promise<boolean> | null = null;
   private logger: MinimalDebugger = new MinimalDebugger();
   private debugger: MinimalDebugger | null = null; // Debugger instance
-
   constructor(options?: Partial<TrackingOptions>) {
     this.options = {
-      winSize: { width: 15, height: 15 },
-      maxLevel: 2,
+      winSize: { width: 21, height: 21 }, // Increased from 15x15 for better robustness
+      maxLevel: 3, // Increased from 2 for multi-scale tracking
       criteria: {
         type: 0, // Will be set properly after OpenCV initialization
-        maxCount: 10,
-        epsilon: 0.03
+        maxCount: 30, // Increased from 10 for better convergence
+        epsilon: 0.01 // Reduced from 0.03 for better precision
       },
-      minEigThreshold: 0.01,
+      minEigThreshold: 1e-4, // Standard OpenCV default
       qualityLevel: 0.3,
       minDistance: 7,
       blockSize: 7,
@@ -122,7 +121,6 @@ export class LucasKanadeTracker {
       });
     });
   }
-
   private processFrameInternal(canvas: HTMLCanvasElement): TrackingPoint[] {
     try {
       const ctx = canvas.getContext('2d')!;
@@ -134,9 +132,22 @@ export class LucasKanadeTracker {
         newGray = new this.cv.Mat();
         this.cv.cvtColor(src, newGray, this.cv.COLOR_RGBA2GRAY);
 
+        const beforeState = {
+          frameCount: this.frameCount,
+          hasPrevGray: !!this.prevGray,
+          hasCurrGray: !!this.currGray,
+          totalPoints: this.points.length,
+          activePoints: this.points.filter(p => p.isActive).length,
+          imageSize: `${canvas.width}x${canvas.height}`
+        };
+
         if (!this.prevGray) {
           this.prevGray = newGray.clone();
           this.currGray = newGray.clone();
+          this.logger.log(this.frameCount, 'FRAME_INITIALIZATION', {
+            ...beforeState,
+            action: 'first_frame_setup'
+          });
         } else if (this.points.length > 0) {
           const activePointsBeforeTracking = this.points.filter(p => p.isActive);
           
@@ -145,8 +156,23 @@ export class LucasKanadeTracker {
           }
           this.currGray = newGray.clone();
           
+          this.logger.log(this.frameCount, 'FRAME_PROCESSING', {
+            ...beforeState,
+            action: 'updating_frames',
+            willTrack: activePointsBeforeTracking.length > 0
+          });
+          
           if (activePointsBeforeTracking.length > 0) {
             this.trackPoints();
+          } else {
+            this.logger.log(this.frameCount, 'TRACKING_SKIPPED', {
+              reason: 'no_active_points',
+              inactivePoints: this.points.map(p => ({
+                id: p.id.substring(0, 6),
+                confidence: p.confidence,
+                isActive: p.isActive
+              }))
+            }, 'warn');
           }
           
           if (this.prevGray) {
@@ -162,6 +188,10 @@ export class LucasKanadeTracker {
           }
           this.prevGray = newGray.clone();
           this.currGray = newGray.clone();
+          this.logger.log(this.frameCount, 'FRAME_PROCESSING', {
+            ...beforeState,
+            action: 'no_points_reset_frames'
+          });
         }
       } finally {
         if (newGray) {
@@ -172,20 +202,36 @@ export class LucasKanadeTracker {
       src.delete();
       this.frameCount++;
 
-      return this.points.filter(p => p.isActive);
+      const activePointsAfter = this.points.filter(p => p.isActive);
+      this.logger.log(this.frameCount - 1, 'FRAME_COMPLETE', {
+        activePointsReturned: activePointsAfter.length,
+        totalPoints: this.points.length
+      });
+
+      return activePointsAfter;
     } catch (error) {
+      this.logger.log(this.frameCount, 'FRAME_PROCESSING_ERROR', {
+        error: error.toString(),
+        stack: error.stack
+      }, 'error');
       return this.points;
     }
-  }
-  private trackPoints(): void {
+  }  private trackPoints(): void {
     if (!this.cv || !this.prevGray || !this.currGray || this.points.length === 0) {
+      this.logger.log(this.frameCount, 'TRACKING_PREREQUISITES_FAILED', {
+        hasOpenCV: !!this.cv,
+        hasPrevGray: !!this.prevGray,
+        hasCurrGray: !!this.currGray,
+        pointCount: this.points.length
+      }, 'error');
       return;
     }
 
-    if (this.lastProcessedFrame !== null && Math.abs(this.frameCount - this.lastProcessedFrame) > 1) {
+    // Less aggressive frame skip penalty
+    if (this.lastProcessedFrame !== null && Math.abs(this.frameCount - this.lastProcessedFrame) > 2) { // Changed from 1
       this.points.forEach(point => {
         if (point.isActive) {
-          point.confidence = Math.max(0.3, point.confidence * 0.7);
+          point.confidence = Math.max(0.4, point.confidence * 0.85); // Less aggressive: 0.85 vs 0.7, min 0.4 vs 0.3
         }
       });
     }
@@ -203,6 +249,20 @@ export class LucasKanadeTracker {
       }, 'warn');
       return;
     }
+
+    this.logger.log(this.frameCount, 'TRACKING_START', {
+      activePointCount: activePoints.length,
+      frameSize: `${this.currGray.cols}x${this.currGray.rows}`,
+      winSize: `${this.options.winSize.width}x${this.options.winSize.height}`,
+      maxLevel: this.options.maxLevel,
+      activePointsDetails: activePoints.map(p => ({
+        id: p.id.substring(0, 6),
+        x: Math.round(p.x * 100) / 100,
+        y: Math.round(p.y * 100) / 100,
+        confidence: Math.round(p.confidence * 1000) / 1000,
+        searchRadius: p.searchRadius
+      }))
+    });
 
     let p0: any = null;
     let p1: any = null;
@@ -229,108 +289,276 @@ export class LucasKanadeTracker {
         this.options.criteria.maxCount,
         this.options.criteria.epsilon
       );
-      
-      // Perform optical flow for all points at once
-      this.cv.calcOpticalFlowPyrLK(
-        this.prevGray,
-        this.currGray,
-        p0,
-        p1,
-        status,
-        err,
-        winSize,
-        this.options.maxLevel,
-        criteria
-      );
 
-      // Process results for each point
+      this.logger.log(this.frameCount, 'OPTICAL_FLOW_PARAMS', {
+        pointsToTrack: activePoints.length,
+        winSize: `${this.options.winSize.width}x${this.options.winSize.height}`,
+        maxLevel: this.options.maxLevel,
+        criteriaType: this.options.criteria.type,
+        maxCount: this.options.criteria.maxCount,
+        epsilon: this.options.criteria.epsilon      });
+        // Perform optical flow for all points at once
+      try {
+        this.logger.log(this.frameCount, 'OPTICAL_FLOW_CALLING', {
+          aboutToCall: true,
+          hasAllParams: true
+        });
+
+        this.cv.calcOpticalFlowPyrLK(
+          this.prevGray,
+          this.currGray,
+          p0,
+          p1,
+          status,
+          err,
+          winSize,
+          this.options.maxLevel,
+          criteria
+        );        this.logger.log(this.frameCount, 'OPTICAL_FLOW_SUCCESS', {
+          completed: true
+        });
+      } catch (opticalFlowError) {
+        this.logger.log(this.frameCount, 'OPTICAL_FLOW_FAILED', {
+          error: opticalFlowError.toString(),
+          errorType: typeof opticalFlowError,
+          errorName: opticalFlowError.name || 'unknown'
+        }, 'error');
+        throw opticalFlowError;
+      }      // Test matrix access before proceeding
+      try {
+        this.logger.log(this.frameCount, 'TESTING_MATRIX_ACCESS', {
+          hasStatus: !!status,
+          hasErr: !!err,
+          hasP1: !!p1,
+          statusType: status ? status.type() : 'null',
+          errType: err ? err.type() : 'null',
+          p1Type: p1 ? p1.type() : 'null',
+          statusRows: status ? status.rows : 'null',
+          statusCols: status ? status.cols : 'null',
+          statusChannels: status ? status.channels() : 'null'
+        });
+
+        // Test accessing the data arrays using proper OpenCV.js methods
+        let testStatusArray, testErrorArray, testPositionArray;
+        
+        // For status (CV_8UC1) - single channel unsigned char
+        if (status.data8U) {
+          testStatusArray = Array.from(status.data8U);
+        } else {
+          // Alternative access method for OpenCV.js
+          testStatusArray = [];
+          for (let i = 0; i < status.rows; i++) {
+            testStatusArray.push(status.ucharAt(i, 0));
+          }
+        }
+
+        // For error (CV_32FC1) - single channel float
+        if (err.data32F) {
+          testErrorArray = Array.from(err.data32F);
+        } else {
+          testErrorArray = [];
+          for (let i = 0; i < err.rows; i++) {
+            testErrorArray.push(err.floatAt(i, 0));
+          }
+        }
+
+        // For positions (CV_32FC2) - two channel float
+        if (p1.data32F) {
+          testPositionArray = Array.from(p1.data32F);
+        } else {
+          testPositionArray = [];
+          for (let i = 0; i < p1.rows; i++) {
+            testPositionArray.push(p1.floatAt(i, 0)); // x
+            testPositionArray.push(p1.floatAt(i, 1)); // y
+          }
+        }
+
+        this.logger.log(this.frameCount, 'MATRIX_ACCESS_SUCCESS', {
+          statusLength: testStatusArray.length,
+          errorLength: testErrorArray.length, 
+          positionLength: testPositionArray.length,
+          statusValues: testStatusArray,
+          errorValues: testErrorArray.map((e: number) => Math.round(e * 100) / 100),
+          positionValues: testPositionArray.map((v: number) => Math.round(v * 100) / 100)
+        });
+
+        this.logger.log(this.frameCount, 'OPTICAL_FLOW_COMPLETE', {
+          inputPoints: activePoints.length,
+          statusArray: testStatusArray,
+          errorArray: testErrorArray.map((e: number) => Math.round(e * 100) / 100),
+          outputPositions: testPositionArray.map((v: number) => Math.round(v * 100) / 100)
+        });
+      } catch (matrixError) {
+        this.logger.log(this.frameCount, 'MATRIX_ACCESS_FAILED', {
+          error: matrixError.toString(),
+          errorType: typeof matrixError,
+          errorName: matrixError.name || 'unknown',
+          errorMessage: matrixError.message || 'no message'
+        }, 'error');
+        throw matrixError;
+      }let successCount = 0;
+      let failureCount = 0;
+      let deactivationCount = 0;
+      let outOfBoundsCount = 0;
+      let tooFarCount = 0;
+
+      this.logger.log(this.frameCount, 'PROCESSING_RESULTS', {
+        pointsToProcess: activePoints.length,
+        aboutToStartLoop: true
+      });      // Process results for each point
       for (let i = 0; i < activePoints.length; i++) {
         const point = activePoints[i];
         const pointIndex = this.points.findIndex(p => p.id === point.id);
-        if (pointIndex === -1) continue;
+        if (pointIndex === -1) {
+          this.logger.log(this.frameCount, 'POINT_NOT_FOUND', {
+            pointId: point.id.substring(0, 6),
+            searchIndex: i
+          }, 'warn');
+          continue;
+        }
 
-        const isTracked = status.data8U[i] === 1;
-        const trackingError = err.data32F[i];
-        const newX = p1.data32F[i * 2];
-        const newY = p1.data32F[i * 2 + 1];
+        // Use proper OpenCV.js matrix access methods
+        let isTracked, trackingError, newX, newY;
         
-        const maxError = 30;
-        if (isTracked && trackingError < maxError) {
-          if (newX >= 0 && newX < this.currGray.cols && 
-              newY >= 0 && newY < this.currGray.rows) {
-            
-            const distance = Math.sqrt((newX - point.x) ** 2 + (newY - point.y) ** 2);
-            const maxMovement = point.searchRadius;
-              if (distance <= maxMovement) {
-              // Successful tracking
-              this.points[pointIndex].x = newX;
-              this.points[pointIndex].y = newY;
-              this.points[pointIndex].confidence = Math.min(1.0, point.confidence * 1.1);
-              
-              this.points[pointIndex].trajectory.push({
-                x: newX,
-                y: newY,
-                frame: this.frameCount
-              });
-
-              if (this.points[pointIndex].trajectory.length > 100) {
-                this.points[pointIndex].trajectory.shift();
-              }
-              
-              this.logger.log(this.frameCount, 'POINT_TRACKED_SUCCESS', {
-                pointId: point.id.substring(0, 6),
-                newX: Math.round(newX * 100) / 100,
-                newY: Math.round(newY * 100) / 100,
-                confidence: Math.round(this.points[pointIndex].confidence * 1000) / 1000,
-                trajectoryLength: this.points[pointIndex].trajectory.length
-              });
-            } else {
-              this.points[pointIndex].confidence *= 0.8;
-              if (this.points[pointIndex].confidence < 0.1) {
-                this.points[pointIndex].isActive = false;
-                this.logger.log(this.frameCount, 'POINT_DEACTIVATED', {
-                  pointId: point.id.substring(0, 6),
-                  reason: 'moved too far',
-                  distance: Math.round(distance * 100) / 100,
-                  maxMovement,
-                  finalConfidence: this.points[pointIndex].confidence
-                }, 'warn');
-              }
-            }          } else {
-            this.points[pointIndex].confidence *= 0.7;
-            if (this.points[pointIndex].confidence < 0.1) {
-              this.points[pointIndex].isActive = false;
-              this.logger.log(this.frameCount, 'POINT_DEACTIVATED', {
-                pointId: point.id.substring(0, 6),
-                reason: 'out of bounds',
-                newX: Math.round(newX * 100) / 100,
-                newY: Math.round(newY * 100) / 100,
-                finalConfidence: this.points[pointIndex].confidence
-              }, 'warn');
-            }
-          }
+        if (status.data8U) {
+          isTracked = status.data8U[i] === 1;
         } else {
-          this.points[pointIndex].confidence *= 0.8;
-          if (this.points[pointIndex].confidence < 0.1) {
+          isTracked = status.ucharAt(i, 0) === 1;
+        }
+        
+        if (err.data32F) {
+          trackingError = err.data32F[i];
+        } else {
+          trackingError = err.floatAt(i, 0);
+        }
+        
+        if (p1.data32F) {
+          newX = p1.data32F[i * 2];
+          newY = p1.data32F[i * 2 + 1];
+        } else {
+          newX = p1.floatAt(i, 0);
+          newY = p1.floatAt(i, 1);
+        }
+        
+        this.logger.log(this.frameCount, 'POINT_PROCESSING', {
+          pointId: point.id.substring(0, 6),
+          index: i,
+          isTracked,
+          trackingError: Math.round(trackingError * 100) / 100,
+          oldPos: { x: Math.round(point.x * 100) / 100, y: Math.round(point.y * 100) / 100 },
+          newPos: { x: Math.round(newX * 100) / 100, y: Math.round(newY * 100) / 100 }
+        });
+        
+        // Check if position is reasonable (within bounds and not NaN)
+        const isPositionValid = !isNaN(newX) && !isNaN(newY) && 
+                               newX >= 0 && newX < this.currGray.cols && 
+                               newY >= 0 && newY < this.currGray.rows;
+        
+        // Calculate movement distance
+        const distance = isPositionValid ? Math.sqrt((newX - point.x) ** 2 + (newY - point.y) ** 2) : Infinity;
+        const maxMovement = point.searchRadius;
+          // Stricter tracking criteria to avoid following random features
+        const maxError = 15; // Much stricter error threshold (was 100)
+        const maxReasonableMovement = Math.min(point.searchRadius * 0.5, 50); // Max half of search radius, capped at 50px
+        
+        // Accept tracking only if ALL criteria are met:
+        // 1. OpenCV status indicates success (isTracked = true)
+        // 2. Position is valid (within bounds, not NaN)
+        // 3. Movement is reasonable (not too far)
+        // 4. Tracking error is low (high confidence)
+        const shouldAcceptTracking = isTracked && // Must have OpenCV success
+                                   isPositionValid && 
+                                   distance <= maxReasonableMovement && 
+                                   trackingError < maxError;
+          this.logger.log(this.frameCount, 'TRACKING_DECISION', {
+          pointId: point.id.substring(0, 6),
+          isTracked,
+          isPositionValid,
+          distance: Math.round(distance * 100) / 100,
+          maxMovement: maxReasonableMovement,
+          trackingError: Math.round(trackingError * 100) / 100,
+          maxError,
+          shouldAcceptTracking,
+          decision: shouldAcceptTracking ? 'ACCEPT' : 'REJECT',
+          stricterCriteria: 'requiring_opencv_success_and_low_error'
+        });
+        
+        if (shouldAcceptTracking) {
+          // Successful tracking - update position
+          this.points[pointIndex].x = newX;
+          this.points[pointIndex].y = newY;
+          this.points[pointIndex].confidence = Math.min(1.0, point.confidence + 0.1); // Increase confidence
+          
+          this.points[pointIndex].trajectory.push({
+            x: newX,
+            y: newY,
+            frame: this.frameCount
+          });
+
+          if (this.points[pointIndex].trajectory.length > 100) {
+            this.points[pointIndex].trajectory.shift();
+          }
+          
+          successCount++;
+          this.logger.log(this.frameCount, 'POINT_TRACKED_SUCCESS', {
+            pointId: point.id.substring(0, 6),
+            newX: Math.round(newX * 100) / 100,
+            newY: Math.round(newY * 100) / 100,
+            oldX: Math.round(point.x * 100) / 100,
+            oldY: Math.round(point.y * 100) / 100,
+            confidence: Math.round(this.points[pointIndex].confidence * 1000) / 1000,
+            trajectoryLength: this.points[pointIndex].trajectory.length,
+            distance: Math.round(distance * 100) / 100,
+            trackingError: Math.round(trackingError * 100) / 100,
+            openCvStatus: isTracked
+          });        } else {
+          // Failed tracking - more aggressive confidence reduction with stricter criteria
+          const oldConfidence = this.points[pointIndex].confidence;
+          this.points[pointIndex].confidence *= 0.75; // More aggressive reduction (was 0.95)
+          failureCount++;
+          
+          this.logger.log(this.frameCount, 'POINT_TRACKING_FAILED', {
+            pointId: point.id.substring(0, 6),
+            reason: !isTracked ? 'opencv_status_failed' :
+                   !isPositionValid ? 'invalid_position' : 
+                   distance > maxReasonableMovement ? 'moved_too_far' : 'high_error',
+            isTracked,
+            trackingError: Math.round(trackingError * 100) / 100,
+            distance: Math.round(distance * 100) / 100,
+            maxMovement: maxReasonableMovement,
+            oldConfidence: Math.round(oldConfidence * 1000) / 1000,
+            newConfidence: Math.round(this.points[pointIndex].confidence * 1000) / 1000,
+            stricterCriteria: true
+          }, 'warn');
+          
+          // Deactivate more quickly with stricter criteria
+          if (this.points[pointIndex].confidence < 0.1) { // Higher threshold (was 0.02)
             this.points[pointIndex].isActive = false;
+            deactivationCount++;
             this.logger.log(this.frameCount, 'POINT_DEACTIVATED', {
               pointId: point.id.substring(0, 6),
-              reason: 'tracking failed',
-              isTracked,
-              trackingError: Math.round(trackingError * 100) / 100,
+              reason: 'confidence_too_low_strict',
               finalConfidence: this.points[pointIndex].confidence
             }, 'warn');
           }
-        }
-      }
+        }}
+
+      this.logger.log(this.frameCount, 'TRACKING_SUMMARY', {
+        processedPoints: activePoints.length,
+        successCount,
+        failureCount,
+        deactivationCount,
+        remainingActivePoints: this.points.filter(p => p.isActive).length,
+        totalPoints: this.points.length
+      });
 
     } catch (error) {
-      // Degrade confidence for all points on error
+      // Less aggressive confidence degradation on error
       activePoints.forEach(point => {
         const pointIndex = this.points.findIndex(p => p.id === point.id);
         if (pointIndex !== -1) {
-          this.points[pointIndex].confidence *= 0.7;
-          if (this.points[pointIndex].confidence < 0.1) {
+          this.points[pointIndex].confidence *= 0.85; // Changed from 0.7
+          if (this.points[pointIndex].confidence < 0.05) { // Lowered threshold from 0.1
             this.points[pointIndex].isActive = false;
           }
         }
@@ -342,6 +570,7 @@ export class LucasKanadeTracker {
       if (err) err.delete();
     }
   }
+
   addTrackingPoint(x: number, y: number): string {
     const pointId = `point_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const newPoint: TrackingPoint = {
@@ -351,7 +580,7 @@ export class LucasKanadeTracker {
       confidence: 1.0,
       isActive: true,
       trajectory: [{ x, y, frame: this.frameCount }],
-      searchRadius: 75
+      searchRadius: 100 // Increased from 75 for better tracking tolerance
     };
 
     this.points.push(newPoint);
@@ -381,9 +610,66 @@ export class LucasKanadeTracker {
   clearAllPoints(): void {
     this.points = [];
   }
-
   getTrackingPoints(): TrackingPoint[] {
     return [...this.points];
+  }
+
+  // Get points at their positions for a specific frame
+  getPointsAtFrame(targetFrame: number): Array<TrackingPoint & { framePosition?: { x: number; y: number } }> {
+    return this.points.map(point => {
+      // Find the closest trajectory point to the target frame
+      const trajectoryPoint = this.findTrajectoryPointAtFrame(point, targetFrame);
+      
+      return {
+        ...point,
+        framePosition: trajectoryPoint
+      };
+    });
+  }
+
+  // Get trajectory paths for a frame range (±frameRange around target frame)
+  getTrajectoryPaths(targetFrame: number, frameRange: number = 5): Array<{
+    pointId: string;
+    path: Array<{ x: number; y: number; frame: number }>;
+  }> {
+    const minFrame = Math.max(0, targetFrame - frameRange);
+    const maxFrame = targetFrame + frameRange;
+    
+    return this.points.map(point => ({
+      pointId: point.id,
+      path: point.trajectory.filter(t => t.frame >= minFrame && t.frame <= maxFrame)
+    })).filter(pathData => pathData.path.length > 0);
+  }
+
+  private findTrajectoryPointAtFrame(point: TrackingPoint, targetFrame: number): { x: number; y: number } | undefined {
+    if (!point.trajectory || point.trajectory.length === 0) {
+      return undefined;
+    }
+
+    // Find exact frame match
+    const exactMatch = point.trajectory.find(t => t.frame === targetFrame);
+    if (exactMatch) {
+      return { x: exactMatch.x, y: exactMatch.y };
+    }
+
+    // Find closest frame
+    let closestPoint = point.trajectory[0];
+    let minDistance = Math.abs(closestPoint.frame - targetFrame);
+
+    for (const trajPoint of point.trajectory) {
+      const distance = Math.abs(trajPoint.frame - targetFrame);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestPoint = trajPoint;
+      }
+    }
+
+    // Only return if within reasonable range (e.g., within 10 frames)
+    if (minDistance <= 10) {
+      return { x: closestPoint.x, y: closestPoint.y };
+    }
+
+    return undefined;
   }
 
   updatePointSearchRadius(pointId: string, radius: number): boolean {
@@ -454,9 +740,13 @@ export class LucasKanadeTracker {
   clearDebugLogs(): void {
     this.logger.clear();
   }
-
   // Diagnostic method for testing
   getTrackerState() {
+    const activePoints = this.points.filter(p => p.isActive);
+    const inactivePoints = this.points.filter(p => !p.isActive);
+    const totalConfidence = this.points.reduce((sum, p) => sum + p.confidence, 0);
+    const averageConfidence = this.points.length > 0 ? totalConfidence / this.points.length : 0;
+
     return {
       isInitialized: this.isInitialized,
       frameCount: this.frameCount,
@@ -464,24 +754,46 @@ export class LucasKanadeTracker {
       hasPrevGray: !!this.prevGray,
       hasCurrGray: !!this.currGray,
       pointCount: this.points.length,
-      activePointCount: this.points.filter(p => p.isActive).length,
+      activePointCount: activePoints.length,
       lastProcessedFrame: this.lastProcessedFrame,
-      hasOpenCV: !!this.cv
+      hasOpenCV: !!this.cv,
+      // Additional properties expected by DebugModal
+      totalPoints: this.points.length,
+      activePoints: activePoints.length,
+      inactivePoints: inactivePoints.length,
+      averageConfidence: averageConfidence,
+      pointDetails: this.points.map(p => ({
+        id: p.id.substring(0, 8),
+        x: Math.round(p.x * 100) / 100,
+        y: Math.round(p.y * 100) / 100,
+        confidence: Math.round(p.confidence * 1000) / 1000,
+        isActive: p.isActive,
+        trajectoryLength: p.trajectory.length
+      }))
     };
   }
-
   // Reactivate points for testing (app expects this)
   reactivatePoints(): void {
+    let reactivatedCount = 0;
     this.points.forEach((point, index) => {
-      if (!point.isActive && point.confidence > 0.05) {
-        this.points[index].confidence = 0.5;
+      if (!point.isActive && point.confidence > 0.02) { // Lower threshold
+        this.points[index].confidence = Math.max(0.3, point.confidence * 2); // Better starting confidence
         this.points[index].isActive = true;
+        reactivatedCount++;
         this.logger.log(this.frameCount, 'POINT_REACTIVATED', {
           pointId: point.id.substring(0, 6),
-          newConfidence: 0.5
+          newConfidence: this.points[index].confidence
         }, 'info');
       }
     });
+    
+    if (reactivatedCount > 0) {
+      this.logger.log(this.frameCount, 'REACTIVATION_SUMMARY', {
+        reactivatedCount,
+        totalPoints: this.points.length,
+        activeAfter: this.points.filter(p => p.isActive).length
+      });
+    }
   }
 
   // Diagnostic info method (app expects this)
@@ -549,7 +861,7 @@ export interface DebugLogEntry {
 
 class MinimalDebugger {
   private logs: DebugLogEntry[] = [];
-  private maxLogs: number = 50; // Keep it small
+  private maxLogs: number = 100; // Increased for better diagnosis
 
   log(frameNumber: number, operation: string, data: any, level: 'info' | 'warn' | 'error' = 'info') {
     this.logs.push({
@@ -564,8 +876,12 @@ class MinimalDebugger {
       this.logs = this.logs.slice(-this.maxLogs);
     }
     
-    // Console log for immediate visibility
-    console.log(`[Frame ${frameNumber}] ${operation}:`, data);
+    // Enhanced console logging for critical issues
+    if (level === 'error' || level === 'warn') {
+      console.warn(`🔍 [Frame ${frameNumber}] ${operation}:`, data);
+    } else if (operation.includes('TRACKING_SUMMARY') || operation.includes('OPTICAL_FLOW')) {
+      console.log(`📊 [Frame ${frameNumber}] ${operation}:`, data);
+    }
   }
 
   getLogs(): DebugLogEntry[] {
@@ -573,14 +889,21 @@ class MinimalDebugger {
   }
 
   getFormattedLogs(): string {
-    return this.logs.map(log => {
+    if (this.logs.length === 0) {
+      return 'No tracking logs available yet. Add tracking points and scrub the video to see tracking data.';
+    }
+
+    const recentLogs = this.logs.slice(-50); // Show recent logs for UI
+    return recentLogs.map(log => {
       const time = new Date(log.timestamp).toLocaleTimeString();
-      return `[${time}] Frame ${log.frameNumber} - ${log.operation}: ${JSON.stringify(log.data)}`;
+      const emoji = log.level === 'error' ? '❌' : log.level === 'warn' ? '⚠️' : '✅';
+      return `${emoji} [${time}] Frame ${log.frameNumber} - ${log.operation}:\n${JSON.stringify(log.data, null, 2)}`;
     }).join('\n\n');
   }
 
   clear() {
     this.logs = [];
+    console.log('🧹 Debug logs cleared');
   }
 
   exportLogs(): string {

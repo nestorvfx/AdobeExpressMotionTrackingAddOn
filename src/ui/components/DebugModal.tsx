@@ -141,16 +141,15 @@ export const DebugModal: React.FC<DebugModalProps> = ({
                   <div><strong>Initialized:</strong> {trackingSummary.isInitialized ? '✅ Yes' : '❌ No'}</div>
                   <div><strong>Has Frames:</strong> {trackingSummary.hasFrames ? '✅ Yes' : '❌ No'}</div>
                 </div>
-                
-                <h4 style={{ margin: '16px 0 8px 0', fontFamily: 'sans-serif' }}>Point Statistics</h4>
+                  <h4 style={{ margin: '16px 0 8px 0', fontFamily: 'sans-serif' }}>Point Statistics</h4>
                 <div style={{ marginBottom: '16px' }}>
-                  <div><strong>Total Points:</strong> {trackingSummary.totalPoints}</div>
-                  <div><strong>Active Points:</strong> {trackingSummary.activePoints}</div>
-                  <div><strong>Inactive Points:</strong> {trackingSummary.inactivePoints}</div>
-                  <div><strong>Average Confidence:</strong> {(trackingSummary.averageConfidence * 100).toFixed(1)}%</div>
+                  <div><strong>Total Points:</strong> {trackingSummary.totalPoints || 0}</div>
+                  <div><strong>Active Points:</strong> {trackingSummary.activePoints || 0}</div>
+                  <div><strong>Inactive Points:</strong> {trackingSummary.inactivePoints || 0}</div>
+                  <div><strong>Average Confidence:</strong> {((trackingSummary.averageConfidence || 0) * 100).toFixed(1)}%</div>
                 </div>
                 
-                {trackingSummary.pointDetails.length > 0 && (
+                {trackingSummary.pointDetails && trackingSummary.pointDetails.length > 0 && (
                   <>
                     <h4 style={{ margin: '16px 0 8px 0', fontFamily: 'sans-serif' }}>Point Details</h4>
                     {trackingSummary.pointDetails.map((point: any, index: number) => (

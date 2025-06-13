@@ -11,6 +11,12 @@ interface VideoPlayerProps {
     onAddTrackingPoint: (x: number, y: number) => void;
     onUpdateSearchRadius: (pointId: string, radius: number) => void;
     getPointColor: (index: number) => string;
+    // New props for frame-specific rendering
+    getPointsAtFrame?: (frame: number) => Array<TrackingPoint & { framePosition?: { x: number; y: number } }>;
+    getTrajectoryPaths?: (frame: number, range?: number) => Array<{
+        pointId: string;
+        path: Array<{ x: number; y: number; frame: number }>;
+    }>;
 }
 
 export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
@@ -21,7 +27,9 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     onMetadataLoaded,
     onAddTrackingPoint,
     onUpdateSearchRadius,
-    getPointColor
+    getPointColor,
+    getPointsAtFrame,
+    getTrajectoryPaths
 }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -211,89 +219,124 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             mouseDownPos: { x: clickX, y: clickY },
             pendingAddPoint: { x: videoX, y: videoY }
         });
-    };
-
-    // Draw tracking points and paths
+    };    // Draw tracking points and paths - frame-aware rendering
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas || !displaySize.width || !displaySize.height) return;
 
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (!ctx) return;
 
-        // Debug log
-        if (trackingPoints.length > 0) {
-            console.log('Drawing', trackingPoints.length, 'tracking points with search areas');
-        }
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        // Get frame-specific points and trajectories if available
+        const framePoints = getPointsAtFrame ? getPointsAtFrame(currentFrame) : trackingPoints.map(p => ({ ...p, framePosition: undefined }));
+        const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];
 
-        // Draw tracking points
-        trackingPoints.forEach((point, index) => {
+        // Draw trajectory paths first (background)
+        trajectoryPaths.forEach((pathData, pathIndex) => {
+            const pointIndex = framePoints.findIndex(p => p.id === pathData.pointId);
+            if (pointIndex === -1 || pathData.path.length < 2) return;
+
+            const color = getPointColor(pointIndex);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.setLineDash([3, 3]);
+            ctx.globalAlpha = 0.6; // Make paths semi-transparent
+
+            ctx.beginPath();
+            pathData.path.forEach((trajPoint, trajIndex) => {
+                const trajDisplayX = (trajPoint.x / videoSize.width) * displaySize.width;
+                const trajDisplayY = (trajPoint.y / videoSize.height) * displaySize.height;
+                
+                if (trajIndex === 0) {
+                    ctx.moveTo(trajDisplayX, trajDisplayY);
+                } else {
+                    ctx.lineTo(trajDisplayX, trajDisplayY);
+                }
+            });
+            ctx.stroke();
+
+            // Draw small dots at trajectory points
+            pathData.path.forEach(trajPoint => {
+                const trajDisplayX = (trajPoint.x / videoSize.width) * displaySize.width;
+                const trajDisplayY = (trajPoint.y / videoSize.height) * displaySize.height;
+                
+                ctx.fillStyle = color;
+                ctx.globalAlpha = 0.4;
+                ctx.beginPath();
+                ctx.arc(trajDisplayX, trajDisplayY, 2, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1.0;
+        });
+
+        // Draw tracking points at their frame-specific positions
+        framePoints.forEach((point, index) => {
+            // Use frame-specific position if available, otherwise use current position
+            const pointX = (point as any).framePosition?.x ?? point.x;
+            const pointY = (point as any).framePosition?.y ?? point.y;
+            
             // Convert video coordinates to display coordinates
-            const displayX = (point.x / videoSize.width) * displaySize.width;
-            const displayY = (point.y / videoSize.height) * displaySize.height;
+            const displayX = (pointX / videoSize.width) * displaySize.width;
+            const displayY = (pointY / videoSize.height) * displaySize.height;
             const displayRadius = (point.searchRadius / videoSize.width) * displaySize.width;
 
-            console.log(`Point ${index}: searchRadius=${point.searchRadius}, displayRadius=${displayRadius}`);
-
-            // Draw search area (outer circle)
-            ctx.strokeStyle = getPointColor(index);
-            ctx.lineWidth = 2; // Make it more visible
-            ctx.setLineDash([4, 4]); // Make dashes more visible
-            ctx.beginPath();
-            ctx.arc(displayX, displayY, displayRadius, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.setLineDash([]);
+            // Draw search area (outer circle) - only for active points
+            if (point.isActive) {
+                ctx.strokeStyle = getPointColor(index);
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+                ctx.globalAlpha = 0.5;
+                ctx.beginPath();
+                ctx.arc(displayX, displayY, displayRadius, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.globalAlpha = 1.0;
+            }
 
             // Draw tracking point (inner circle)
-            ctx.fillStyle = getPointColor(index);
+            const pointColor = getPointColor(index);
+            ctx.fillStyle = point.isActive ? pointColor : '#888888'; // Gray for inactive points
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
             
             ctx.beginPath();
-            ctx.arc(displayX, displayY, 6, 0, 2 * Math.PI);
+            ctx.arc(displayX, displayY, point.isActive ? 6 : 4, 0, 2 * Math.PI);
             ctx.fill();
-            ctx.stroke();            // Highlight if currently being scaled
+            ctx.stroke();
+
+            // Highlight if currently being scaled
             if (dragState.isScaling && dragState.pointId === point.id) {
                 ctx.strokeStyle = '#ffff00';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 3;
                 ctx.setLineDash([]);
                 ctx.beginPath();
                 ctx.arc(displayX, displayY, displayRadius, 0, 2 * Math.PI);
                 ctx.stroke();
             }
 
-            // Draw trajectory path (last 5 frames)
-            if (point.trajectory && point.trajectory.length > 1) {
-                ctx.strokeStyle = getPointColor(index);
-                ctx.lineWidth = 2;
-                ctx.setLineDash([3, 3]);
-                
-                ctx.beginPath();
-                const recentPoints = point.trajectory.slice(-5); // Last 5 points
-                
-                recentPoints.forEach((trajPoint, trajIndex) => {
-                    const trajDisplayX = (trajPoint.x / videoSize.width) * displaySize.width;
-                    const trajDisplayY = (trajPoint.y / videoSize.height) * displaySize.height;
-                    
-                    if (trajIndex === 0) {
-                        ctx.moveTo(trajDisplayX, trajDisplayY);
-                    } else {
-                        ctx.lineTo(trajDisplayX, trajDisplayY);
-                    }
-                });
-                
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-
-            // Draw point label
+            // Draw point label with frame info
             ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3;
             ctx.font = '12px Arial';
             ctx.textAlign = 'center';
+            
+            // Draw text outline
+            ctx.strokeText(`${index + 1}`, displayX, displayY - 10);
             ctx.fillText(`${index + 1}`, displayX, displayY - 10);
+
+            // Show confidence for active points
+            if (point.isActive && point.confidence < 0.8) {
+                ctx.font = '10px Arial';
+                const confidenceText = `${Math.round(point.confidence * 100)}%`;
+                ctx.strokeText(confidenceText, displayX, displayY + 20);
+                ctx.fillText(confidenceText, displayX, displayY + 20);
+            }
         });
-    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId]);
+    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId, currentFrame, getPointsAtFrame, getTrajectoryPaths]);
 
     return (
         <div 

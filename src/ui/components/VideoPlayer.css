@@ -2,13 +2,13 @@
 .video-player {
     position: relative;
     width: 100%;
-    background: #000000;
+    background: transparent; /* Remove black background */
     border-radius: 8px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
+    padding: 0; /* Remove padding that creates black border */
 }
 
 .video-container {

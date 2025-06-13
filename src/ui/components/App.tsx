@@ -40,8 +40,7 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                 <section className="video-section">
                     {!videoTracking.videoSrc ? (
                         <VideoUpload onVideoUpload={videoTracking.handleVideoUpload} />
-                    ) : (
-                        <VideoPlayer
+                    ) : (                        <VideoPlayer
                             ref={videoTracking.videoRef}
                             src={videoTracking.videoSrc}
                             currentFrame={videoTracking.currentFrame}
@@ -51,6 +50,12 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                             onAddTrackingPoint={videoTracking.handleAddTrackingPoint}
                             onUpdateSearchRadius={videoTracking.handleUpdateSearchRadius}
                             getPointColor={getPointColor}
+                            getPointsAtFrame={(frame) => 
+                                videoTracking.trackerRef.current?.getPointsAtFrame(frame) || []
+                            }
+                            getTrajectoryPaths={(frame, range) =>
+                                videoTracking.trackerRef.current?.getTrajectoryPaths(frame, range) || []
+                            }
                         />
                     )}
                 </section>
