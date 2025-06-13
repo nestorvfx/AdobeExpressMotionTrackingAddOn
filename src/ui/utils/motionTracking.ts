@@ -119,7 +119,6 @@ export class MotionTrackingManager {
     
     return pointId;
   }
-
   /**
    * Process a video frame for tracking
    * @param videoElement Video element
@@ -127,11 +126,11 @@ export class MotionTrackingManager {
    * @param frameNumber Current frame number
    * @returns Updated tracking points
    */
-  processFrame(
+  async processFrame(
     videoElement: HTMLVideoElement, 
     canvas: HTMLCanvasElement,
     frameNumber?: number
-  ): TrackingPoint[] {
+  ): Promise<TrackingPoint[]> {
     const session = this.getActiveSession();
     if (!session) return [];
     
@@ -139,7 +138,7 @@ export class MotionTrackingManager {
       session.currentFrame = frameNumber;
     }
     
-    const updatedPoints = session.tracker.processFrame(videoElement, canvas);
+    const updatedPoints = await session.tracker.processFrame(videoElement, canvas);
     session.trackingPoints = updatedPoints;
     
     return updatedPoints;
@@ -176,22 +175,6 @@ export class MotionTrackingManager {
     
     return true;
   }
-
-  /**
-   * Auto-detect features to track
-   * @param maxCorners Maximum number of corners to detect
-   * @returns The newly detected tracking points
-   */
-  autoDetectFeatures(maxCorners: number = 100): TrackingPoint[] {
-    const session = this.getActiveSession();
-    if (!session) return [];
-    
-    const newPoints = session.tracker.autoDetectFeatures(maxCorners);
-    session.trackingPoints = session.tracker.getTrackingPoints();
-    
-    return newPoints;
-  }
-
   /**
    * Save tracking data to a JSON object
    * @param sessionId Optional session ID (uses active session if not provided)
