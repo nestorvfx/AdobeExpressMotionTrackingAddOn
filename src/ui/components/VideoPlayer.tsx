@@ -7,7 +7,7 @@ interface VideoPlayerProps {
     currentFrame: number;
     isPlaying: boolean;
     trackingPoints: TrackingPoint[];
-    onMetadataLoaded: (duration: number, width: number, height: number) => void;
+    onMetadataLoaded: (duration: number, width: number, height: number, fps?: number) => void;
     onAddTrackingPoint: (x: number, y: number) => void;
     onUpdateSearchRadius: (pointId: string, radius: number) => void;
     onMovePoint?: (pointId: string, x: number, y: number) => void;
@@ -38,10 +38,11 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
 }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);    const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
+    const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });
+    const [videoFps, setVideoFps] = useState(30); // Will be detected from video
     
-    const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
-    const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });    const [dragState, setDragState] = useState<{
+    const [dragState, setDragState] = useState<{
         pointId: string | null;
         isScaling: boolean;
         isMoving: boolean;
@@ -70,12 +71,43 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     // Handle video metadata loaded
     useEffect(() => {
         const video = videoRef.current;
-        if (!video) return;
-
-        const handleLoadedMetadata = () => {
+        if (!video) return;        const handleLoadedMetadata = async () => {
             const duration = video.duration;
             const videoWidth = video.videoWidth;
             const videoHeight = video.videoHeight;
+              // Try to detect actual framerate using common framerates heuristic
+            let detectedFps = 30; // fallback
+            
+            try {
+                // Test common framerates to see which gives the most sensible frame count
+                const commonFps = [23.976, 24, 25, 29.97, 30, 50, 59.94, 60];
+                let bestFps = 30;
+                let smallestError = Infinity;
+                
+                for (const fps of commonFps) {
+                    const calculatedFrames = Math.round(duration * fps);
+                    const timePerFrame = 1 / fps;
+                    const calculatedDuration = calculatedFrames * timePerFrame;
+                    const error = Math.abs(calculatedDuration - duration);
+                    
+                    if (error < smallestError) {
+                        smallestError = error;
+                        bestFps = fps;
+                    }
+                }
+                
+                // Only use detected FPS if the error is reasonable (less than 0.5 seconds)
+                if (smallestError < 0.5) {
+                    detectedFps = bestFps;
+                }
+                
+                console.log(`Video FPS detected: ${detectedFps} (duration: ${duration.toFixed(2)}s, estimated ${Math.round(duration * detectedFps)} frames, error: ${smallestError.toFixed(3)}s)`);
+                setVideoFps(detectedFps);
+                
+            } catch (error) {
+                console.warn('FPS detection failed, using 30fps fallback:', error);
+                setVideoFps(30);
+            }
             
             // Calculate display size maintaining aspect ratio
             const containerWidth = 280; // Max width for add-on (320px - 40px padding)
@@ -93,25 +125,23 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             setVideoSize({ width: videoWidth, height: videoHeight });
             setDisplaySize({ width: displayWidth, height: displayHeight });
             
-            onMetadataLoaded(duration, videoWidth, videoHeight);
+            onMetadataLoaded(duration, videoWidth, videoHeight, detectedFps);
         };
 
         video.addEventListener('loadedmetadata', handleLoadedMetadata);
         return () => video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-    }, [src, onMetadataLoaded]);
-
-    // Update video current time based on current frame
+    }, [src, onMetadataLoaded]);    // Update video current time based on current frame with accurate FPS
+    // Only sync when NOT playing to avoid feedback loop with timeupdate event
     useEffect(() => {
         const video = videoRef.current;
-        if (!video || video.duration === 0) return;
+        if (!video || video.duration === 0 || isPlaying) return;
 
-        const fps = 30; // Assume 30fps
-        const targetTime = currentFrame / fps;
+        const targetTime = currentFrame / videoFps;
         
-        if (Math.abs(video.currentTime - targetTime) > 0.1) {
+        if (Math.abs(video.currentTime - targetTime) > 0.03) {
             video.currentTime = targetTime;
         }
-    }, [currentFrame]);
+    }, [currentFrame, videoFps, isPlaying]);
 
     // Handle play/pause
     useEffect(() => {
@@ -286,18 +316,22 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             startY: 0,
             mouseDownPos: { x: clickX, y: clickY },
             pendingAddPoint: { x: videoX, y: videoY }        });
-    };
-
-    // Draw tracking points and paths - frame-aware rendering
+    };    // Draw tracking points and paths - frame-aware rendering
     useEffect(() => {
         const canvas = canvasRef.current;
+        const video = videoRef.current;
         if (!canvas || !displaySize.width || !displaySize.height) return;
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
+        
+        // Log when we're drawing for this frame
+        const videoTime = video ? video.currentTime.toFixed(3) : 'N/A';
+        const expectedTime = (currentFrame / videoFps).toFixed(3);
+        console.log(`Drawing Frame ${currentFrame}: Video at ${videoTime}s, Expected ${expectedTime}s`);
 
         // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);        // Get frame-specific points and trajectories if available
+        ctx.clearRect(0, 0, canvas.width, canvas.height);// Get frame-specific points and trajectories if available
         const framePoints = getPointsAtFrame ? getPointsAtFrame(currentFrame) : trackingPoints.map(p => ({ ...p, framePosition: undefined }));
         const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];
 
@@ -435,7 +469,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 ctx.fillText(confidenceText, displayX, displayY + 20);
             }
         });
-    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId, currentFrame, getPointsAtFrame, getTrajectoryPaths]);
+    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId, currentFrame, getPointsAtFrame, getTrajectoryPaths, videoFps]);
 
     return (
         <div 

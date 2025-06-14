@@ -13,17 +13,17 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [totalFrames, setTotalFrames] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [fps] = useState(30);
+  const [fps, setFps] = useState(30); // Will be updated from video metadata
 
   // Tracking state
   const [trackingPoints, setTrackingPoints] = useState<TrackingPoint[]>([]);
   const [isTracking, setIsTracking] = useState(false);
   const [trackingProgress, setTrackingProgress] = useState(0);
   const trackingCancelledRef = useRef(false);
-
   // Refs
   const trackerRef = useRef<LucasKanadeTracker | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const lastPauseTimeRef = useRef<number>(0);
   // Initialize tracker
   useEffect(() => {
     trackerRef.current = new LucasKanadeTracker();
@@ -35,18 +35,29 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     setVideoSrc(url);
     showToast('Video uploaded successfully', 'success');
   };
-
-  const handleVideoLoaded = async (videoDuration: number, width: number, height: number) => {
+  const handleVideoLoaded = async (videoDuration: number, width: number, height: number, detectedFps?: number) => {
+    const actualFps = detectedFps || 30;
+    setFps(actualFps);
     setDuration(videoDuration);
-    setTotalFrames(Math.floor(videoDuration * fps));
+    setTotalFrames(Math.floor(videoDuration * actualFps));
     setCurrentFrame(0);
+    
+    console.log(`Video loaded: ${videoDuration.toFixed(2)}s at ${actualFps}fps = ${Math.floor(videoDuration * actualFps)} frames`);
     
     if (trackerRef.current) {
       await trackerRef.current.initialize();
     }
-  };
-
-  const handlePlayPause = () => {
+  };  const handlePlayPause = () => {
+    if (isPlaying) {
+      // When pausing, capture the current frame at this exact moment
+      // to prevent drift from video element settling
+      const video = videoRef.current;
+      if (video && fps > 0) {
+        const exactFrame = Math.round(video.currentTime * fps);
+        setCurrentFrame(exactFrame);
+        lastPauseTimeRef.current = Date.now();
+      }
+    }
     setIsPlaying(!isPlaying);
   };
 
@@ -136,6 +147,42 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     trackingCancelledRef.current = true;
     showToast('Stopping tracking...', 'info');
   };
+  // Update current frame based on video playback time
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || fps === 0) return;
+
+    let lastUpdateTime = 0;    const handleTimeUpdate = () => {
+      // Throttle updates to avoid excessive re-renders
+      const now = Date.now();
+      if (now - lastUpdateTime < 50) return; // Max 20 FPS updates
+      lastUpdateTime = now;
+      
+      // Ignore timeupdate events shortly after pausing to prevent drift
+      if (now - lastPauseTimeRef.current < 200) return;
+      
+      // Only update frame counter during active playback
+      // Check both React state and actual video element state
+      if (isPlaying && !video.paused && !video.ended) {
+        const newFrame = Math.floor(video.currentTime * fps);
+        const clampedFrame = Math.max(0, Math.min(newFrame, totalFrames - 1));
+        
+        // Only update if frame actually changed to avoid unnecessary re-renders
+        if (clampedFrame !== currentFrame) {
+          setCurrentFrame(clampedFrame);
+          
+          // Also update tracker frame
+          if (trackerRef.current) {
+            trackerRef.current.setCurrentFrame(clampedFrame);
+          }
+        }
+      }
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    return () => video.removeEventListener('timeupdate', handleTimeUpdate);
+  }, [isPlaying, fps, totalFrames, currentFrame]);
+
   return {
     // Video state
     videoSrc,
