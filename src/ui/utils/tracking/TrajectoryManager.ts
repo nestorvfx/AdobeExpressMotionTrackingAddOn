@@ -246,8 +246,7 @@ export class TrajectoryManager {
 
   /**
    * Updates a point's position from manual movement
-   */
-  updateManualPosition(
+   */  updateManualPosition(
     point: TrackingPoint, 
     newX: number, 
     newY: number, 
@@ -255,6 +254,10 @@ export class TrajectoryManager {
   ): void {
     // Store the new manual position - this overwrites any existing position for this frame
     this.setPositionAtFrame(point, newX, newY, frameCount, 'manual');
+    
+    // IMPORTANT: Update the point's current position to match the manual position
+    point.x = newX;
+    point.y = newY;
     
     // Fully reactivate point when manually positioned
     point.confidence = 1.0;
@@ -266,7 +269,8 @@ export class TrajectoryManager {
       newX: Math.round(newX * 100) / 100,
       newY: Math.round(newY * 100) / 100,
       frame: frameCount,
-      confidence: point.confidence
+      confidence: point.confidence,
+      updatedPointPosition: true
     });
   }
 

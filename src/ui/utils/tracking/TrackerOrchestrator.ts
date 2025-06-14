@@ -1,7 +1,6 @@
 import { TrackingPoint, TrackingOptions } from './TrackingTypes';
 import { MinimalDebugger } from './MinimalDebugger';
 import { FrameProcessor } from './FrameProcessor';
-import { PositionAuthority } from './PositionAuthority';
 import { TrajectoryManager } from './TrajectoryManager';
 import { OpticalFlowEngine } from './OpticalFlowEngine';
 import { StateManager } from './StateManager';
@@ -15,7 +14,6 @@ export class TrackerOrchestrator {
   private options: TrackingOptions;
   private logger: MinimalDebugger;
   private frameProcessor: FrameProcessor;
-  private positionAuthority: PositionAuthority;
   private trajectoryManager: TrajectoryManager;
   private opticalFlowEngine: OpticalFlowEngine | null = null;
   private stateManager: StateManager;
@@ -38,12 +36,9 @@ export class TrackerOrchestrator {
       useHarrisDetector: false,
       k: 0.04,
       ...options
-    };
-
-    this.logger = new MinimalDebugger();
+    };    this.logger = new MinimalDebugger();
     this.stateManager = new StateManager(this.logger);
     this.frameProcessor = new FrameProcessor(this.logger);
-    this.positionAuthority = new PositionAuthority(this.logger);
     this.trajectoryManager = new TrajectoryManager(this.logger);
   }
 
