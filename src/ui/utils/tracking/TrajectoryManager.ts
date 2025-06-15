@@ -69,9 +69,9 @@ export class TrajectoryManager {
       totalPositions: point.framePositions.size,
       isOverwrite: point.framePositions.has(frame)
     });
-  }/**
+  }  /**
    * Gets the position for a point at a specific frame (for scrubbing display)
-   * Simple rule: Use exact frame data if available, otherwise use most recent previous frame
+   * Rule: Use exact frame data if available, otherwise prefer previous frames, then future frames
    */
   getPositionAtFrame(point: TrackingPoint, frame: number): { x: number; y: number } {
     // Check if we have exact data for this frame
@@ -80,7 +80,7 @@ export class TrajectoryManager {
       return exactPosition;
     }
     
-    // Find the most recent frame before this one that has data
+    // Find the most recent frame before this one that has data (prefer previous)
     let mostRecentFrame = -1;
     for (const [f] of point.framePositions) {
       if (f < frame && f > mostRecentFrame) {
@@ -92,17 +92,48 @@ export class TrajectoryManager {
       return point.framePositions.get(mostRecentFrame)!;
     }
     
-    // Fallback to current point position
+    // If no previous frames, look for the nearest future frame (for frame 0 case)
+    let nearestFutureFrame = Number.MAX_SAFE_INTEGER;
+    for (const [f] of point.framePositions) {
+      if (f > frame && f < nearestFutureFrame) {
+        nearestFutureFrame = f;
+      }
+    }
+    
+    if (nearestFutureFrame < Number.MAX_SAFE_INTEGER) {
+      return point.framePositions.get(nearestFutureFrame)!;
+    }
+    
+    // Final fallback to current point position
     return { x: point.x, y: point.y };
   }  /**
    * Updates a point's current visual position to match stored position for the given frame (scrubbing only)
    * Always updates to show stored position for frame (or most recent previous frame)
    */
   syncPointToFrame(point: TrackingPoint, frame: number): void {
-    // Get the stored position for this frame (exact or most recent previous)
+    // Get the stored position for this frame (exact, previous, or future fallback)
     const storedPosition = this.getPositionAtFrame(point, frame);
+    const hadExactData = point.framePositions.has(frame);
     
-    // Removed sync detail logs to reduce noise - tracking logs will show positions
+    // Determine fallback type for better debugging
+    let fallbackType = 'EXACT';
+    if (!hadExactData) {
+      // Check if we used previous or future fallback
+      const hasPreviousData = Array.from(point.framePositions.keys()).some(f => f < frame);
+      fallbackType = hasPreviousData ? 'PREVIOUS' : 'FUTURE';
+    }
+    
+    // Enhanced logging for debugging scrubbing issues, especially at frame 0
+    const positionChanged = point.x !== storedPosition.x || point.y !== storedPosition.y;
+    if (positionChanged && (frame % 10 === 0 || frame === 0 || frame === 1)) {
+      console.log(`Point ${point.id.substring(0, 6)} sync frame ${frame}: (${Math.round(point.x)},${Math.round(point.y)}) → (${Math.round(storedPosition.x)},${Math.round(storedPosition.y)}) [${fallbackType}]`);
+      
+      // For frame 0, show additional debug info
+      if (frame === 0) {
+        const availableFrames = Array.from(point.framePositions.keys()).sort((a,b) => a-b);
+        console.log(`  Frame 0 debug - Available frames: [${availableFrames.slice(0,5).join(',')}${availableFrames.length > 5 ? '...' : ''}] (${availableFrames.length} total)`);
+      }
+    }
     
     // Always update visual position to match stored position during scrubbing
     point.x = storedPosition.x;
@@ -246,7 +277,14 @@ export class TrajectoryManager {
    * Syncs all points to their positions for the given frame (used for scrubbing)
    */
   syncAllPointsToFrame(points: TrackingPoint[], frame: number): void {
-    // Removed scrubbing sync logs to reduce noise - tracking logs will show positions
+    // Log sync operation for controlled synchronization debugging
+    const pointsWithData = points.filter(p => p.framePositions.has(frame));
+    const pointsWithoutData = points.filter(p => !p.framePositions.has(frame));
+    
+    // Only log every 10th frame during continuous sync to reduce noise
+    if (frame % 10 === 0 && (pointsWithData.length > 0 || pointsWithoutData.length > 0)) {
+      console.log(`CONTROLLED SYNC Frame ${frame}: ${pointsWithData.length}/${points.length} points have exact data`);
+    }
     
     points.forEach(point => {
       this.syncPointToFrame(point, frame);
