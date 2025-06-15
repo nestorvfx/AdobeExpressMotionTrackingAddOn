@@ -33,21 +33,28 @@ export class TrackingService {
       return;
     }    // Enable continuous tracking mode to ensure fresh detection for every frame
     tracker.enableContinuousTracking();
-    
-    // Only completely reset tracker state if we're starting a fresh "Track All" session
-    // For specific point tracking, just reset frame buffers to prevent conflicts
+      // Only completely reset tracker state if we're starting a fresh "Track All" session
+    // For specific point tracking, preserve frame buffers to maintain context from manual moves
     if (!specificPointId) {
       tracker.resetTracker(); // Full reset for "Track All"
-    } else {
-      tracker.resetFrameBuffers(); // Gentle reset for individual point tracking
     }
-    tracker.setCurrentFrame(currentFrame);
-
-    try {
+    // Note: We don't reset frame buffers for specific point tracking to preserve 
+    // the context from manual moves or previous tracking state
+    tracker.setCurrentFrame(currentFrame);    try {
+      // First, ensure the current frame is set up as the reference frame
+      const currentTime = currentFrame / this.config.fps;
+      videoRef.currentTime = currentTime;
+      await new Promise(resolve => setTimeout(resolve, 50));
+      
+      // Process current frame to establish it as the reference (prevGray)
+      const canvasElement = document.createElement('canvas');
+      tracker.setCurrentFrame(currentFrame);
+      await tracker.processFrame(videoRef, canvasElement);
+      
       // Calculate frames to track with optional limit
       const maxFrame = maxFramesToTrack ? Math.min(totalFrames, currentFrame + maxFramesToTrack + 1) : totalFrames;
       const framesToTrack = maxFrame - currentFrame - 1;
-      let trackedFrames = 0;      for (let i = currentFrame + 1; i < maxFrame && !trackingCancelledRef.current; i++) {
+      let trackedFrames = 0;for (let i = currentFrame + 1; i < maxFrame && !trackingCancelledRef.current; i++) {
         // Seek to the new frame with improved timing and better error handling
         const targetTime = i / this.config.fps;
         videoRef.currentTime = targetTime;
@@ -200,7 +207,6 @@ export class TrackingService {
       tracker.disableContinuousTracking();
     }
   }
-
   async stepForward(
     tracker: LucasKanadeTracker,
     videoRef: HTMLVideoElement,
@@ -211,6 +217,20 @@ export class TrackingService {
     if (!tracker || !videoRef || currentFrame >= totalFrames - 1) return;
 
     const nextFrame = currentFrame + 1;
+    
+    // Log the step forward operation start
+    console.log(`🔄 STEP_FORWARD_START: Frame ${currentFrame} → ${nextFrame}`);
+    
+    // Get points before frame change
+    const pointsBeforeStep = tracker.getTrackingPoints();
+    console.log(`📍 POINTS_BEFORE_STEP:`, pointsBeforeStep.map(p => ({
+      id: p.id.substring(0, 8),
+      position: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
+      lastManualFrame: undefined,
+      framePositionsCount: p.framePositions.size,
+      hasPositionForNextFrame: p.framePositions.has(nextFrame)
+    })));
+    
     // Enhanced frame synchronization for single step
     const targetTime = nextFrame / this.config.fps;
     videoRef.currentTime = targetTime;
@@ -245,13 +265,34 @@ export class TrackingService {
     });
 
     // Additional delay to ensure frame is fully rendered
-    await new Promise(resolve => setTimeout(resolve, 30));
-
-    const canvasElement = document.createElement('canvas');
+    await new Promise(resolve => setTimeout(resolve, 30));    const canvasElement = document.createElement('canvas');
+    
+    // Set frame BEFORE processing (this no longer triggers sync, just sets frame number)
+    console.log(`🎯 SETTING_FRAME_BEFORE_PROCESSING: ${nextFrame}`);
     tracker.setCurrentFrame(nextFrame);
+    
+    // Points will calculate their positions from previous frames during processing
+    const pointsBeforeProcessing = tracker.getTrackingPoints();
+    console.log(`📍 POINTS_BEFORE_PROCESSING:`, pointsBeforeProcessing.map(p => ({
+      id: p.id.substring(0, 8),
+      position: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
+      lastManualFrame: undefined
+    })));
+    
+    // Process the frame (this calculates positions from previous frames and does tracking)
+    console.log(`🔬 PROCESSING_FRAME: ${nextFrame}`);
     await tracker.processFrame(videoRef, canvasElement);
+    
+    // Get final points after processing
     const updatedPoints = tracker.getTrackingPoints();
+    console.log(`📍 POINTS_AFTER_PROCESSING:`, updatedPoints.map(p => ({
+      id: p.id.substring(0, 8),
+      position: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
+      confidence: Math.round(p.confidence * 1000) / 1000
+    })));
+    
     onFrameUpdate(nextFrame, [...updatedPoints]);
+    console.log(`✅ STEP_FORWARD_COMPLETE: Frame ${nextFrame}`);
   }
 
   async stepBackward(

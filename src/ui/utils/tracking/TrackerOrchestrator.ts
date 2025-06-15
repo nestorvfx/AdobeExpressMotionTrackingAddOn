@@ -146,23 +146,21 @@ export class TrackerOrchestrator {
           this.logger.log(frameCount, 'FRAME_INITIALIZATION', {
             ...beforeState,
             action: 'first_frame_setup'
-          });
-        } else if (points.length > 0) {
+          });        } else if (points.length > 0) {
           const activePointsBeforeTracking = points.filter(p => p.isActive);
           
           this.frameProcessor.updateCurrentFrame(newGray);
           
+          // Points already have their correct positions from scrubbing/previous operations
+          // No need to calculate - use current visual positions as tracking input
+          
           this.logger.log(frameCount, 'FRAME_PROCESSING', {
             ...beforeState,
-            action: 'updating_frames',
-            willTrack: activePointsBeforeTracking.length > 0,
-            pointPositions: points.map(p => ({
+            action: 'updating_frames_using_current_positions',
+            willTrack: activePointsBeforeTracking.length > 0,            pointPositions: points.map(p => ({
               id: p.id.substring(0, 8),
               currentPos: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
-              authoritativePos: this.trajectoryManager.getPositionAtFrame(p, frameCount),              hasManualForFrame: p.framePositions.has(frameCount),
-              hasTrackedForFrame: p.framePositions.has(frameCount), // Same check since we only have one position per frame now
-              authority: p.manualPositions.has(frameCount) ? 'manual' : 
-                        (p.trackedPositions.has(frameCount) ? 'tracked' : 'fallback'),
+              hasPositionForFrame: p.framePositions.has(frameCount),
               isActive: p.isActive,
               confidence: p.confidence
             }))
@@ -292,33 +290,21 @@ export class TrackerOrchestrator {
           pointId: result.point.id.substring(0, 6)
         }, 'warn');
         return;
-      }
-
-      const point = points[pointIndex];
-      
-      if (result.success && result.newX !== undefined && result.newY !== undefined) {
-        // Check if point was recently manually repositioned
-        const wasRecentlyManual = point.lastManualMoveFrame !== undefined && 
-                                 (frameCount - point.lastManualMoveFrame) <= 2;
-
-        // Update tracked position
+      }      const point = points[pointIndex];
+        if (result.success && result.newX !== undefined && result.newY !== undefined) {
+        // Always update tracked position - no manual move protection
         this.trajectoryManager.updateTrackedPosition(
           point, 
           result.newX, 
           result.newY, 
           frameCount, 
           result.trackingError || 0
-        );
-      } else {
+        );      } else {
         // Handle tracking failure
-        const wasRecentlyManual = point.lastManualMoveFrame !== undefined && 
-                                 (frameCount - point.lastManualMoveFrame) <= 2;
-        
         const wasDeactivated = this.trajectoryManager.handleTrackingFailure(
           point,
           frameCount,
-          result.reason || 'unknown_failure',
-          wasRecentlyManual
+          result.reason || 'unknown_failure'
         );
       }
     });
@@ -364,17 +350,36 @@ export class TrackerOrchestrator {
    */
   clearAllPoints(): void {
     this.stateManager.clearAllPoints();
-  }
-
-  /**
+  }  /**
    * Update point position manually
    */
   updatePointPosition(pointId: string, newX: number, newY: number): boolean {
     const point = this.stateManager.findPoint(pointId);
-    if (!point) return false;
+    if (!point) {
+      this.logger.log(this.stateManager.getFrameCount(), 'MANUAL_MOVE_FAILED', {
+        pointId: pointId.substring(0, 6),
+        reason: 'POINT_NOT_FOUND',
+        requestedPosition: { x: Math.round(newX * 100) / 100, y: Math.round(newY * 100) / 100 }
+      }, 'error');
+      return false;
+    }
 
     const frameCount = this.stateManager.getFrameCount();
+    
+    // Log the manual move initiation at orchestrator level
+    this.logger.log(frameCount, 'MANUAL_MOVE_INITIATED', {
+      pointId: point.id.substring(0, 6),
+      currentPosition: { x: Math.round(point.x * 100) / 100, y: Math.round(point.y * 100) / 100 },
+      targetPosition: { x: Math.round(newX * 100) / 100, y: Math.round(newY * 100) / 100 },
+      frame: frameCount
+    });
+    
     this.trajectoryManager.updateManualPosition(point, newX, newY, frameCount);
+    
+    // After manual move, prepare the current frame as the reference for future tracking
+    // This ensures that when user tracks forward, it will use this manually adjusted frame as prevGray
+    // Note: We'll call this when tracking starts, not here, to avoid processing the frame unnecessarily
+    
     return true;
   }
 
@@ -384,15 +389,6 @@ export class TrackerOrchestrator {
   getTrackingPoints(): TrackingPoint[] {
     return this.stateManager.getPoints();
   }
-
-  /**
-   * Get points at specific frame
-   */
-  getPointsAtFrame(frame: number): Array<TrackingPoint & { framePosition?: { x: number; y: number } }> {
-    const points = this.stateManager.getPoints();
-    return this.trajectoryManager.getPointsAtFrame(points, frame);
-  }
-
   /**
    * Get trajectory paths for visualization
    */
@@ -424,7 +420,6 @@ export class TrackerOrchestrator {
     this.trajectoryManager.updateSearchRadius(point, radius);
     return true;
   }
-
   /**
    * Manually move point to position (legacy method)
    */
@@ -433,24 +428,26 @@ export class TrackerOrchestrator {
     if (!point) return false;
 
     const frameCount = this.stateManager.getFrameCount();
-    this.trajectoryManager.movePointToPosition(point, x, y, frameCount);
+    this.trajectoryManager.updateManualPosition(point, x, y, frameCount);
     return true;
   }  /**
-   * Set current frame number (synchronization happens after tracking)
+   * Set current frame number (no sync during tracking, only during scrubbing)
    */  setCurrentFrame(frameNumber: number): void {
     this.stateManager.setCurrentFrame(frameNumber);
-    
-    // Sync all points to their positions for this frame
-    // This is what makes scrubbing work correctly
-    const allPoints = this.stateManager.getPoints();
-    this.trajectoryManager.syncAllPointsToFrame(allPoints, frameNumber);
+  }  /**
+   * Sync points to frame positions (for scrubbing only)
+   */
+  syncPointsToFrameForScrubbing(frame: number): void {
+    const points = this.stateManager.getPoints();
+    this.trajectoryManager.syncAllPointsToFrame(points, frame);
   }
-
   /**
    * Handle video seek
    */
   handleSeek(): void {
-    this.frameProcessor.resetFrameBuffers();
+    // Don't reset frame buffers on every seek - this breaks tracking continuity
+    // Frame buffers should only be reset when explicitly starting fresh tracking
+    // or when doing "Track All" operations
     this.stateManager.handleSeek();
   }
 
@@ -477,6 +474,28 @@ export class TrackerOrchestrator {
     this.frameProcessor.dispose();
     this.stateManager.dispose();
     this.isInitialized = false;
+  }
+
+  /**
+   * Prepare for tracking from current frame (after manual moves)
+   */
+  prepareForTrackingFromCurrentFrame(canvas: HTMLCanvasElement): void {
+    // Convert current video frame to grayscale
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const grayMat = new this.cv.Mat(canvas.height, canvas.width, this.cv.CV_8UC1);
+    
+    // Convert to grayscale
+    const srcMat = this.cv.matFromImageData(imageData);
+    this.cv.cvtColor(srcMat, grayMat, this.cv.COLOR_RGBA2GRAY);
+    
+    this.frameProcessor.prepareForTrackingFromCurrentFrame(grayMat);
+    
+    // Clean up
+    srcMat.delete();
+    grayMat.delete();
   }
 
   // Continuous tracking methods
@@ -564,6 +583,5 @@ export class TrackerOrchestrator {
     }
     
     report.push('=== END TEST ===');
-    return report.join('\n');
-  }
+    return report.join('\n');  }
 }

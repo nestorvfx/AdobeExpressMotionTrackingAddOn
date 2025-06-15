@@ -29,13 +29,13 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     // Interaction mode state
     const [interactionMode, setInteractionMode] = React.useState<'scale' | 'move'>('scale');
 
-    const getPointColor = (index: number) => `hsl(${(index * 60) % 360}, 70%, 50%)`;
-
-    const handleMovePoint = (pointId: string, x: number, y: number) => {
+    const getPointColor = (index: number) => `hsl(${(index * 60) % 360}, 70%, 50%)`;    const handleMovePoint = (pointId: string, x: number, y: number) => {
         if (videoTracking.trackerRef.current) {
             videoTracking.trackerRef.current.updatePointPosition(pointId, x, y);
         }
-    };    return (
+    };
+
+    return (
         <div className="app">
             <main className="app-main"><section className="video-section">
                     {!videoTracking.videoSrc ? (
@@ -46,15 +46,11 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                                 src={videoTracking.videoSrc}
                                 currentFrame={videoTracking.currentFrame}
                                 isPlaying={videoTracking.isPlaying}
-                                trackingPoints={videoTracking.trackingPoints}
-                                onMetadataLoaded={videoTracking.handleVideoLoaded}
+                                trackingPoints={videoTracking.trackingPoints}                                onMetadataLoaded={videoTracking.handleVideoLoaded}
                                 onAddTrackingPoint={videoTracking.handleAddTrackingPoint}
                                 onUpdateSearchRadius={videoTracking.handleUpdateSearchRadius}
                                 onMovePoint={handleMovePoint}
                                 getPointColor={getPointColor}
-                                getPointsAtFrame={(frame) => 
-                                    videoTracking.trackerRef.current?.getPointsAtFrame(frame) || []
-                                }
                                 getTrajectoryPaths={(frame, range) =>
                                     videoTracking.trackerRef.current?.getTrajectoryPaths(frame, range) || []
                                 }

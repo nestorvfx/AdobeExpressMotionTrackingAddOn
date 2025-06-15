@@ -60,7 +60,6 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     }
     setIsPlaying(!isPlaying);
   };
-
   const handleFrameChange = (frame: number) => {
     const newFrame = Math.max(0, Math.min(frame, totalFrames - 1));
     setCurrentFrame(newFrame);
@@ -70,6 +69,9 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     if (trackerRef.current) {
       trackerRef.current.handleSeek();
       trackerRef.current.setCurrentFrame(newFrame);
+      
+      // Sync points to their stored positions for scrubbing (not tracking)
+      trackerRef.current.syncPointsToFrameForScrubbing(newFrame);
     }
   };
 

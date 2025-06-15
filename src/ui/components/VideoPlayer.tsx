@@ -6,14 +6,12 @@ interface VideoPlayerProps {
     src: string;
     currentFrame: number;
     isPlaying: boolean;
-    trackingPoints: TrackingPoint[];
-    onMetadataLoaded: (duration: number, width: number, height: number, fps?: number) => void;
+    trackingPoints: TrackingPoint[];    onMetadataLoaded: (duration: number, width: number, height: number, fps?: number) => void;
     onAddTrackingPoint: (x: number, y: number) => void;
     onUpdateSearchRadius: (pointId: string, radius: number) => void;
     onMovePoint?: (pointId: string, x: number, y: number) => void;
     getPointColor: (index: number) => string;
-    // New props for frame-specific rendering
-    getPointsAtFrame?: (frame: number) => Array<TrackingPoint & { framePosition?: { x: number; y: number } }>;
+    // Props for trajectory rendering
     getTrajectoryPaths?: (frame: number, range?: number) => Array<{
         pointId: string;
         path: Array<{ x: number; y: number; frame: number }>;
@@ -28,11 +26,9 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     isPlaying,
     trackingPoints,
     onMetadataLoaded,
-    onAddTrackingPoint,
-    onUpdateSearchRadius,
+    onAddTrackingPoint,    onUpdateSearchRadius,
     onMovePoint,
     getPointColor,
-    getPointsAtFrame,
     getTrajectoryPaths,
     interactionMode = 'scale'
 }, ref) => {
@@ -331,8 +327,8 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         console.log(`Drawing Frame ${currentFrame}: Video at ${videoTime}s, Expected ${expectedTime}s`);
 
         // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);// Get frame-specific points and trajectories if available
-        const framePoints = getPointsAtFrame ? getPointsAtFrame(currentFrame) : trackingPoints.map(p => ({ ...p, framePosition: undefined }));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);        // Get current tracking points - visual positions are already synced to frame during scrubbing
+        const framePoints = trackingPoints;
         const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];
 
         // Draw trajectory paths first (background) - show full ±5 frames paths
@@ -399,11 +395,12 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
             });
 
             ctx.globalAlpha = 1.0;
-        });        // Draw tracking points at their frame-specific positions
+        });        // Draw tracking points at their current visual positions
         framePoints.forEach((point, index) => {
-            // Use frame-specific position if available, otherwise use current position
-            let pointX = (point as any).framePosition?.x ?? point.x;
-            let pointY = (point as any).framePosition?.y ?? point.y;
+            // Always use current visual position (point.x, point.y) for display
+            // This ensures manual moves and tracking results are immediately visible
+            let pointX = point.x;
+            let pointY = point.y;
             
             // Override with real-time move position if this point is being moved
             if (dragState.isMoving && dragState.pointId === point.id && dragState.currentMovePos) {
@@ -469,7 +466,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 ctx.fillText(confidenceText, displayX, displayY + 20);
             }
         });
-    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId, currentFrame, getPointsAtFrame, getTrajectoryPaths, videoFps]);
+    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId, currentFrame, getTrajectoryPaths, videoFps]);
 
     return (
         <div 

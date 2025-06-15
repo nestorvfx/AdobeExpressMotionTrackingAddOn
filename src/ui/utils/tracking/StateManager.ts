@@ -111,8 +111,7 @@ export class StateManager {
   }
 
   disableContinuousTracking(): void {
-    this.isContinuousTracking = false;
-    this.logger.log(this.frameCount, 'CONTINUOUS_TRACKING_DISABLED', {
+    this.isContinuousTracking = false;    this.logger.log(this.frameCount, 'CONTINUOUS_TRACKING_DISABLED', {
       mode: 'normal_operation'
     });
   }
@@ -127,14 +126,13 @@ export class StateManager {
       this.logger.log(frameNumber, 'FRAME_SCRUBBED', {
         fromFrame: oldFrame,
         toFrame: frameNumber,
+        actualCurrentFrame: this.frameCount,
         totalPoints: this.points.length,
         activePoints: this.getActivePointCount(),
         pointPositions: this.points.map(p => ({
           id: p.id.substring(0, 8),
-          hasManualForFrame: p.manualPositions.has(frameNumber),
-          hasTrackedForFrame: p.trackedPositions.has(frameNumber),
-          authority: p.manualPositions.has(frameNumber) ? 'manual' :
-                    (p.trackedPositions.has(frameNumber) ? 'tracked' : 'fallback')
+          hasPositionForFrame: p.framePositions.has(frameNumber),
+          currentVisualPos: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 }
         }))
       });
     }

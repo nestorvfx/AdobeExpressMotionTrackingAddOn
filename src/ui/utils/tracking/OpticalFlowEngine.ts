@@ -36,15 +36,8 @@ export class OpticalFlowEngine {
       newY?: number;
       trackingError?: number;
       reason?: string;
-    }>;
-  } {
+    }>;  } {
     if (!this.cv || !prevGray || !currGray || activePoints.length === 0) {
-      this.logger.log(frameCount, 'OPTICAL_FLOW_PREREQUISITES_FAILED', {
-        hasOpenCV: !!this.cv,
-        hasPrevGray: !!prevGray,
-        hasCurrGray: !!currGray,
-        activePointCount: activePoints.length
-      }, 'error');
       return {
         successCount: 0,
         failureCount: 0,
@@ -96,25 +89,8 @@ export class OpticalFlowEngine {
         this.options.criteria.type,
         this.options.criteria.maxCount,
         this.options.criteria.epsilon
-      );
-
-      this.logger.log(frameCount, 'OPTICAL_FLOW_PARAMS', {
-        pointsToTrack: activePoints.length,
-        winSize: `${this.options.winSize.width}x${this.options.winSize.height}`,
-        maxLevel: this.options.maxLevel,
-        criteriaType: this.options.criteria.type,
-        maxCount: this.options.criteria.maxCount,
-        epsilon: this.options.criteria.epsilon
-      });
-
-      // Perform optical flow for all points at once
+      );      // Perform optical flow for all points at once
       try {
-        this.logger.log(frameCount, 'OPTICAL_FLOW_CALLING', {
-          aboutToCall: true,
-          hasAllParams: true,
-          ...(isContinuousTracking && { freshTrackingForced: true }),
-          activePointsCount: activePoints.length
-        });
 
         this.cv.calcOpticalFlowPyrLK(
           prevGray,
@@ -125,18 +101,9 @@ export class OpticalFlowEngine {
           err,
           winSize,
           this.options.maxLevel,
-          criteria
-        );
+          criteria        );
 
-        this.logger.log(frameCount, 'OPTICAL_FLOW_SUCCESS', {
-          completed: true
-        });
       } catch (opticalFlowError) {
-        this.logger.log(frameCount, 'OPTICAL_FLOW_FAILED', {
-          error: opticalFlowError.toString(),
-          errorType: typeof opticalFlowError,
-          errorName: opticalFlowError.name || 'unknown'
-        }, 'error');
         throw opticalFlowError;
       }
 
@@ -153,15 +120,7 @@ export class OpticalFlowEngine {
         frameCount
       );
 
-      return results;
-
-    } catch (error) {
-      this.logger.log(frameCount, 'OPTICAL_FLOW_ERROR', {
-        error: error.toString(),
-        errorType: typeof error,
-        errorName: error.name || 'unknown'
-      }, 'error');
-
+      return results;    } catch (error) {
       return {
         successCount: 0,
         failureCount: activePoints.length,
@@ -179,24 +138,11 @@ export class OpticalFlowEngine {
       if (err) err.delete();
     }
   }
-
   /**
    * Tests matrix access using proper OpenCV.js methods
    */
   private testMatrixAccess(status: any, err: any, p1: any, frameCount: number): void {
     try {
-      this.logger.log(frameCount, 'TESTING_MATRIX_ACCESS', {
-        hasStatus: !!status,
-        hasErr: !!err,
-        hasP1: !!p1,
-        statusType: status ? status.type() : 'null',
-        errType: err ? err.type() : 'null',
-        p1Type: p1 ? p1.type() : 'null',
-        statusRows: status ? status.rows : 'null',
-        statusCols: status ? status.cols : 'null',
-        statusChannels: status ? status.channels() : 'null'
-      });
-
       // Test accessing the data arrays using proper OpenCV.js methods
       let testStatusArray, testErrorArray, testPositionArray;
       
@@ -232,28 +178,7 @@ export class OpticalFlowEngine {
         }
       }
 
-      this.logger.log(frameCount, 'MATRIX_ACCESS_SUCCESS', {
-        statusLength: testStatusArray.length,
-        errorLength: testErrorArray.length, 
-        positionLength: testPositionArray.length,
-        statusValues: testStatusArray,
-        errorValues: testErrorArray.map((e: number) => Math.round(e * 100) / 100),
-        positionValues: testPositionArray.map((v: number) => Math.round(v * 100) / 100)
-      });
-
-      this.logger.log(frameCount, 'OPTICAL_FLOW_COMPLETE', {
-        inputPoints: status.rows,
-        statusArray: testStatusArray,
-        errorArray: testErrorArray.map((e: number) => Math.round(e * 100) / 100),
-        outputPositions: testPositionArray.map((v: number) => Math.round(v * 100) / 100)
-      });
     } catch (matrixError) {
-      this.logger.log(frameCount, 'MATRIX_ACCESS_FAILED', {
-        error: matrixError.toString(),
-        errorType: typeof matrixError,
-        errorName: matrixError.name || 'unknown',
-        errorMessage: matrixError.message || 'no message'
-      }, 'error');
       throw matrixError;
     }
   }
@@ -342,9 +267,8 @@ export class OpticalFlowEngine {
       // Calculate movement distance
       const distance = isPositionValid ? Math.sqrt((newX - point.x) ** 2 + (newY - point.y) ** 2) : Infinity;
 
-      // Check if point was recently manually repositioned (within last 2 frames)
-      const wasRecentlyManual = point.lastManualMoveFrame !== undefined && 
-                               (frameCount - point.lastManualMoveFrame) <= 2;
+      // Check if point was recently manually repositioned (within last 2 frames)      // Remove manual move considerations - treat all points equally
+      const wasRecentlyManual = false;
       
       // Determine if tracking should be accepted
       const trackingDecision = this.evaluateTrackingQuality(

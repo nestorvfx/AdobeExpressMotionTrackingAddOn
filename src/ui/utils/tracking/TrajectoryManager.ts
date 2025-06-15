@@ -13,8 +13,7 @@ export class TrajectoryManager {
   }
   /**
    * Creates a new tracking point with default settings
-   */
-  createTrackingPoint(x: number, y: number, frameCount: number): TrackingPoint {
+   */  createTrackingPoint(x: number, y: number, frameCount: number): TrackingPoint {
     const pointId = `point_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const newPoint: TrackingPoint = {
       id: pointId,
@@ -24,8 +23,6 @@ export class TrajectoryManager {
       isActive: true,
       trajectory: [{ x, y, frame: frameCount }],
       searchRadius: 100,
-      manualPositions: new Map(),
-      trackedPositions: new Map(),
       // Store the initial position
       framePositions: new Map([[frameCount, { x, y }]])
     };
@@ -39,10 +36,10 @@ export class TrajectoryManager {
 
     return newPoint;
   }  /**
-   * Sets the position for a point at a specific frame (manual or tracked - doesn't matter)
+   * Sets the position for a point at a specific frame
    * This is the ONLY way positions should be stored - one position per frame
    */
-  setPositionAtFrame(point: TrackingPoint, x: number, y: number, frame: number, source: 'manual' | 'tracked'): void {
+  setPositionAtFrame(point: TrackingPoint, x: number, y: number, frame: number): void {
     // Store the position for this frame - overwrites any existing position
     point.framePositions.set(frame, { x, y });
     
@@ -67,24 +64,18 @@ export class TrajectoryManager {
       pointId: point.id.substring(0, 6),
       frame,
       position: { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 },
-      source,
-      totalPositions: point.framePositions.size
+      visualPosition: { x: Math.round(point.x * 100) / 100, y: Math.round(point.y * 100) / 100 },
+      totalPositions: point.framePositions.size,
+      isOverwrite: point.framePositions.has(frame)
     });
-  }
-  /**
-   * Gets the position for a point at a specific frame
-   * Rule: Use exact frame data if available, otherwise use most recent data from before that frame
+  }/**
+   * Gets the position for a point at a specific frame (for scrubbing display)
+   * Simple rule: Use exact frame data if available, otherwise use most recent previous frame
    */
   getPositionAtFrame(point: TrackingPoint, frame: number): { x: number; y: number } {
     // Check if we have exact data for this frame
     const exactPosition = point.framePositions.get(frame);
     if (exactPosition) {
-      this.logger.log(frame, 'POSITION_EXACT_MATCH', {
-        pointId: point.id.substring(0, 6),
-        frame,
-        position: exactPosition,
-        source: 'exact'
-      });
       return exactPosition;
     }
     
@@ -97,59 +88,37 @@ export class TrajectoryManager {
     }
     
     if (mostRecentFrame >= 0) {
-      const position = point.framePositions.get(mostRecentFrame)!;
-      this.logger.log(frame, 'POSITION_FALLBACK', {
-        pointId: point.id.substring(0, 6),
-        frame,
-        position,
-        source: 'fallback',
-        fallbackFrame: mostRecentFrame,
-        totalFramePositions: point.framePositions.size
-      });
-      return position;
+      return point.framePositions.get(mostRecentFrame)!;
     }
     
-    // Last resort: use current point position
-    const currentPos = { x: point.x, y: point.y };
-    this.logger.log(frame, 'POSITION_CURRENT_FALLBACK', {
-      pointId: point.id.substring(0, 6),
-      frame,
-      position: currentPos,
-      source: 'current_fallback',
-      totalFramePositions: point.framePositions.size
-    });
-    return currentPos;
-  }
-
-  /**
-   * Updates a point's current visual position to match the authoritative position for the given frame
-   * This should be called when scrubbing between frames
+    // Fallback to current point position
+    return { x: point.x, y: point.y };
+  }  /**
+   * Updates a point's current visual position to match stored position for the given frame (scrubbing only)
+   * Always updates to show stored position for frame (or most recent previous frame)
    */
   syncPointToFrame(point: TrackingPoint, frame: number): void {
-    const framePosition = this.getPositionAtFrame(point, frame);
+    // Get the stored position for this frame (exact or most recent previous)
+    const storedPosition = this.getPositionAtFrame(point, frame);
     
-    // Only update if position actually changed
-    if (Math.abs(point.x - framePosition.x) > 0.01 || Math.abs(point.y - framePosition.y) > 0.01) {
-      point.x = framePosition.x;
-      point.y = framePosition.y;
-      
-      this.logger.log(frame, 'POINT_SYNCED_TO_FRAME', {
-        pointId: point.id.substring(0, 6),
-        frame,
-        position: { x: Math.round(framePosition.x * 100) / 100, y: Math.round(framePosition.y * 100) / 100 }
-      });
-    }
+    // Log the sync operation with detailed position information
+    this.logger.log(frame, 'SYNC_POINT_DETAIL', {
+      pointId: point.id.substring(0, 6),
+      frame,
+      beforeSync: { x: Math.round(point.x * 100) / 100, y: Math.round(point.y * 100) / 100 },
+      storedPosition: { x: Math.round(storedPosition.x * 100) / 100, y: Math.round(storedPosition.y * 100) / 100 },
+      hasExactPosition: point.framePositions.has(frame)
+    });
+    
+    // Always update visual position to match stored position during scrubbing
+    point.x = storedPosition.x;
+    point.y = storedPosition.y;
   }
 
   /**
-   * Syncs all points to their positions for the given frame
-   */
-  syncAllPointsToFrame(points: TrackingPoint[], frame: number): void {
-    points.forEach(point => {
-      this.syncPointToFrame(point, frame);
-    });
-  }  /**
-   * Updates point position based on successful tracking
+   * Syncs all points to their positions for the given frame (scrubbing only)
+   */  /**
+   * Updates point position after successful tracking
    */
   updateTrackedPosition(
     point: TrackingPoint,
@@ -158,57 +127,25 @@ export class TrajectoryManager {
     frameCount: number,
     trackingError: number
   ): void {
-    // Store the new tracked position - this overwrites any existing position for this frame
-    this.setPositionAtFrame(point, newX, newY, frameCount, 'tracked');
+    // Store the new tracked position for this frame
+    this.setPositionAtFrame(point, newX, newY, frameCount);
     
     // Increase confidence for successful tracking
     point.confidence = Math.min(1.0, point.confidence + 0.1);
-    
-    this.logger.log(frameCount, 'POINT_TRACKED_SUCCESS', {
-      pointId: point.id.substring(0, 6),
-      newX: Math.round(newX * 100) / 100,
-      newY: Math.round(newY * 100) / 100,
-      confidence: Math.round(point.confidence * 1000) / 1000,
-      trackingError: Math.round(trackingError * 100) / 100
-    });
-  }
-
-  /**
+  }  /**
    * Handles tracking failure by adjusting confidence
    */
   handleTrackingFailure(
     point: TrackingPoint,
     frameCount: number,
-    reason: string,
-    wasRecentlyManual: boolean
+    reason: string
   ): boolean {
-    const oldConfidence = point.confidence;
+    // Standard confidence reduction
+    point.confidence *= 0.75;
     
-    // Be more lenient with recently manually positioned points
-    const confidenceReduction = wasRecentlyManual ? 0.9 : 0.75; // Less aggressive for manual points
-    point.confidence *= confidenceReduction;
-    
-    this.logger.log(frameCount, 'POINT_TRACKING_FAILED', {
-      pointId: point.id.substring(0, 6),
-      reason,
-      wasRecentlyManual,
-      confidenceReduction,
-      oldConfidence: Math.round(oldConfidence * 1000) / 1000,
-      newConfidence: Math.round(point.confidence * 1000) / 1000,
-      intelligentCriteria: true
-    }, 'warn');
-    
-    // Deactivate with different thresholds based on context
-    const deactivationThreshold = wasRecentlyManual ? 0.05 : 0.1; // More lenient for manual points
-    if (point.confidence < deactivationThreshold) {
+    // Standard deactivation threshold
+    if (point.confidence < 0.1) {
       point.isActive = false;
-      this.logger.log(frameCount, 'POINT_DEACTIVATED', {
-        pointId: point.id.substring(0, 6),
-        reason: wasRecentlyManual ? 'confidence_too_low_after_manual_move' : 'confidence_too_low_intelligent',
-        finalConfidence: point.confidence,
-        deactivationThreshold,
-        wasRecentlyManual
-      }, 'warn');
       return true; // Point was deactivated
     }
     
@@ -221,57 +158,20 @@ export class TrajectoryManager {
   updateSearchRadius(point: TrackingPoint, radius: number): void {
     point.searchRadius = Math.max(25, Math.min(140, radius));
   }  /**
-   * Manually moves a point to a new position
-   */
-  movePointToPosition(point: TrackingPoint, x: number, y: number, frameCount: number): void {
-    // Use the new unified position setting method
-    this.setPositionAtFrame(point, x, y, frameCount, 'manual');
-    
-    // Mark as recently manually moved
-    point.lastManualMoveFrame = frameCount;
-    
-    // Boost confidence when manually positioned
-    point.confidence = Math.min(1.0, point.confidence + 0.2);
-    point.isActive = true; // Reactivate if inactive
-
-    this.logger.log(frameCount, 'POINT_MANUALLY_MOVED', {
-      pointId: point.id.substring(0, 6),
-      newX: Math.round(x * 100) / 100,
-      newY: Math.round(y * 100) / 100,
-      newConfidence: Math.round(point.confidence * 1000) / 1000,
-      reactivated: true,
-      markedFrame: frameCount
-    });
-  }
-
-  /**
    * Updates a point's position from manual movement
-   */  updateManualPosition(
+   */
+  updateManualPosition(
     point: TrackingPoint, 
     newX: number, 
     newY: number, 
     frameCount: number
   ): void {
-    // Store the new manual position - this overwrites any existing position for this frame
-    this.setPositionAtFrame(point, newX, newY, frameCount, 'manual');
-    
-    // IMPORTANT: Update the point's current position to match the manual position
-    point.x = newX;
-    point.y = newY;
+    // Store the new manual position for this frame and update visual position
+    this.setPositionAtFrame(point, newX, newY, frameCount);
     
     // Fully reactivate point when manually positioned
     point.confidence = 1.0;
     point.isActive = true;
-    point.lastManualMoveFrame = frameCount;
-    
-    this.logger.log(frameCount, 'POINT_MANUALLY_MOVED', {
-      pointId: point.id.substring(0, 6),
-      newX: Math.round(newX * 100) / 100,
-      newY: Math.round(newY * 100) / 100,
-      frame: frameCount,
-      confidence: point.confidence,
-      updatedPointPosition: true
-    });
   }
 
   /**
@@ -348,16 +248,22 @@ export class TrajectoryManager {
 
     return trajectories;
   }
-
   /**
-   * Gets points with their positions for a specific frame
+   * Syncs all points to their positions for the given frame (used for scrubbing)
    */
-  getPointsAtFrame(
-    points: TrackingPoint[], 
-    frame: number
-  ): Array<TrackingPoint & { framePosition?: { x: number; y: number } }> {
-    return points.map(point => ({
-      ...point,
-      framePosition: this.getPositionAtFrame(point, frame)
-    }));  }
+  syncAllPointsToFrame(points: TrackingPoint[], frame: number): void {
+    this.logger.log(frame, 'SCRUBBING_SYNC_START', {
+      frame,
+      totalPoints: points.length
+    });
+    
+    points.forEach(point => {
+      this.syncPointToFrame(point, frame);
+    });
+    
+    this.logger.log(frame, 'SCRUBBING_SYNC_COMPLETE', {
+      frame,
+      syncedPoints: points.length
+    });
+  }
 }

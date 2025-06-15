@@ -52,9 +52,8 @@ export class LucasKanadeTracker {
   clearAllPoints(): void {
     this.orchestrator.clearAllPoints();
   }
-
   /**
-   * Update a point's position manually (with absolute authority)
+   * Update a point's position manually
    */
   updatePointPosition(pointId: string, newX: number, newY: number): boolean {
     return this.orchestrator.updatePointPosition(pointId, newX, newY);
@@ -69,12 +68,7 @@ export class LucasKanadeTracker {
 
   /**
    * Get points with their authoritative positions for a specific frame
-   */
-  getPointsAtFrame(frame: number): Array<TrackingPoint & { framePosition?: { x: number; y: number } }> {
-    return this.orchestrator.getPointsAtFrame(frame);
-  }
-
-  /**
+   */  /**
    * Get trajectory paths for visualization
    */
   getTrajectoryPaths(currentFrame: number, range: number = 5): Array<{
@@ -138,6 +132,13 @@ export class LucasKanadeTracker {
    */
   dispose(): void {
     this.orchestrator.dispose();
+  }
+
+  /**
+   * Sync points to frame positions (for scrubbing operations only)
+   */
+  syncPointsToFrameForScrubbing(frame: number): void {
+    this.orchestrator.syncPointsToFrameForScrubbing(frame);
   }
 
   // Debug and diagnostic methods (essential for app compatibility)

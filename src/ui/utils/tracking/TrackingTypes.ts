@@ -8,11 +8,7 @@ export interface TrackingPoint {
   isActive: boolean;
   trajectory: Array<{ x: number; y: number; frame: number }>;
   searchRadius: number;
-  lastManualMoveFrame?: number; // Track when point was last manually positioned
-  // Legacy maps - keeping for compatibility but will not be used in new logic
-  manualPositions: Map<number, { x: number; y: number }>;
-  trackedPositions: Map<number, { x: number; y: number }>;
-  // NEW: Single source of truth for positions - ONE position per frame
+  // Single source of truth for positions - ONE position per frame
   framePositions: Map<number, { x: number; y: number }>;
 }
 

@@ -17,13 +17,14 @@ export class MinimalDebugger {
     
     if (this.logs.length > this.maxLogs) {
       this.logs = this.logs.slice(-this.maxLogs);
-    }
-    
-    // Enhanced console logging for critical issues
+    }    // Enhanced console logging for critical issues
     if (level === 'error' || level === 'warn') {
       console.warn(`🔍 [Frame ${frameNumber}] ${operation}:`, data);
-    } else if (operation.includes('TRACKING_SUMMARY') || operation.includes('OPTICAL_FLOW')) {
+    } else if (operation.includes('TRACKING_SUMMARY')) {
       console.log(`📊 [Frame ${frameNumber}] ${operation}:`, data);
+    } else if (operation.includes('MANUAL')) {
+      // Special console logging for manual operations to make them highly visible
+      console.log(`🖱️ [Frame ${frameNumber}] ${operation}:`, data);
     }
   }
 

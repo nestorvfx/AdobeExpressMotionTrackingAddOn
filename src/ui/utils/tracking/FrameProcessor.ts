@@ -121,15 +121,31 @@ export class FrameProcessor {
       this.buffers.prevGray = this.buffers.currGray.clone();
     }
   }
-
   /**
-   * Reset frame buffers
+   * Reset frame buffers but prepare for immediate tracking from current frame
    */
   resetFrameBuffers(): void {
     if (this.buffers.prevGray) {
       this.buffers.prevGray.delete();
       this.buffers.prevGray = null;
     }
+    if (this.buffers.currGray) {
+      this.buffers.currGray.delete();
+      this.buffers.currGray = null;
+    }
+  }
+
+  /**
+   * Prepare frame buffer for tracking from current frame
+   */
+  prepareForTrackingFromCurrentFrame(currentFrame: any): void {
+    // Set current frame as prevGray so tracking can start from this frame
+    if (this.buffers.prevGray) {
+      this.buffers.prevGray.delete();
+    }
+    this.buffers.prevGray = currentFrame.clone();
+    
+    // Clear currGray so next frame will be set as currGray for tracking
     if (this.buffers.currGray) {
       this.buffers.currGray.delete();
       this.buffers.currGray = null;
@@ -199,10 +215,8 @@ export class FrameProcessor {
     const beforeState = {
       hasPrevGray: !!this.buffers.prevGray,
       hasCurrGray: !!this.buffers.currGray
-    };
-
-    if (!this.buffers.prevGray) {
-      // Scenario 1: First frame - initialize both buffers
+    };    if (!this.buffers.prevGray) {
+      // Initialize both buffers with current frame so tracking can start immediately
       this.buffers.prevGray = newFrame.mat.clone();
       this.buffers.currGray = newFrame.mat.clone();
       
