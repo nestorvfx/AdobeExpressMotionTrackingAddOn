@@ -90,7 +90,32 @@ export class OpticalFlowEngine {
         this.options.criteria.maxCount,
         this.options.criteria.epsilon
       );      // Perform optical flow for all points at once
-      try {
+      try {      // Log frame data being sent to optical flow
+      this.logger.log(frameCount, 'OPTICAL_FLOW_INPUT', {
+        frameVerification: {
+          prevHash: this.calculateFrameHash(prevGray),
+          currHash: this.calculateFrameHash(currGray),
+          prevCorners: this.getFrameCornerPixels(prevGray),
+          currCorners: this.getFrameCornerPixels(currGray),
+          framesSame: this.calculateFrameHash(prevGray) === this.calculateFrameHash(currGray)
+        },
+        frameSpecs: {
+          prevSize: `${prevGray.cols}x${prevGray.rows}`,
+          currSize: `${currGray.cols}x${currGray.rows}`,
+          prevType: prevGray.type(),
+          currType: currGray.type()
+        },
+        pointData: {
+          inputPosition: { x: Math.round(activePoints[0].x * 100) / 100, y: Math.round(activePoints[0].y * 100) / 100 },
+          openCVInput: { x: p0.data32F[0], y: p0.data32F[1] }
+        },
+        trackingConfig: {
+          winSize: `${this.options.winSize.width}x${this.options.winSize.height}`,
+          maxLevel: this.options.maxLevel,
+          maxCount: this.options.criteria.maxCount,
+          epsilon: this.options.criteria.epsilon
+        }
+      });
 
         this.cv.calcOpticalFlowPyrLK(
           prevGray,
@@ -104,8 +129,45 @@ export class OpticalFlowEngine {
           criteria        );
 
       } catch (opticalFlowError) {
+        this.logger.log(frameCount, 'OPTICAL_FLOW_ERROR', {
+          error: opticalFlowError.toString(),
+          activePointCount: activePoints.length
+        }, 'error');
         throw opticalFlowError;
+      }      // Log what OpenCV returned
+      const rawOpenCVResults = [];
+      for (let i = 0; i < activePoints.length; i++) {
+        const isTracked = status.data8U ? status.data8U[i] : status.ucharAt(i, 0);
+        const trackingError = err.data32F ? err.data32F[i] : err.floatAt(i, 0);
+        const newX = p1.data32F ? p1.data32F[i * 2] : p1.floatAt(i, 0);
+        const newY = p1.data32F ? p1.data32F[i * 2 + 1] : p1.floatAt(i, 1);
+        
+        rawOpenCVResults.push({
+          pointId: activePoints[i].id.substring(0, 8),
+          trackingStatus: {
+            isTracked: isTracked === 1,
+            trackingError: Math.round(trackingError * 100) / 100
+          },
+          positionChange: {
+            from: { x: activePoints[i].x, y: activePoints[i].y },
+            to: { x: Math.round(newX * 100) / 100, y: Math.round(newY * 100) / 100 },
+            movement: {
+              x: Math.round((newX - activePoints[i].x) * 100) / 100,
+              y: Math.round((newY - activePoints[i].y) * 100) / 100,
+              distance: Math.round(Math.sqrt(Math.pow(newX - activePoints[i].x, 2) + Math.pow(newY - activePoints[i].y, 2)) * 100) / 100
+            }
+          }
+        });
       }
+
+      this.logger.log(frameCount, 'OPTICAL_FLOW_OUTPUT', {
+        summary: {
+          totalPoints: activePoints.length,
+          trackedCount: rawOpenCVResults.filter(r => r.trackingStatus.isTracked).length,
+          failedCount: rawOpenCVResults.filter(r => !r.trackingStatus.isTracked).length
+        },
+        results: rawOpenCVResults
+      });
 
       // Test matrix access before proceeding
       this.testMatrixAccess(status, err, p1, frameCount);
@@ -406,5 +468,47 @@ export class OpticalFlowEngine {
       frameNumber: frameCount,
       willPerformOpticalFlow: true
     });
+  }
+
+  /**
+   * Calculate a simple hash of frame content for verification
+   */
+  private calculateFrameHash(mat: any): string {
+    if (!mat || !mat.data) return 'null';
+    
+    // Sample pixels from different regions for a content hash
+    const step = Math.floor(mat.total() / 100); // Sample every N pixels
+    let hash = 0;
+    
+    try {
+      const data = mat.data;
+      for (let i = 0; i < data.length; i += step) {
+        hash = ((hash << 5) - hash + data[i]) & 0xffffffff;
+      }
+      return Math.abs(hash).toString(16).substring(0, 8);
+    } catch (e) {
+      return 'error';
+    }
+  }
+
+  /**
+   * Get corner pixel values for frame verification
+   */
+  private getFrameCornerPixels(mat: any): any {
+    if (!mat || !mat.data) return null;
+    
+    try {
+      const w = mat.cols;
+      const h = mat.rows;
+      return {
+        topLeft: mat.data[0],
+        topRight: mat.data[w - 1],
+        bottomLeft: mat.data[(h - 1) * w],
+        bottomRight: mat.data[h * w - 1],
+        center: mat.data[Math.floor(h / 2) * w + Math.floor(w / 2)]
+      };
+    } catch (e) {
+      return { error: 'failed_to_read' };
+    }
   }
 }

@@ -141,6 +141,14 @@ export class LucasKanadeTracker {
     this.orchestrator.syncPointsToFrameForScrubbing(frame);
   }
 
+  /**
+   * Process a video frame specifically for frame-by-frame tracking
+   * Ensures current frame becomes reference for next frame
+   */
+  async processFrameByFrame(videoElement: HTMLVideoElement, canvas: HTMLCanvasElement): Promise<TrackingPoint[]> {
+    return this.orchestrator.processFrameByFrame(videoElement, canvas);
+  }
+
   // Debug and diagnostic methods (essential for app compatibility)
 
   /**

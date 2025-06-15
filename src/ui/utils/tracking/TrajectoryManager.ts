@@ -101,14 +101,7 @@ export class TrajectoryManager {
     // Get the stored position for this frame (exact or most recent previous)
     const storedPosition = this.getPositionAtFrame(point, frame);
     
-    // Log the sync operation with detailed position information
-    this.logger.log(frame, 'SYNC_POINT_DETAIL', {
-      pointId: point.id.substring(0, 6),
-      frame,
-      beforeSync: { x: Math.round(point.x * 100) / 100, y: Math.round(point.y * 100) / 100 },
-      storedPosition: { x: Math.round(storedPosition.x * 100) / 100, y: Math.round(storedPosition.y * 100) / 100 },
-      hasExactPosition: point.framePositions.has(frame)
-    });
+    // Removed sync detail logs to reduce noise - tracking logs will show positions
     
     // Always update visual position to match stored position during scrubbing
     point.x = storedPosition.x;
@@ -247,23 +240,14 @@ export class TrajectoryManager {
     });
 
     return trajectories;
-  }
-  /**
+  }  /**
    * Syncs all points to their positions for the given frame (used for scrubbing)
    */
   syncAllPointsToFrame(points: TrackingPoint[], frame: number): void {
-    this.logger.log(frame, 'SCRUBBING_SYNC_START', {
-      frame,
-      totalPoints: points.length
-    });
+    // Removed scrubbing sync logs to reduce noise - tracking logs will show positions
     
     points.forEach(point => {
       this.syncPointToFrame(point, frame);
-    });
-    
-    this.logger.log(frame, 'SCRUBBING_SYNC_COMPLETE', {
-      frame,
-      syncedPoints: points.length
     });
   }
 }

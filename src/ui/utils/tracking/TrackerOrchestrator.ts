@@ -139,9 +139,7 @@ export class TrackerOrchestrator {
           totalPoints: points.length,
           activePoints: points.filter(p => p.isActive).length,
           imageSize: `${canvas.width}x${canvas.height}`
-        };
-
-        if (!this.frameProcessor.hasPrevGray()) {
+        };        if (!this.frameProcessor.hasPrevGray()) {
           this.frameProcessor.initializeFrames(newGray);
           this.logger.log(frameCount, 'FRAME_INITIALIZATION', {
             ...beforeState,
@@ -149,15 +147,11 @@ export class TrackerOrchestrator {
           });        } else if (points.length > 0) {
           const activePointsBeforeTracking = points.filter(p => p.isActive);
           
-          this.frameProcessor.updateCurrentFrame(newGray);
-          
-          // Points already have their correct positions from scrubbing/previous operations
-          // No need to calculate - use current visual positions as tracking input
-          
           this.logger.log(frameCount, 'FRAME_PROCESSING', {
             ...beforeState,
-            action: 'updating_frames_using_current_positions',
-            willTrack: activePointsBeforeTracking.length > 0,            pointPositions: points.map(p => ({
+            action: 'determining_tracking_requirements',
+            willTrack: activePointsBeforeTracking.length > 0,
+            pointPositions: points.map(p => ({
               id: p.id.substring(0, 8),
               currentPos: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
               hasPositionForFrame: p.framePositions.has(frameCount),
@@ -167,7 +161,11 @@ export class TrackerOrchestrator {
           });
           
           if (activePointsBeforeTracking.length > 0) {
+            // Only update frame buffers when we're actually going to track
+            this.frameProcessor.updateCurrentFrame(newGray);
             this.performTracking(activePointsBeforeTracking);
+            // Current frame becomes reference for next tracking operation  
+            this.frameProcessor.swapFrames();
           } else {
             this.logger.log(frameCount, 'TRACKING_SKIPPED', {
               reason: 'no_active_points',
@@ -178,8 +176,6 @@ export class TrackerOrchestrator {
               }))
             }, 'warn');
           }
-          
-          this.frameProcessor.swapFrames();
         } else {
           this.frameProcessor.resetFrames(newGray);
           this.logger.log(frameCount, 'FRAME_PROCESSING', {
@@ -498,6 +494,7 @@ export class TrackerOrchestrator {
     grayMat.delete();
   }
 
+
   // Continuous tracking methods
   enableContinuousTracking(): void {
     this.stateManager.enableContinuousTracking();
@@ -584,4 +581,12 @@ export class TrackerOrchestrator {
     
     report.push('=== END TEST ===');
     return report.join('\n');  }
+  /**
+   * Process frame for single-step tracking - uses the same core logic as continuous tracking
+   * Both continuous and frame-by-frame use identical frame processing logic
+   */
+  async processFrameByFrame(videoElement: HTMLVideoElement, canvas: HTMLCanvasElement): Promise<TrackingPoint[]> {
+    // Use the exact same logic as processFrame - no need for separate implementation
+    return this.processFrame(videoElement, canvas);
+  }
 }

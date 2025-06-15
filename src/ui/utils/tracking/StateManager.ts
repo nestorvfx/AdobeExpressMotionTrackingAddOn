@@ -113,29 +113,14 @@ export class StateManager {
   disableContinuousTracking(): void {
     this.isContinuousTracking = false;    this.logger.log(this.frameCount, 'CONTINUOUS_TRACKING_DISABLED', {
       mode: 'normal_operation'
-    });
-  }
+    });  }
 
   // Frame scrubbing
   setCurrentFrame(frameNumber: number): void {
     const oldFrame = this.frameCount;
     this.frameCount = frameNumber;
     
-    // Log frame change with current point positions
-    if (oldFrame !== frameNumber) {
-      this.logger.log(frameNumber, 'FRAME_SCRUBBED', {
-        fromFrame: oldFrame,
-        toFrame: frameNumber,
-        actualCurrentFrame: this.frameCount,
-        totalPoints: this.points.length,
-        activePoints: this.getActivePointCount(),
-        pointPositions: this.points.map(p => ({
-          id: p.id.substring(0, 8),
-          hasPositionForFrame: p.framePositions.has(frameNumber),
-          currentVisualPos: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 }
-        }))
-      });
-    }
+    // Removed scrubbing logs to reduce noise - tracking logs will show positions
   }
 
   // Frame skip penalty handling

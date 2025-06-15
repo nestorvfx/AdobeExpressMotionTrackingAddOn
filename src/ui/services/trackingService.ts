@@ -41,50 +41,25 @@ export class TrackingService {
     // Note: We don't reset frame buffers for specific point tracking to preserve 
     // the context from manual moves or previous tracking state
     tracker.setCurrentFrame(currentFrame);    try {
-      // First, ensure the current frame is set up as the reference frame
-      const currentTime = currentFrame / this.config.fps;
-      videoRef.currentTime = currentTime;
-      await new Promise(resolve => setTimeout(resolve, 50));
-      
-      // Process current frame to establish it as the reference (prevGray)
-      const canvasElement = document.createElement('canvas');
-      tracker.setCurrentFrame(currentFrame);
-      await tracker.processFrame(videoRef, canvasElement);
-      
       // Calculate frames to track with optional limit
       const maxFrame = maxFramesToTrack ? Math.min(totalFrames, currentFrame + maxFramesToTrack + 1) : totalFrames;
       const framesToTrack = maxFrame - currentFrame - 1;
-      let trackedFrames = 0;for (let i = currentFrame + 1; i < maxFrame && !trackingCancelledRef.current; i++) {
-        // Seek to the new frame with improved timing and better error handling
-        const targetTime = i / this.config.fps;
-        videoRef.currentTime = targetTime;
+      let trackedFrames = 0;for (let i = currentFrame + 1; i < maxFrame && !trackingCancelledRef.current; i++) {        // Verify video seeking with detailed logging
+        const seekVerification = await this.verifyVideoSeek(videoRef, i, i / this.config.fps, 'continuous_forward');
         
-        // Simplified frame synchronization with faster timeouts
-        await new Promise<void>((resolve) => {
-          let resolved = false;
-          
-          const handleSeeked = () => {
-            if (!resolved) {
-              resolved = true;
-              videoRef.removeEventListener('seeked', handleSeeked);
-              resolve();
+        this.config.showToast && console.log(`📹 SEEK_VERIFY_${i}:`, seekVerification);
+
+        // CRITICAL: Wait for frame to actually load before processing
+        await new Promise(resolve => {
+          const checkFrameReady = () => {
+            if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better
+              resolve(undefined);
+            } else {
+              setTimeout(checkFrameReady, 10);
             }
           };
-          
-          videoRef.addEventListener('seeked', handleSeeked);
-          
-          // Shorter timeout to prevent freezing
-          setTimeout(() => {
-            if (!resolved) {
-              resolved = true;
-              videoRef.removeEventListener('seeked', handleSeeked);
-              resolve();
-            }
-          }, 300); // Reduced timeout
+          checkFrameReady();
         });
-
-        // Minimal delay for frame stability
-        await new Promise(resolve => setTimeout(resolve, 20));
 
         // Process the frame with error handling
         try {
@@ -144,38 +119,22 @@ export class TrackingService {
       // Calculate frames to track with optional limit
       const minFrame = maxFramesToTrack ? Math.max(0, currentFrame - maxFramesToTrack) : 0;
       const framesToTrack = currentFrame - minFrame;
-      let trackedFrames = 0;
-
-      for (let i = currentFrame - 1; i >= minFrame && !trackingCancelledRef.current; i--) {        // Seek to the new frame with improved timing and better error handling
-        const targetTime = i / this.config.fps;
-        videoRef.currentTime = targetTime;
+      let trackedFrames = 0;      for (let i = currentFrame - 1; i >= minFrame && !trackingCancelledRef.current; i--) {        // Verify video seeking with detailed logging
+        const seekVerification = await this.verifyVideoSeek(videoRef, i, i / this.config.fps, 'continuous_backward');
         
-        // Simplified frame synchronization with faster timeouts
-        await new Promise<void>((resolve) => {
-          let resolved = false;
-          
-          const handleSeeked = () => {
-            if (!resolved) {
-              resolved = true;
-              videoRef.removeEventListener('seeked', handleSeeked);
-              resolve();
+        this.config.showToast && console.log(`📹 SEEK_VERIFY_${i}:`, seekVerification);
+
+        // CRITICAL: Wait for frame to actually load before processing
+        await new Promise(resolve => {
+          const checkFrameReady = () => {
+            if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better
+              resolve(undefined);
+            } else {
+              setTimeout(checkFrameReady, 10);
             }
           };
-          
-          videoRef.addEventListener('seeked', handleSeeked);
-          
-          // Shorter timeout to prevent freezing
-          setTimeout(() => {
-            if (!resolved) {
-              resolved = true;
-              videoRef.removeEventListener('seeked', handleSeeked);
-              resolve();
-            }
-          }, 300); // Reduced timeout
+          checkFrameReady();
         });
-
-        // Minimal delay for frame stability
-        await new Promise(resolve => setTimeout(resolve, 20));
 
         // Process the frame with error handling
         try {
@@ -206,144 +165,111 @@ export class TrackingService {
       // Disable continuous tracking mode when done
       tracker.disableContinuousTracking();
     }
-  }
-  async stepForward(
+  }  async stepForward(
     tracker: LucasKanadeTracker,
     videoRef: HTMLVideoElement,
     currentFrame: number,
     totalFrames: number,
     onFrameUpdate: (frame: number, points: TrackingPoint[]) => void
   ): Promise<void> {
-    if (!tracker || !videoRef || currentFrame >= totalFrames - 1) return;
+    if (!tracker || !videoRef || currentFrame >= totalFrames - 1) return;    const nextFrame = currentFrame + 1;
+      // Verify video seeking with detailed logging
+    const seekVerification = await this.verifyVideoSeek(videoRef, nextFrame, nextFrame / this.config.fps, 'step_forward');
+    
+    this.config.showToast && console.log(`📹 STEP_SEEK_VERIFY:`, seekVerification);
 
-    const nextFrame = currentFrame + 1;
-    
-    // Log the step forward operation start
-    console.log(`🔄 STEP_FORWARD_START: Frame ${currentFrame} → ${nextFrame}`);
-    
-    // Get points before frame change
-    const pointsBeforeStep = tracker.getTrackingPoints();
-    console.log(`📍 POINTS_BEFORE_STEP:`, pointsBeforeStep.map(p => ({
-      id: p.id.substring(0, 8),
-      position: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
-      lastManualFrame: undefined,
-      framePositionsCount: p.framePositions.size,
-      hasPositionForNextFrame: p.framePositions.has(nextFrame)
-    })));
-    
-    // Enhanced frame synchronization for single step
-    const targetTime = nextFrame / this.config.fps;
-    videoRef.currentTime = targetTime;
-    
-    // Wait for proper frame rendering
-    await new Promise<void>((resolve) => {
-      let resolved = false;
-      
-      const handleSeeked = () => {
-        if (!resolved) {
-          videoRef.removeEventListener('seeked', handleSeeked);
-          setTimeout(() => {
-            if (!resolved) {
-              resolved = true;
-              console.log(`Step forward to frame ${nextFrame}: ${targetTime}s, actual: ${videoRef.currentTime}s`);
-              resolve();
-            }
-          }, 100); // Slightly shorter delay for single steps
+    // CRITICAL: Wait for frame to actually load before processing
+    await new Promise(resolve => {
+      const checkFrameReady = () => {
+        if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better
+          resolve(undefined);
+        } else {
+          setTimeout(checkFrameReady, 10);
         }
       };
-      
-      videoRef.addEventListener('seeked', handleSeeked);
-      
-      setTimeout(() => {
-        if (!resolved) {
-          resolved = true;
-          videoRef.removeEventListener('seeked', handleSeeked);
-          console.log(`Step forward timeout - target: ${targetTime}s, actual: ${videoRef.currentTime}s`);
-          resolve();
-        }
-      }, 300);
+      checkFrameReady();
     });
 
-    // Additional delay to ensure frame is fully rendered
-    await new Promise(resolve => setTimeout(resolve, 30));    const canvasElement = document.createElement('canvas');
-    
-    // Set frame BEFORE processing (this no longer triggers sync, just sets frame number)
-    console.log(`🎯 SETTING_FRAME_BEFORE_PROCESSING: ${nextFrame}`);
+    // Use the same processing as continuous tracking - unified approach
+    const canvasElement = document.createElement('canvas');
     tracker.setCurrentFrame(nextFrame);
+    await tracker.processFrame(videoRef, canvasElement); // Unified method
     
-    // Points will calculate their positions from previous frames during processing
-    const pointsBeforeProcessing = tracker.getTrackingPoints();
-    console.log(`📍 POINTS_BEFORE_PROCESSING:`, pointsBeforeProcessing.map(p => ({
-      id: p.id.substring(0, 8),
-      position: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
-      lastManualFrame: undefined
-    })));
-    
-    // Process the frame (this calculates positions from previous frames and does tracking)
-    console.log(`🔬 PROCESSING_FRAME: ${nextFrame}`);
-    await tracker.processFrame(videoRef, canvasElement);
-    
-    // Get final points after processing
     const updatedPoints = tracker.getTrackingPoints();
-    console.log(`📍 POINTS_AFTER_PROCESSING:`, updatedPoints.map(p => ({
-      id: p.id.substring(0, 8),
-      position: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
-      confidence: Math.round(p.confidence * 1000) / 1000
-    })));
-    
     onFrameUpdate(nextFrame, [...updatedPoints]);
-    console.log(`✅ STEP_FORWARD_COMPLETE: Frame ${nextFrame}`);
   }
-
   async stepBackward(
     tracker: LucasKanadeTracker,
     videoRef: HTMLVideoElement,
     currentFrame: number,
     onFrameUpdate: (frame: number, points: TrackingPoint[]) => void
   ): Promise<void> {
-    if (!tracker || !videoRef || currentFrame <= 0) return;
-
-    const prevFrame = currentFrame - 1;
-    // Enhanced frame synchronization for single step
-    const targetTime = prevFrame / this.config.fps;
-    videoRef.currentTime = targetTime;
+    if (!tracker || !videoRef || currentFrame <= 0) return;    const prevFrame = currentFrame - 1;
+      // Verify video seeking with detailed logging  
+    const seekVerification = await this.verifyVideoSeek(videoRef, prevFrame, prevFrame / this.config.fps, 'step_backward');
     
-    // Wait for proper frame rendering
-    await new Promise<void>((resolve) => {
-      let resolved = false;
-      
-      const handleSeeked = () => {
-        if (!resolved) {
-          videoRef.removeEventListener('seeked', handleSeeked);
-          setTimeout(() => {
-            if (!resolved) {
-              resolved = true;
-              console.log(`Step backward to frame ${prevFrame}: ${targetTime}s, actual: ${videoRef.currentTime}s`);
-              resolve();
-            }
-          }, 100); // Slightly shorter delay for single steps
+    this.config.showToast && console.log(`📹 STEP_SEEK_VERIFY:`, seekVerification);
+
+    // CRITICAL: Wait for frame to actually load before processing
+    await new Promise(resolve => {
+      const checkFrameReady = () => {
+        if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better
+          resolve(undefined);
+        } else {
+          setTimeout(checkFrameReady, 10);
         }
       };
-      
-      videoRef.addEventListener('seeked', handleSeeked);
-      
-      setTimeout(() => {
-        if (!resolved) {
-          resolved = true;
-          videoRef.removeEventListener('seeked', handleSeeked);
-          console.log(`Step backward timeout - target: ${targetTime}s, actual: ${videoRef.currentTime}s`);
-          resolve();
-        }
-      }, 300);
+      checkFrameReady();
     });
 
-    // Additional delay to ensure frame is fully rendered
-    await new Promise(resolve => setTimeout(resolve, 30));
-
+    // Use the same processing as continuous tracking - unified approach
     const canvasElement = document.createElement('canvas');
     tracker.setCurrentFrame(prevFrame);
-    await tracker.processFrame(videoRef, canvasElement);
+    await tracker.processFrame(videoRef, canvasElement); // Unified method
+    
     const updatedPoints = tracker.getTrackingPoints();
     onFrameUpdate(prevFrame, [...updatedPoints]);
+  } /**
+   * Verify video seeking accuracy
+   */
+  private async verifyVideoSeek(
+    videoRef: HTMLVideoElement, 
+    targetFrame: number, 
+    targetTime: number,
+    operation: string
+  ): Promise<any> {
+    const beforeSeek = {
+      currentTime: Math.round(videoRef.currentTime * 1000) / 1000,
+      readyState: videoRef.readyState,
+      frame: Math.round(videoRef.currentTime * this.config.fps)
+    };
+
+    // Set the target time
+    videoRef.currentTime = targetTime;
+    
+    // Wait for seek completion
+    await new Promise(resolve => setTimeout(resolve, 50));
+    
+    const afterSeek = {
+      currentTime: Math.round(videoRef.currentTime * 1000) / 1000,
+      readyState: videoRef.readyState,
+      actualFrame: Math.round(videoRef.currentTime * this.config.fps),
+      timeDiff: Math.abs(videoRef.currentTime - targetTime),
+      frameDiff: Math.abs(Math.round(videoRef.currentTime * this.config.fps) - targetFrame)
+    };
+
+    const seekVerification = {
+      operation,
+      target: { frame: targetFrame, time: Math.round(targetTime * 1000) / 1000 },
+      beforeSeek,
+      afterSeek,
+      seekAccuracy: {
+        timeAccurate: afterSeek.timeDiff < 0.05, // Within 50ms
+        frameAccurate: afterSeek.frameDiff === 0,
+        seekSuccessful: afterSeek.readyState >= 2
+      }
+    };
+
+    return seekVerification;
   }
 }
