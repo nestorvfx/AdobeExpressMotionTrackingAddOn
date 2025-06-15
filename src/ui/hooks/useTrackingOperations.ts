@@ -12,87 +12,70 @@ export const useTrackingOperations = ({ videoTracking, showToast }: UseTrackingO
   const trackingService = new TrackingService({
     fps: videoTracking.fps,
     showToast,
-  });
-  const handleTrackForward = useCallback(async (pointId?: string, frames?: number) => {
-    if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;
+  });  // Generic tracking handler factory
+  const createTrackingHandler = useCallback((direction: 'forward' | 'backward') => 
+    async (pointId?: string, frames?: number) => {
+      if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;
 
-    videoTracking.setIsTracking(true);
-    videoTracking.setTrackingProgress(0);
-    videoTracking.trackingCancelledRef.current = false;
-
-    try {      await trackingService.trackForward(
-        videoTracking.trackerRef.current,
-        videoTracking.videoRef.current,
-        videoTracking.currentFrame,
-        videoTracking.totalFrames,
-        videoTracking.trackingPoints,
-        (progress) => videoTracking.setTrackingProgress(progress),        (frame, points) => {
-          videoTracking.setTrackingPoints(points);
-          videoTracking.setCurrentFrame(frame);
-        },
-        videoTracking.trackingCancelledRef,
-        pointId, // Pass pointId to limit tracking to specific point
-        frames // Pass frame count limit
-      );
-    } finally {
-      videoTracking.setIsTracking(false);
+      videoTracking.setIsTracking(true);
       videoTracking.setTrackingProgress(0);
       videoTracking.trackingCancelledRef.current = false;
-    }
-  }, [trackingService, videoTracking]);
 
-  const handleTrackBackward = useCallback(async (pointId?: string, frames?: number) => {
-    if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;
+      try {
+        const trackMethod = direction === 'forward' ? 'trackForward' : 'trackBackward';
+        await trackingService[trackMethod](
+          videoTracking.trackerRef.current,
+          videoTracking.videoRef.current,
+          videoTracking.currentFrame,
+          videoTracking.totalFrames,
+          videoTracking.trackingPoints,
+          (progress) => videoTracking.setTrackingProgress(progress),
+          (frame, points) => {
+            videoTracking.setTrackingPoints(points);
+            videoTracking.setCurrentFrame(frame);
+          },
+          videoTracking.trackingCancelledRef,
+          pointId,
+          frames
+        );
+      } finally {
+        videoTracking.setIsTracking(false);
+        videoTracking.setTrackingProgress(0);
+        videoTracking.trackingCancelledRef.current = false;
+      }
+    }, [trackingService, videoTracking]);
 
-    videoTracking.setIsTracking(true);
-    videoTracking.setTrackingProgress(0);
-    videoTracking.trackingCancelledRef.current = false;
+  const handleTrackForward = createTrackingHandler('forward');
+  const handleTrackBackward = createTrackingHandler('backward');  // Generic step handler factory
+  const createStepHandler = useCallback((direction: 'forward' | 'backward') => 
+    async () => {
+      if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;
 
-    try {      await trackingService.trackBackward(
-        videoTracking.trackerRef.current,
-        videoTracking.videoRef.current,
-        videoTracking.currentFrame,
-        videoTracking.trackingPoints,
-        (progress) => videoTracking.setTrackingProgress(progress),
-        (frame, points) => {
-          videoTracking.setTrackingPoints(points);
-          videoTracking.setCurrentFrame(frame);
-        },
-        videoTracking.trackingCancelledRef,
-        pointId, // Pass pointId to limit tracking to specific point
-        frames // Pass frame count limit
-      );
-    } finally {
-      videoTracking.setIsTracking(false);
-      videoTracking.setTrackingProgress(0);
-      videoTracking.trackingCancelledRef.current = false;
-    }
-  }, [trackingService, videoTracking]);
-
-  const handleStepForward = useCallback(async () => {
-    if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;    await trackingService.stepForward(
-      videoTracking.trackerRef.current,
-      videoTracking.videoRef.current,
-      videoTracking.currentFrame,
-      videoTracking.totalFrames,
-      (frame, points) => {
+      const updateHandler = (frame: number, points: TrackingPoint[]) => {
         videoTracking.setTrackingPoints(points);
         videoTracking.setCurrentFrame(frame);
-      }
-    );
-  }, [trackingService, videoTracking]);
+      };
 
-  const handleStepBackward = useCallback(async () => {
-    if (!videoTracking.trackerRef.current || !videoTracking.videoRef.current) return;    await trackingService.stepBackward(
-      videoTracking.trackerRef.current,
-      videoTracking.videoRef.current,
-      videoTracking.currentFrame,
-      (frame, points) => {
-        videoTracking.setTrackingPoints(points);
-        videoTracking.setCurrentFrame(frame);
+      if (direction === 'forward') {
+        await trackingService.stepForward(
+          videoTracking.trackerRef.current,
+          videoTracking.videoRef.current,
+          videoTracking.currentFrame,
+          videoTracking.totalFrames,
+          updateHandler
+        );
+      } else {
+        await trackingService.stepBackward(
+          videoTracking.trackerRef.current,
+          videoTracking.videoRef.current,
+          videoTracking.currentFrame,
+          updateHandler
+        );
       }
-    );
-  }, [trackingService, videoTracking]);
+    }, [trackingService, videoTracking]);
+
+  const handleStepForward = createStepHandler('forward');
+  const handleStepBackward = createStepHandler('backward');
 
   return {
     handleTrackForward,

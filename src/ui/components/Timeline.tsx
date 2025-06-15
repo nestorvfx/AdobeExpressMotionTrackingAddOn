@@ -29,9 +29,7 @@ export const Timeline: React.FC<TimelineProps> = ({
     const handleSliderChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const frame = parseInt(event.target.value, 10);
         onSeek(frame);
-    }, [onSeek]);
-
-    const handleSliderMouseDown = useCallback(() => {
+    }, [onSeek]);    const handleSliderMouseDown = useCallback(() => {
         isDraggingRef.current = true;
     }, []);
 
@@ -77,17 +75,11 @@ export const Timeline: React.FC<TimelineProps> = ({
                 default:
                     break;
             }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
+        };        window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [onPlayPause, onStepBackward, onStepForward, onSeek, totalFrames]);
 
-    // Jump forward or backward by multiple frames
-    const jumpFrames = useCallback((frameCount: number) => {
-        const newFrame = Math.max(0, Math.min(totalFrames - 1, currentFrame + frameCount));
-        onSeek(newFrame);
-    }, [currentFrame, totalFrames, onSeek]);    return (
+    return (
         <div className="timeline-container">
             <div className="timeline-controls">
                 <div className="playback-controls">

@@ -27,14 +27,9 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
       <div className="section-header">
         <h3>Tracking Points</h3>
         <span className="point-count">{trackingPoints.length}</span>
-      </div>
-      
-      {trackingPoints.length === 0 ? (
+      </div>      {trackingPoints.length === 0 ? (
         <div className="empty-state">
           <p>Click on the video to add tracking points</p>
-          <p style={{ fontSize: '10px', marginTop: '8px', color: '#9ca3af' }}>
-            Click and drag on points to adjust search area
-          </p>
         </div>
       ) : (
         <div className="tracking-points-list">
@@ -67,8 +62,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
           ))}
         </div>
       )}
-      
-      {trackingPoints.length > 0 && (
+        {trackingPoints.length > 0 && (
         <div style={{ padding: '12px 16px', borderTop: '1px solid #f3f4f6' }}>
           <button 
             onClick={onClearAllPoints}
@@ -87,68 +81,6 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
           >
             Clear All Points          </button>
         </div>      )}
-
-      {!trackingPoints.length && (
-        <div style={{ padding: '12px 16px', borderTop: '1px solid #f3f4f6' }}>
-          {/* Diagnostic Controls */}
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-            {onReactivatePoints && (
-              <button 
-                onClick={onReactivatePoints}
-                style={{
-                  flex: 1,
-                  padding: '6px',
-                  border: '1px solid #f59e0b',
-                  background: 'white',
-                  color: '#f59e0b',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '12px'
-                }}
-              >
-                Reactivate Points
-              </button>
-            )}
-            {onForceTracking && (
-              <button 
-                onClick={onForceTracking}
-                style={{
-                  flex: 1,
-                  padding: '6px',
-                  border: '1px solid #ef4444',
-                  background: 'white',
-                  color: '#ef4444',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '12px'
-                }}
-              >
-                Force Track Test
-              </button>
-            )}
-          </div>
-          
-          {onGetDiagnostics && (
-            <div style={{ marginTop: '8px' }}>
-              <button 
-                onClick={onGetDiagnostics}
-                style={{
-                  width: '100%',
-                  padding: '6px',
-                  border: '1px solid #10b981',
-                  background: 'white',
-                  color: '#10b981',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '12px'
-                }}
-              >
-                Get Diagnostics
-              </button>
-            </div>
-          )}
-        </div>
-      )}
     </section>
   );
 };

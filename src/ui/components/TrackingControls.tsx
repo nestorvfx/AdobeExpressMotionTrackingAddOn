@@ -17,6 +17,13 @@ interface TrackingControlsProps {
   onInteractionModeChange?: (mode: 'scale' | 'move') => void;
 }
 
+interface ControlButton {
+  onClick: () => void;
+  disabled: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
 export const TrackingControls: React.FC<TrackingControlsProps> = ({
   isTracking,
   trackingProgress,
@@ -30,37 +37,31 @@ export const TrackingControls: React.FC<TrackingControlsProps> = ({
   onStopTracking,
   interactionMode = 'scale',
   onInteractionModeChange,
-}) => {  return (
+}) => {
+  const trackingButtons: ControlButton[] = [
+    { onClick: onTrackBackward, disabled: isTracking || trackingPoints.length === 0, className: 'primary', children: 'Track All Backward' },
+    { onClick: onTrackForward, disabled: isTracking || trackingPoints.length === 0, className: 'primary', children: 'Track All Forward' }
+  ];
+
+  const stepButtons: ControlButton[] = [
+    { onClick: onStepBackward, disabled: isTracking || currentFrame <= 0, children: '← Step Back' },
+    { onClick: onStepForward, disabled: isTracking || currentFrame >= totalFrames - 1, children: 'Step Forward →' }
+  ];
+  return (
     <div className="tracking-controls">      
       <div className="control-row">
-        <button 
-          onClick={onTrackBackward}
-          disabled={isTracking || trackingPoints.length === 0}
-          className="primary"
-        >
-          Track All Backward
-        </button>
-        <button 
-          onClick={onTrackForward}
-          disabled={isTracking || trackingPoints.length === 0}
-          className="primary"
-        >
-          Track All Forward
-        </button>
+        {trackingButtons.map((btn, index) => (
+          <button key={index} onClick={btn.onClick} disabled={btn.disabled} className={btn.className}>
+            {btn.children}
+          </button>
+        ))}
       </div>
       <div className="control-row">
-        <button 
-          onClick={onStepBackward}
-          disabled={isTracking || currentFrame <= 0}
-        >
-          ← Step Back
-        </button>
-        <button 
-          onClick={onStepForward}
-          disabled={isTracking || currentFrame >= totalFrames - 1}
-        >
-          Step Forward →
-        </button>
+        {stepButtons.map((btn, index) => (
+          <button key={index} onClick={btn.onClick} disabled={btn.disabled}>
+            {btn.children}
+          </button>
+        ))}
       </div>
 
       {isTracking && (

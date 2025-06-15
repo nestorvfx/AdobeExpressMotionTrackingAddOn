@@ -23,32 +23,6 @@ export class FrameProcessor {
     this.cv = cv;
   }
 
-  /**
-   * Calculate a simple hash for frame content verification
-   */
-  private calculateFrameHash(mat: any): string {
-    if (!mat || !this.cv) return 'null';
-    try {
-      const data = mat.data;
-      if (!data || data.length === 0) return 'empty';
-      
-      // Sample pixels from corners and center for hash
-      const h = mat.rows, w = mat.cols;
-      const samples = [
-        data[0], data[w-1], data[(h-1)*w], data[h*w-1], // corners
-        data[Math.floor(h/2)*w + Math.floor(w/2)] // center
-      ];
-      return samples.join('-');
-    } catch (e) {
-      return 'error';
-    }
-  }
-
-  /**
-   * Log current buffer state with frame hashes
-   */  private logBufferState(operation: string, frameNumber?: number): void {
-    // Removed debug logging
-  }
 
   /**
    * Sets the OpenCV instance
@@ -83,13 +57,10 @@ export class FrameProcessor {
    */
   getCurrGray(): any {
     return this.buffers.currGray;
-  }
-  /**
+  }  /**
    * Initialize frames with first frame
    */
   initializeFrames(grayFrame: any): void {
-    this.logBufferState('before_initialize');
-    
     if (this.buffers.prevGray) {
       this.buffers.prevGray.delete();
     }
@@ -98,43 +69,28 @@ export class FrameProcessor {
     }
     this.buffers.prevGray = grayFrame.clone();
     this.buffers.currGray = grayFrame.clone();
-    
-    this.logBufferState('after_initialize');
   }
-
   /**
    * Update current frame
    */
   updateCurrentFrame(grayFrame: any): void {
-    this.logBufferState('before_update_current');
-    
     if (this.buffers.currGray) {
       this.buffers.currGray.delete();
     }
     this.buffers.currGray = grayFrame.clone();
-    
-    this.logBufferState('after_update_current');
   }
-
   /**
    * Swap frames (move current to previous)
    */
   swapFrames(): void {
-    this.logBufferState('before_swap');
-    
     if (this.buffers.prevGray) {
       this.buffers.prevGray.delete();
     }
     this.buffers.prevGray = this.buffers.currGray ? this.buffers.currGray.clone() : null;
-    
-    this.logBufferState('after_swap');
-  }
-  /**
+  }  /**
    * Reset frames with new frame
    */
   resetFrames(grayFrame: any): void {
-    this.logBufferState('before_reset');
-    
     if (this.buffers.prevGray) {
       this.buffers.prevGray.delete();
     }
@@ -143,32 +99,24 @@ export class FrameProcessor {
     }
     this.buffers.prevGray = grayFrame.clone();
     this.buffers.currGray = grayFrame.clone();
-    
-    this.logBufferState('after_reset');
   }
 
   /**
    * Initialize previous frame from current
    */
   initializeFromCurrent(): void {
-    this.logBufferState('before_init_from_current');
-    
     if (this.buffers.currGray) {
       if (this.buffers.prevGray) {
         this.buffers.prevGray.delete();
       }
       this.buffers.prevGray = this.buffers.currGray.clone();
     }
-    
-    this.logBufferState('after_init_from_current');
   }
 
   /**
    * Reset frame buffers but prepare for immediate tracking from current frame
    */
   resetFrameBuffers(): void {
-    this.logBufferState('before_reset_buffers');
-    
     if (this.buffers.prevGray) {
       this.buffers.prevGray.delete();
       this.buffers.prevGray = null;
@@ -177,16 +125,12 @@ export class FrameProcessor {
       this.buffers.currGray.delete();
       this.buffers.currGray = null;
     }
-    
-    this.logBufferState('after_reset_buffers');
   }
 
   /**
    * Prepare frame buffer for tracking from current frame
    */
   prepareForTrackingFromCurrentFrame(currentFrame: any): void {
-    this.logBufferState('before_prepare_tracking');
-    
     // Set current frame as prevGray so tracking can start from this frame
     if (this.buffers.prevGray) {
       this.buffers.prevGray.delete();
@@ -198,8 +142,6 @@ export class FrameProcessor {
       this.buffers.currGray.delete();
       this.buffers.currGray = null;
     }
-    
-    this.logBufferState('after_prepare_tracking');
   }
   /**
    * Process video frame exactly as original
@@ -243,13 +185,10 @@ export class FrameProcessor {
       src.delete();
     }
   }
-
   /**
    * Reset frame buffers
    */
   resetBuffers(): void {
-    this.logBufferState('before_reset_buffers_final');
-    
     if (this.buffers.prevGray) {
       this.buffers.prevGray.delete();
       this.buffers.prevGray = null;
@@ -258,8 +197,6 @@ export class FrameProcessor {
       this.buffers.currGray.delete();
       this.buffers.currGray = null;
     }
-    
-    this.logBufferState('after_reset_buffers_final');
   }
 
   /**
