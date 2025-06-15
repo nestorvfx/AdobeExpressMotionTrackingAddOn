@@ -21,10 +21,11 @@ export class TrajectoryManager {
       y,
       confidence: 1.0,
       isActive: true,
-      trajectory: [{ x, y, frame: frameCount }],
-      searchRadius: 100,
+      trajectory: [{ x, y, frame: frameCount }],      searchRadius: 100,
       // Store the initial position
-      framePositions: new Map([[frameCount, { x, y }]])
+      framePositions: new Map([[frameCount, { x, y }]]),
+      // Initialize adaptive window size
+      adaptiveWindowSize: 22 // Default for 100px search radius
     };
 
     this.logger.log(frameCount, 'CREATE_TRACKING_POINT', { 
@@ -144,13 +145,14 @@ export class TrajectoryManager {
     
     return false; // Point is still active
   }
-
   /**
    * Updates a point's search radius within bounds
    */
   updateSearchRadius(point: TrackingPoint, radius: number): void {
-    point.searchRadius = Math.max(25, Math.min(140, radius));
-  }  /**
+    point.searchRadius = Math.max(25, Math.min(300, radius));
+    // Calculate adaptive window size based on search radius
+    point.adaptiveWindowSize = Math.max(9, Math.min(41, Math.round(radius * 0.22)));
+  }/**
    * Updates a point's position from manual movement
    */
   updateManualPosition(

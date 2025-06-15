@@ -10,6 +10,8 @@ export interface TrackingPoint {
   searchRadius: number;
   // Single source of truth for positions - ONE position per frame
   framePositions: Map<number, { x: number; y: number }>;
+  // Adaptive window size based on search radius
+  adaptiveWindowSize?: number;
 }
 
 export interface TrackingOptions {
