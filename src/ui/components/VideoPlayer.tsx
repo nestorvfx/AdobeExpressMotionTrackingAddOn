@@ -91,13 +91,11 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                         bestFps = fps;
                     }
                 }
-                
-                // Only use detected FPS if the error is reasonable (less than 0.5 seconds)
+                  // Only use detected FPS if the error is reasonable (less than 0.5 seconds)
                 if (smallestError < 0.5) {
                     detectedFps = bestFps;
                 }
                 
-                console.log(`Video FPS detected: ${detectedFps} (duration: ${duration.toFixed(2)}s, estimated ${Math.round(duration * detectedFps)} frames, error: ${smallestError.toFixed(3)}s)`);
                 setVideoFps(detectedFps);
                 
             } catch (error) {
@@ -319,14 +317,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         if (!canvas || !displaySize.width || !displaySize.height) return;
 
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;        // Log synchronized playback progress (reduced frequency to avoid console spam)
-        const videoTime = video ? video.currentTime.toFixed(3) : 'N/A';
-        const expectedTime = (currentFrame / videoFps).toFixed(3);
-        if (currentFrame % 10 === 0) { // Only log every 10th frame during continuous playback
-          console.log(`SYNCHRONIZED Frame ${currentFrame}: Video at ${videoTime}s, Expected ${expectedTime}s${isPlaying ? ' [CONTROLLED PLAYBACK]' : ' [PAUSED/SCRUBBING]'}`);
-        }
-
-        // Clear canvas
+        if (!ctx) return;        // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);// Get current tracking points - visual positions are already synced to frame during scrubbing
         const framePoints = trackingPoints;
         const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];

@@ -11,7 +11,6 @@ const api = {
     createRectangle: async () => {
         // Sample rectangle creation - simplified for demo purposes
         try {
-            console.log("Create rectangle function called");
             // In real implementation, we would use Adobe Express document API here
             // For now, just log that it was called
             return;
@@ -51,7 +50,6 @@ const api = {
         try {
             // This is where you would apply the tracking data to the video in the document
             // Implementation depends on the Adobe Express API capabilities
-            console.log("Applying tracking data:", trackingData);
             
             // Simulate success for now
             return true;
@@ -65,7 +63,6 @@ const api = {
         try {
             // For demo purposes, we're just going to log the data
             // In a real implementation, we would use appropriate storage API
-            console.log(`Saving data with key: ${key}`, data);
             
             // For demo purposes, we're just returning true
             return true;
@@ -78,7 +75,6 @@ const api = {
     getTrackingData: async (key: string) => {
         try {
             // For demo purposes, return a simple data object
-            console.log(`Getting data for key: ${key}`);
             return {
                 metadata: {
                     id: "demo_session",

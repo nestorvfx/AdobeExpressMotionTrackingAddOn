@@ -1,18 +1,12 @@
 import { TrackingPoint, TrackingOptions } from './TrackingTypes';
-import { MinimalDebugger } from './MinimalDebugger';
 import { FrameProcessor } from './FrameProcessor';
 import { TrajectoryManager } from './TrajectoryManager';
 import { OpticalFlowEngine } from './OpticalFlowEngine';
 import { StateManager } from './StateManager';
 
-/**
- * TrackerOrchestrator is the main coordinator that brings together all tracking modules.
- * It manages the high-level tracking workflow and coordinates between different components.
- */
 export class TrackerOrchestrator {
   private cv: any = null;
   private options: TrackingOptions;
-  private logger: MinimalDebugger;
   private frameProcessor: FrameProcessor;
   private trajectoryManager: TrajectoryManager;
   private opticalFlowEngine: OpticalFlowEngine | null = null;
@@ -22,29 +16,25 @@ export class TrackerOrchestrator {
 
   constructor(options?: Partial<TrackingOptions>) {
     this.options = {
-      winSize: { width: 29, height: 29 }, // Increased by 40% from 21x21 for better feature detection
-      maxLevel: 3, // Increased from 2 for multi-scale tracking
+      winSize: { width: 29, height: 29 },
+      maxLevel: 3,
       criteria: {
-        type: 0, // Will be set properly after OpenCV initialization
-        maxCount: 30, // Increased from 10 for better convergence
-        epsilon: 0.01 // Reduced from 0.03 for better precision
+        type: 0,
+        maxCount: 30,
+        epsilon: 0.01
       },
-      minEigThreshold: 1e-4, // Standard OpenCV default
+      minEigThreshold: 1e-4,
       qualityLevel: 0.3,
       minDistance: 7,
       blockSize: 7,
       useHarrisDetector: false,
       k: 0.04,
       ...options
-    };    this.logger = new MinimalDebugger();
-    this.stateManager = new StateManager(this.logger);
-    this.frameProcessor = new FrameProcessor(this.logger);
-    this.trajectoryManager = new TrajectoryManager(this.logger);
+    };
+    this.stateManager = new StateManager();
+    this.frameProcessor = new FrameProcessor();
+    this.trajectoryManager = new TrajectoryManager();
   }
-
-  /**
-   * Initialize OpenCV and set up the tracker
-   */
   async initialize(): Promise<boolean> {
     if (this.isInitialized && this.cv) {
       return true;
@@ -55,23 +45,26 @@ export class TrackerOrchestrator {
     }
 
     this.initializationPromise = new Promise<boolean>(async (resolve) => {
-      try {        if (typeof window !== 'undefined' && (window as any).cv && (window as any).cv.imread) {
+      try {
+        if (typeof window !== 'undefined' && (window as any).cv && (window as any).cv.imread) {
           this.cv = (window as any).cv;
           this.isInitialized = true;
           this.stateManager.setInitialized(true);
           this.options.criteria.type = this.cv.TERM_CRITERIA_EPS | this.cv.TERM_CRITERIA_COUNT;
           this.frameProcessor.setOpenCV(this.cv);
-          this.opticalFlowEngine = new OpticalFlowEngine(this.cv, this.options, this.logger);
+          this.opticalFlowEngine = new OpticalFlowEngine(this.cv, this.options);
           resolve(true);
           return;
-        }        const handleOpenCvLoaded = () => {
+        }
+
+        const handleOpenCvLoaded = () => {
           if ((window as any).cv && (window as any).cv.imread) {
             this.cv = (window as any).cv;
             this.isInitialized = true;
             this.stateManager.setInitialized(true);
             this.options.criteria.type = this.cv.TERM_CRITERIA_EPS | this.cv.TERM_CRITERIA_COUNT;
             this.frameProcessor.setOpenCV(this.cv);
-            this.opticalFlowEngine = new OpticalFlowEngine(this.cv, this.options, this.logger);
+            this.opticalFlowEngine = new OpticalFlowEngine(this.cv, this.options);
             window.removeEventListener('opencv-loaded', handleOpenCvLoaded);
             resolve(true);
           } else {
@@ -95,10 +88,6 @@ export class TrackerOrchestrator {
 
     return this.initializationPromise;
   }
-
-  /**
-   * Main frame processing method
-   */
   async processFrame(videoElement: HTMLVideoElement, canvas: HTMLCanvasElement): Promise<TrackingPoint[]> {
     if (!this.isInitialized || !this.cv) {
       return this.stateManager.getPoints();
@@ -141,101 +130,36 @@ export class TrackerOrchestrator {
           imageSize: `${canvas.width}x${canvas.height}`
         };        if (!this.frameProcessor.hasPrevGray()) {
           this.frameProcessor.initializeFrames(newGray);
-          this.logger.log(frameCount, 'FRAME_INITIALIZATION', {
-            ...beforeState,
-            action: 'first_frame_setup'
-          });        } else if (points.length > 0) {
+        } else if (points.length > 0) {
           const activePointsBeforeTracking = points.filter(p => p.isActive);
-          
-          this.logger.log(frameCount, 'FRAME_PROCESSING', {
-            ...beforeState,
-            action: 'determining_tracking_requirements',
-            willTrack: activePointsBeforeTracking.length > 0,
-            pointPositions: points.map(p => ({
-              id: p.id.substring(0, 8),
-              currentPos: { x: Math.round(p.x * 100) / 100, y: Math.round(p.y * 100) / 100 },
-              hasPositionForFrame: p.framePositions.has(frameCount),
-              isActive: p.isActive,
-              confidence: p.confidence
-            }))
-          });
-          
-          if (activePointsBeforeTracking.length > 0) {
-            // Only update frame buffers when we're actually going to track
+            if (activePointsBeforeTracking.length > 0) {
             this.frameProcessor.updateCurrentFrame(newGray);
             this.performTracking(activePointsBeforeTracking);
-            // Current frame becomes reference for next tracking operation  
             this.frameProcessor.swapFrames();
-          } else {
-            this.logger.log(frameCount, 'TRACKING_SKIPPED', {
-              reason: 'no_active_points',
-              inactivePoints: points.map(p => ({
-                id: p.id.substring(0, 6),
-                confidence: p.confidence,
-                isActive: p.isActive
-              }))
-            }, 'warn');
           }
         } else {
           this.frameProcessor.resetFrames(newGray);
-          this.logger.log(frameCount, 'FRAME_PROCESSING', {
-            ...beforeState,
-            action: 'no_points_reset_frames'
-          });
         }
       } finally {
         if (newGray) {
           newGray.delete();
         }
       }      src.delete();      this.stateManager.incrementFrameCount();
-
       const activePointsAfter = this.stateManager.getActivePoints();
-      const finalFrameCount = this.stateManager.getFrameCount() - 1;
-      
-      this.logger.log(finalFrameCount, 'FRAME_COMPLETE', {
-        activePointsReturned: activePointsAfter.length,
-        totalPoints: this.stateManager.getTotalPointCount()
-      });
-
       return activePointsAfter;
     } catch (error) {
-      this.logger.log(this.stateManager.getFrameCount(), 'FRAME_PROCESSING_ERROR', {
-        error: error.toString(),
-        stack: error.stack
-      }, 'error');
       return this.stateManager.getPoints();
     }
   }
-
-  /**
-   * Performs optical flow tracking on active points
-   */
   private performTracking(activePoints: TrackingPoint[]): void {
     if (!this.opticalFlowEngine || !this.frameProcessor.hasPrevGray() || !this.frameProcessor.hasCurrGray()) {
-      this.logger.log(this.stateManager.getFrameCount(), 'TRACKING_PREREQUISITES_FAILED', {
-        hasOpticalFlowEngine: !!this.opticalFlowEngine,
-        hasPrevGray: this.frameProcessor.hasPrevGray(),
-        hasCurrGray: this.frameProcessor.hasCurrGray(),
-        pointCount: activePoints.length
-      }, 'error');
       return;
     }
 
-    // Apply frame skip penalty
     this.stateManager.applyFrameSkipPenalty();
 
     const frameCount = this.stateManager.getFrameCount();
-    const isContinuousTracking = this.stateManager.isContinuousTrackingEnabled();
-
-    if (activePoints.length === 0) {
-      this.logger.log(frameCount, 'NO_ACTIVE_POINTS', { 
-        totalPoints: this.stateManager.getTotalPointCount(),
-        inactivePoints: this.stateManager.getInactivePoints().map(p => ({
-          id: p.id.substring(0, 6),
-          confidence: p.confidence,
-          isActive: p.isActive
-        }))
-      }, 'warn');
+    const isContinuousTracking = this.stateManager.isContinuousTrackingEnabled();    if (activePoints.length === 0) {
       return;
     }
 
@@ -247,18 +171,9 @@ export class TrackerOrchestrator {
         this.frameProcessor.getCurrGray(),
         frameCount,
         isContinuousTracking
-      );
-
-      // Process the results and update points
-      this.processTrackingResults(trackingResults.results, frameCount);
+      );      this.processTrackingResults(trackingResults.results, frameCount);
 
     } catch (error) {
-      this.logger.log(frameCount, 'TRACKING_ERROR', {
-        error: error.toString(),
-        activePointCount: activePoints.length
-      }, 'error');
-
-      // Apply error penalty
       this.stateManager.applyTrackingErrorPenalty(activePoints);
     }
   }
@@ -278,15 +193,13 @@ export class TrackerOrchestrator {
     frameCount: number
   ): void {
     const points = this.stateManager.getPoints();
-    
-    results.forEach(result => {
+      results.forEach(result => {
       const pointIndex = this.stateManager.findPointIndex(result.point.id);
       if (pointIndex === -1) {
-        this.logger.log(frameCount, 'POINT_NOT_FOUND', {
-          pointId: result.point.id.substring(0, 6)
-        }, 'warn');
         return;
-      }      const point = points[pointIndex];
+      }
+
+      const point = points[pointIndex];
         if (result.success && result.newX !== undefined && result.newY !== undefined) {
         // Always update tracked position - no manual move protection
         this.trajectoryManager.updateTrackedPosition(
@@ -307,23 +220,11 @@ export class TrackerOrchestrator {
   }
 
   // Public API methods
-
-  /**
-   * Add a new tracking point
-   */
   addTrackingPoint(x: number, y: number): string {
     const frameCount = this.stateManager.getFrameCount();
     const newPoint = this.trajectoryManager.createTrackingPoint(x, y, frameCount);
     this.stateManager.addPoint(newPoint);
     
-    this.logger.log(frameCount, 'ADD_TRACKING_POINT', { 
-      pointId: newPoint.id.substring(0, 12), 
-      x, 
-      y, 
-      totalPoints: this.stateManager.getTotalPointCount()
-    });
-    
-    // Initialize previous frame if needed
     if (this.frameProcessor.hasCurrGray() && !this.frameProcessor.hasPrevGray()) {
       const currGray = this.frameProcessor.getCurrGray();
       if (currGray) {
@@ -346,29 +247,13 @@ export class TrackerOrchestrator {
    */
   clearAllPoints(): void {
     this.stateManager.clearAllPoints();
-  }  /**
-   * Update point position manually
-   */
-  updatePointPosition(pointId: string, newX: number, newY: number): boolean {
+  }  updatePointPosition(pointId: string, newX: number, newY: number): boolean {
     const point = this.stateManager.findPoint(pointId);
     if (!point) {
-      this.logger.log(this.stateManager.getFrameCount(), 'MANUAL_MOVE_FAILED', {
-        pointId: pointId.substring(0, 6),
-        reason: 'POINT_NOT_FOUND',
-        requestedPosition: { x: Math.round(newX * 100) / 100, y: Math.round(newY * 100) / 100 }
-      }, 'error');
       return false;
     }
 
     const frameCount = this.stateManager.getFrameCount();
-    
-    // Log the manual move initiation at orchestrator level
-    this.logger.log(frameCount, 'MANUAL_MOVE_INITIATED', {
-      pointId: point.id.substring(0, 6),
-      currentPosition: { x: Math.round(point.x * 100) / 100, y: Math.round(point.y * 100) / 100 },
-      targetPosition: { x: Math.round(newX * 100) / 100, y: Math.round(newY * 100) / 100 },
-      frame: frameCount
-    });
     
     this.trajectoryManager.updateManualPosition(point, newX, newY, frameCount);
     
@@ -501,25 +386,7 @@ export class TrackerOrchestrator {
   }
 
   disableContinuousTracking(): void {
-    this.stateManager.disableContinuousTracking();
-  }
-
-  // Debug and diagnostic methods
-  getDebugLogs(): any[] {
-    return this.logger.getLogs();
-  }
-
-  getFormattedDebugLogs(): string {
-    return this.logger.getFormattedLogs();
-  }
-
-  exportDebugLogs(): string {
-    return this.logger.exportLogs();
-  }
-
-  clearDebugLogs(): void {
-    this.logger.clear();
-  }
+    this.stateManager.disableContinuousTracking();  }
 
   getTrackerState(): any {
     const state = this.stateManager.getTrackerState();

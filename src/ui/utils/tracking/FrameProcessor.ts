@@ -1,9 +1,7 @@
-// Frame processing and buffer management - exact logic from original
-
-import { MinimalDebugger } from './MinimalDebugger';
+import { } from './TrackingTypes';
 
 export interface FrameData {
-  mat: any; // OpenCV Mat
+  mat: any;
   width: number;
   height: number;
   timestamp: number;
@@ -16,14 +14,12 @@ export interface FrameBuffers {
 
 export class FrameProcessor {
   private cv: any = null;
-  private logger: MinimalDebugger;
   private buffers: FrameBuffers = {
     prevGray: null,
     currGray: null
   };
 
-  constructor(logger: MinimalDebugger, cv?: any) {
-    this.logger = logger;
+  constructor(cv?: any) {
     this.cv = cv;
   }
 
@@ -50,19 +46,8 @@ export class FrameProcessor {
 
   /**
    * Log current buffer state with frame hashes
-   */
-  private logBufferState(operation: string, frameNumber?: number): void {
-    const prevHash = this.buffers.prevGray ? this.calculateFrameHash(this.buffers.prevGray) : 'null';
-    const currHash = this.buffers.currGray ? this.calculateFrameHash(this.buffers.currGray) : 'null';
-    
-    this.logger.log(frameNumber || 0, 'FRAME_BUFFER_STATE', {
-      operation,
-      prevGray: this.buffers.prevGray ? 'exists' : 'null',
-      currGray: this.buffers.currGray ? 'exists' : 'null',
-      prevHash,
-      currHash,
-      timestamp: Date.now()
-    });
+   */  private logBufferState(operation: string, frameNumber?: number): void {
+    // Removed debug logging
   }
 
   /**
@@ -245,19 +230,8 @@ export class FrameProcessor {
     const src = this.cv.matFromImageData(imageData);
 
     let gray: any = null;
-    try {
-      gray = new this.cv.Mat();
+    try {      gray = new this.cv.Mat();
       this.cv.cvtColor(src, gray, this.cv.COLOR_RGBA2GRAY);
-
-      const frameHash = this.calculateFrameHash(gray);
-      this.logger.log(frameNumber, 'FRAME_PROCESSED', {
-        width: canvas.width,
-        height: canvas.height,
-        matType: gray.type(),
-        channels: gray.channels(),
-        frameHash,
-        timestamp: Date.now()
-      });
 
       return {
         mat: gray,

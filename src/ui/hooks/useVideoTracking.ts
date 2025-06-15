@@ -39,11 +39,8 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
   const handleVideoLoaded = async (videoDuration: number, width: number, height: number, detectedFps?: number) => {
     const actualFps = detectedFps || 30;
     setFps(actualFps);
-    setDuration(videoDuration);
-    setTotalFrames(Math.floor(videoDuration * actualFps));
+    setDuration(videoDuration);    setTotalFrames(Math.floor(videoDuration * actualFps));
     setCurrentFrame(0);
-    
-    console.log(`Video loaded: ${videoDuration.toFixed(2)}s at ${actualFps}fps = ${Math.floor(videoDuration * actualFps)} frames`);
     
     if (trackerRef.current) {
       await trackerRef.current.initialize();
@@ -62,7 +59,6 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     setIsPlaying(!isPlaying);
   };  const handleFrameChange = (frame: number) => {
     const newFrame = Math.max(0, Math.min(frame, totalFrames - 1));
-    console.log(`Manual scrub: ${currentFrame} → ${newFrame}`);
     
     setCurrentFrame(newFrame);
     setIsPlaying(false);
@@ -75,11 +71,8 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     
     // Reset tracking state when seeking to ensure optical flow consistency
     if (trackerRef.current) {
-      trackerRef.current.handleSeek();
-      trackerRef.current.setCurrentFrame(newFrame);
+      trackerRef.current.handleSeek();      trackerRef.current.setCurrentFrame(newFrame);
       
-      // Sync points to their stored positions for scrubbing (not tracking)
-      console.log(`Syncing points to frame ${newFrame} during manual scrub`);
       trackerRef.current.syncPointsToFrameForScrubbing(newFrame);
     }
   };
@@ -153,24 +146,28 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
       console.error('Error updating search radius:', error);
     }
   };
-
   const handleStopTracking = () => {
     trackingCancelledRef.current = true;
     showToast('Stopping tracking...', 'info');
-  };  // Controlled continuous playback with perfect frame/point synchronization
-  useEffect(() => {    const video = videoRef.current;
-    if (!video || fps === 0) return;    // Only create the loop machinery when actually playing
+  };
+
+  // Controlled continuous playback with perfect frame/point synchronization
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || fps === 0) return;
+
+    // Only create the loop machinery when actually playing
     if (!isPlaying) {
-      console.log('❌ Not playing - effect will not start synchronization loop');
       return;
     }
 
-    console.log('✅ Playing state detected - setting up synchronization loop');    let animationFrameId: number | null = null;
-    let isVideoReady = false;    let targetFrame = currentFrame;
+    let animationFrameId: number | null = null;
+    let isVideoReady = false;
+    
+    let targetFrame = currentFrame;
     
     // Ensure ref is synchronized at the start of this effect
     isPlayingRef.current = isPlaying;
-    console.log(`🔄 Ref synchronized: isPlayingRef.current = ${isPlayingRef.current}`);
     
     // CONTROLLED SYNCHRONIZATION APPROACH:
     // Only display frames when both video and point data are perfectly synchronized
@@ -191,49 +188,40 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
       });
     };    const synchronizedPlaybackLoop = async () => {
       // Check current playing state using ref (always up-to-date)
-      console.log(`🔍 Loop check: isPlayingRef.current=${isPlayingRef.current}, targetFrame=${targetFrame}, totalFrames=${totalFrames}`);
       
       if (!isPlayingRef.current || targetFrame >= totalFrames - 1) {
         // Stop the loop cleanly
-        if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId);
+        if (animationFrameId) {          cancelAnimationFrame(animationFrameId);
           animationFrameId = null;
         }
-        console.log(`❌ Playback stopped: playing=${isPlayingRef.current}, frame=${targetFrame}/${totalFrames-1}`);
         return;
       }
 
-      console.log(`✅ Continuing playback: frame ${targetFrame}`);
-
       try {
-        // Step 1: Seek video to target frame and wait for it to be ready
+        // Seek video to target frame and wait for it to be ready
         isVideoReady = false;
         await seekToFrame(targetFrame);
-        
-        // Double-check we're still playing after async seek using ref
+          // Double-check we're still playing after async seek using ref
         if (!isPlayingRef.current) {
-          console.log('Playback stopped during seek operation');
           return;
         }
         
-        // Step 2: Sync point positions to this frame (with fallback to previous frames)
+        // Sync point positions to this frame (with fallback to previous frames)
         if (trackerRef.current) {
           trackerRef.current.setCurrentFrame(targetFrame);
           trackerRef.current.syncPointsToFrameForScrubbing(targetFrame);
         }
         
-        // Step 3: Update React state to trigger re-render (display synchronized frame + points)
+        // Update React state to trigger re-render (display synchronized frame + points)
         setCurrentFrame(targetFrame);
         
-        // Step 4: Advance to next frame for next iteration
+        // Advance to next frame for next iteration
         targetFrame = Math.min(targetFrame + 1, totalFrames - 1);
         
-        // Step 5: Schedule next frame update only if still playing
+        // Schedule next frame update only if still playing
         if (isPlayingRef.current && targetFrame < totalFrames - 1) {
           animationFrameId = requestAnimationFrame(synchronizedPlaybackLoop);
-        } else {
-          animationFrameId = null;
-          console.log('Reached end of video or stopped playing');
+        } else {          animationFrameId = null;
         }
         
       } catch (error) {
@@ -247,11 +235,9 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     };    // Start the controlled playbook loop
     video.pause(); // Keep video paused - we control frame advancement manually
     targetFrame = currentFrame;
-    console.log(`🚀 Starting controlled playback from frame ${targetFrame}, isPlayingRef=${isPlayingRef.current}`);
     synchronizedPlaybackLoop();
 
     return () => {
-      console.log('Cleaning up controlled playback effect');
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
@@ -261,14 +247,9 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
   // Separate effect to handle play/pause state changes
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
-
-    if (isPlaying) {
+    if (!video) return;    if (isPlaying) {
       // When starting playback, ensure video is paused since we control it manually
       video.pause();
-      console.log('Play button pressed - starting controlled synchronization');
-    } else {
-      console.log('Pause button pressed - stopping controlled synchronization');
     }
   }, [isPlaying]);
 

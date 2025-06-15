@@ -44,12 +44,9 @@ export class TrackingService {
       // Calculate frames to track with optional limit
       const maxFrame = maxFramesToTrack ? Math.min(totalFrames, currentFrame + maxFramesToTrack + 1) : totalFrames;
       const framesToTrack = maxFrame - currentFrame - 1;
-      let trackedFrames = 0;for (let i = currentFrame + 1; i < maxFrame && !trackingCancelledRef.current; i++) {        // Verify video seeking with detailed logging
-        const seekVerification = await this.verifyVideoSeek(videoRef, i, i / this.config.fps, 'continuous_forward');
-        
-        this.config.showToast && console.log(`📹 SEEK_VERIFY_${i}:`, seekVerification);
+      let trackedFrames = 0;for (let i = currentFrame + 1; i < maxFrame && !trackingCancelledRef.current; i++) {        // Verify video seeking with detailed logging        const seekVerification = await this.verifyVideoSeek(videoRef, i, i / this.config.fps, 'continuous_forward');
 
-        // CRITICAL: Wait for frame to actually load before processing
+        // Wait for frame to actually load before processing
         await new Promise(resolve => {
           const checkFrameReady = () => {
             if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better
@@ -119,12 +116,9 @@ export class TrackingService {
       // Calculate frames to track with optional limit
       const minFrame = maxFramesToTrack ? Math.max(0, currentFrame - maxFramesToTrack) : 0;
       const framesToTrack = currentFrame - minFrame;
-      let trackedFrames = 0;      for (let i = currentFrame - 1; i >= minFrame && !trackingCancelledRef.current; i--) {        // Verify video seeking with detailed logging
-        const seekVerification = await this.verifyVideoSeek(videoRef, i, i / this.config.fps, 'continuous_backward');
-        
-        this.config.showToast && console.log(`📹 SEEK_VERIFY_${i}:`, seekVerification);
+      let trackedFrames = 0;      for (let i = currentFrame - 1; i >= minFrame && !trackingCancelledRef.current; i--) {        // Verify video seeking with detailed logging        const seekVerification = await this.verifyVideoSeek(videoRef, i, i / this.config.fps, 'continuous_backward');
 
-        // CRITICAL: Wait for frame to actually load before processing
+        // Wait for frame to actually load before processing
         await new Promise(resolve => {
           const checkFrameReady = () => {
             if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better
@@ -173,12 +167,9 @@ export class TrackingService {
     onFrameUpdate: (frame: number, points: TrackingPoint[]) => void
   ): Promise<void> {
     if (!tracker || !videoRef || currentFrame >= totalFrames - 1) return;    const nextFrame = currentFrame + 1;
-      // Verify video seeking with detailed logging
-    const seekVerification = await this.verifyVideoSeek(videoRef, nextFrame, nextFrame / this.config.fps, 'step_forward');
-    
-    this.config.showToast && console.log(`📹 STEP_SEEK_VERIFY:`, seekVerification);
+      // Verify video seeking with detailed logging    const seekVerification = await this.verifyVideoSeek(videoRef, nextFrame, nextFrame / this.config.fps, 'step_forward');
 
-    // CRITICAL: Wait for frame to actually load before processing
+    // Wait for frame to actually load before processing
     await new Promise(resolve => {
       const checkFrameReady = () => {
         if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better
@@ -205,12 +196,9 @@ export class TrackingService {
     onFrameUpdate: (frame: number, points: TrackingPoint[]) => void
   ): Promise<void> {
     if (!tracker || !videoRef || currentFrame <= 0) return;    const prevFrame = currentFrame - 1;
-      // Verify video seeking with detailed logging  
-    const seekVerification = await this.verifyVideoSeek(videoRef, prevFrame, prevFrame / this.config.fps, 'step_backward');
-    
-    this.config.showToast && console.log(`📹 STEP_SEEK_VERIFY:`, seekVerification);
+      // Verify video seeking with detailed logging    const seekVerification = await this.verifyVideoSeek(videoRef, prevFrame, prevFrame / this.config.fps, 'step_backward');
 
-    // CRITICAL: Wait for frame to actually load before processing
+    // Wait for frame to actually load before processing
     await new Promise(resolve => {
       const checkFrameReady = () => {
         if (videoRef.readyState >= 2) { // HAVE_CURRENT_DATA or better

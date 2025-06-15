@@ -4,13 +4,11 @@ import { Timeline } from './Timeline';
 import { VideoUpload } from './VideoUpload';
 import { TrackingControls } from './TrackingControls';
 import { TrackingPanel } from './TrackingPointsPanel';
-import { DebugModal } from './DebugModal';
 import { InteractionModeSelector } from './InteractionModeSelector';
 import { Toast } from './Toast';
 import { useToast } from '../hooks/useToast';
 import { useVideoTracking } from '../hooks/useVideoTracking';
 import { useTrackingOperations } from '../hooks/useTrackingOperations';
-import { useDebugLog } from '../hooks/useDebugLog';
 import { DocumentSandboxApi } from '../../models/DocumentSandboxApi';
 import './App.css';
 
@@ -20,13 +18,10 @@ interface AppProps {
 }
 
 export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
-    // Custom hooks
     const { toast, showToast } = useToast();
     const videoTracking = useVideoTracking({ showToast });
     const trackingOperations = useTrackingOperations({ videoTracking, showToast });
-    const debugLog = useDebugLog();
 
-    // Interaction mode state
     const [interactionMode, setInteractionMode] = React.useState<'scale' | 'move'>('scale');
 
     const getPointColor = (index: number) => `hsl(${(index * 60) % 360}, 70%, 50%)`;    const handleMovePoint = (pointId: string, x: number, y: number) => {
@@ -99,43 +94,27 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                         isTracking={videoTracking.isTracking}
                         onRemovePoint={videoTracking.handleRemoveTrackingPoint}
                         onClearAllPoints={videoTracking.handleClearAllPoints}
-                        onExportDebugLogs={() => debugLog.handleExportDebugLogs(videoTracking.trackerRef.current)}
-                        onClearDebugLogs={() => debugLog.handleClearDebugLogs(videoTracking.trackerRef.current, showToast)}
                         onReactivatePoints={() => {
                             if (videoTracking.trackerRef.current) {
                                 videoTracking.trackerRef.current.reactivatePoints();
                                 showToast('Points reactivated for testing', 'info');
                             }
-                        }}
-                        onForceTracking={() => {
+                        }}                        onForceTracking={() => {
                             if (videoTracking.trackerRef.current) {
                                 const result = videoTracking.trackerRef.current.forceTrackingTest();
-                                console.log('Force tracking test result:', result);
-                                showToast('Force tracking test completed - check console', 'info');
+                                showToast('Force tracking test completed', 'info');
                             }
-                        }}
-                        onGetDiagnostics={() => {
+                        }}                        onGetDiagnostics={() => {
                             if (videoTracking.trackerRef.current) {
                                 const diagnostics = videoTracking.trackerRef.current.getDiagnosticInfo();
-                                console.log('Tracker diagnostics:', diagnostics);
-                                showToast('Diagnostics logged to console', 'info');
+                                showToast('Diagnostics generated', 'info');
                             }
                         }}
                         getPointColor={getPointColor}
                     />
-                )}
-            </main>
+                )}            </main>
 
             {toast && <Toast toast={toast} />}
-
-            <DebugModal
-                isOpen={debugLog.showDebugLogs}
-                debugLogs={debugLog.debugLogs}
-                trackingSummary={debugLog.trackingSummary}
-                onClose={() => debugLog.setShowDebugLogs(false)}
-                onRefresh={() => debugLog.handleExportDebugLogs(videoTracking.trackerRef.current)}
-                onCopyLogs={() => debugLog.handleCopyLogs(showToast)}
-            />
         </div>
     );
 };

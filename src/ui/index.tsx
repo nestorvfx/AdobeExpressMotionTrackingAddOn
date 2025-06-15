@@ -6,7 +6,6 @@ import { App } from "./components/App";
 import addOnUISdk, { RuntimeType } from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
 
 addOnUISdk.ready.then(async () => {
-    console.log("addOnUISdk is ready for use.");
 
     // Get the UI runtime.
     const { runtime } = addOnUISdk.instance;

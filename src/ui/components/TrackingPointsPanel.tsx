@@ -6,8 +6,6 @@ interface TrackingPanelProps {
   isTracking: boolean;
   onRemovePoint: (pointId: string) => void;
   onClearAllPoints: () => void;
-  onExportDebugLogs: () => void;
-  onClearDebugLogs: () => void;
   onForceTracking?: () => void;
   onReactivatePoints?: () => void;
   onGetDiagnostics?: () => void;
@@ -19,8 +17,6 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
   isTracking,
   onRemovePoint,
   onClearAllPoints,
-  onExportDebugLogs,
-  onClearDebugLogs,
   onForceTracking,
   onReactivatePoints,
   onGetDiagnostics,
@@ -89,78 +85,11 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
               marginBottom: '8px'
             }}
           >
-            Clear All Points
-          </button>
-          
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button 
-              onClick={onExportDebugLogs}
-              style={{
-                flex: 1,
-                padding: '6px',
-                border: '1px solid #3b82f6',
-                background: 'white',
-                color: '#3b82f6',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '12px'
-              }}
-            >
-              View Debug Logs
-            </button>
-            <button 
-              onClick={onClearDebugLogs}
-              style={{
-                flex: 1,
-                padding: '6px',
-                border: '1px solid #6b7280',
-                background: 'white',
-                color: '#6b7280',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '12px'
-              }}
-            >
-              Clear Logs
-            </button>
-          </div>
-        </div>
-      )}
+            Clear All Points          </button>
+        </div>      )}
 
       {!trackingPoints.length && (
         <div style={{ padding: '12px 16px', borderTop: '1px solid #f3f4f6' }}>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button 
-              onClick={onExportDebugLogs}
-              style={{
-                flex: 1,
-                padding: '6px',
-                border: '1px solid #3b82f6',
-                background: 'white',
-                color: '#3b82f6',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '12px'
-              }}
-            >
-              View Debug Logs
-            </button>            <button 
-              onClick={onClearDebugLogs}
-              style={{
-                flex: 1,
-                padding: '6px',
-                border: '1px solid #6b7280',
-                background: 'white',
-                color: '#6b7280',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '12px'
-              }}
-            >
-              Clear Logs
-            </button>
-          </div>
-          
           {/* Diagnostic Controls */}
           <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
             {onReactivatePoints && (

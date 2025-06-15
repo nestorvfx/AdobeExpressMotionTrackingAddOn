@@ -2,7 +2,6 @@
 // This is the new decoupled version that maintains 100% API compatibility with the original
 
 import { TrackingPoint, TrackingOptions } from './tracking/TrackingTypes';
-import { DebugLogEntry } from './tracking/DebugTypes';
 import { TrackerOrchestrator } from './tracking/TrackerOrchestrator';
 
 /**
@@ -146,42 +145,8 @@ export class LucasKanadeTracker {
    * Ensures current frame becomes reference for next frame
    */
   async processFrameByFrame(videoElement: HTMLVideoElement, canvas: HTMLCanvasElement): Promise<TrackingPoint[]> {
-    return this.orchestrator.processFrameByFrame(videoElement, canvas);
-  }
+    return this.orchestrator.processFrameByFrame(videoElement, canvas);  }
 
-  // Debug and diagnostic methods (essential for app compatibility)
-
-  /**
-   * Get debug logs
-   */
-  getDebugLogs(): DebugLogEntry[] {
-    return this.orchestrator.getDebugLogs();
-  }
-
-  /**
-   * Get formatted debug logs as string
-   */
-  getFormattedDebugLogs(): string {
-    return this.orchestrator.getFormattedDebugLogs();
-  }
-
-  /**
-   * Export debug logs as JSON string
-   */
-  exportDebugLogs(): string {
-    return this.orchestrator.exportDebugLogs();
-  }
-
-  /**
-   * Clear all debug logs
-   */
-  clearDebugLogs(): void {
-    this.orchestrator.clearDebugLogs();
-  }
-
-  /**
-   * Get tracker state for debugging
-   */
   getTrackerState(): any {
     return this.orchestrator.getTrackerState();
   }
@@ -222,10 +187,6 @@ export class LucasKanadeTracker {
   }
 }
 
-// Export types for compatibility
-export { TrackingPoint, TrackingOptions, DebugLogEntry };
-
-// Export the MinimalDebugger class for compatibility
-export { MinimalDebugger } from './tracking/MinimalDebugger';
+export { TrackingPoint, TrackingOptions };
 
 export default LucasKanadeTracker;

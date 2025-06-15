@@ -21,13 +21,10 @@
             
             // Function to be called when OpenCV.js is ready
             function onOpenCvReady() {
-                console.log('OpenCV.js is ready!');
                 window.opencvjs.isLoaded = true;
                 window.opencvjs.isLoading = false;
                 
                 if (window.cv) {
-                    console.log('OpenCV.js version:', window.cv.getBuildInformation());
-                    
                     // Dispatch custom event for components to detect OpenCV loading
                     window.dispatchEvent(new CustomEvent('opencv-loaded', { detail: window.cv }));
                     

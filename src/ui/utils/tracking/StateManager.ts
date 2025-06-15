@@ -1,21 +1,11 @@
 import { TrackingPoint } from './TrackingTypes';
-import { MinimalDebugger } from './MinimalDebugger';
 
-/**
- * StateManager handles the overall state of the tracking system,
- * including frame management, point collection, and initialization state.
- */
 export class StateManager {
-  private logger: MinimalDebugger;
   private frameCount: number = 0;
   private lastProcessedFrame: number | null = null;
   private points: TrackingPoint[] = [];
   private isInitialized: boolean = false;
   private isContinuousTracking: boolean = false;
-
-  constructor(logger: MinimalDebugger) {
-    this.logger = logger;
-  }
 
   // Frame management
   getFrameCount(): number {
@@ -101,19 +91,13 @@ export class StateManager {
   isContinuousTrackingEnabled(): boolean {
     return this.isContinuousTracking;
   }
-
   enableContinuousTracking(): void {
     this.isContinuousTracking = true;
-    this.logger.log(this.frameCount, 'CONTINUOUS_TRACKING_ENABLED', {
-      mode: 'fresh_detection_forced',
-      activePoints: this.getActivePointCount()
-    });
   }
 
   disableContinuousTracking(): void {
-    this.isContinuousTracking = false;    this.logger.log(this.frameCount, 'CONTINUOUS_TRACKING_DISABLED', {
-      mode: 'normal_operation'
-    });  }
+    this.isContinuousTracking = false;
+  }
 
   // Frame scrubbing
   setCurrentFrame(frameNumber: number): void {
