@@ -50,6 +50,39 @@ export interface TrajectoryPath {
   path: Array<TrajectoryPoint>;
 }
 
+// Planar Tracking Types
+export interface PlanarCorner {
+  id: string;
+  x: number;
+  y: number;
+  isActive: boolean;
+}
+
+export interface PlanarTracker {
+  id: string;
+  corners: [PlanarCorner, PlanarCorner, PlanarCorner, PlanarCorner]; // Top-left, top-right, bottom-right, bottom-left
+  center: Position;
+  width: number;
+  height: number;
+  color: string;
+  isActive: boolean;
+  confidence: number;
+  homographyMatrix: number[] | null; // 3x3 transformation matrix (flattened)
+  featurePoints: TrackingPoint[]; // Internal feature points for tracking
+  frameHomographies: Map<number, number[]>; // Homography per frame
+  trajectory: Array<{ center: Position; corners: Position[]; frame: number }>;
+}
+
+export interface HomographyData {
+  matrix: number[];
+  confidence: number;
+  inlierCount: number;
+  totalFeatures: number;
+}
+
+export type TrackingMode = 'point' | 'planar';
+export type InteractionMode = 'scale' | 'move';
+
 // Default tracking options exactly as in original
 export const DEFAULT_TRACKING_OPTIONS: TrackingOptions = {
   winSize: { width: 29, height: 29 }, // Increased by 40% from 21x21 for better feature detection

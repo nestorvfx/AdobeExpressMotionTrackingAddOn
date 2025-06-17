@@ -1,7 +1,7 @@
 // Modular Lucas-Kanade Optical Flow Tracker using OpenCV.js
 // This is the new decoupled version that maintains 100% API compatibility with the original
 
-import { TrackingPoint, TrackingOptions } from './tracking/TrackingTypes';
+import { TrackingPoint, TrackingOptions, PlanarTracker } from './tracking/TrackingTypes';
 import { TrackerOrchestrator } from './tracking/TrackerOrchestrator';
 
 /**
@@ -46,6 +46,17 @@ export class LucasKanadeTracker {
   forceTrackingTest(): string { return this.orchestrator.forceTrackingTest(); }
   enableContinuousTracking(): void { this.orchestrator.enableContinuousTracking(); }
   disableContinuousTracking(): void { this.orchestrator.disableContinuousTracking(); }
+
+  // Planar tracking methods
+  addPlanarTracker(centerX: number, centerY: number, videoWidth: number, videoHeight: number, color: string): string { 
+    return this.orchestrator.addPlanarTracker(centerX, centerY, videoWidth, videoHeight, color); 
+  }
+  removePlanarTracker(trackerId: string): boolean { return this.orchestrator.removePlanarTracker(trackerId); }
+  updatePlanarTrackerCorner(trackerId: string, cornerIndex: number, newX: number, newY: number): boolean { 
+    return this.orchestrator.updatePlanarTrackerCorner(trackerId, cornerIndex, newX, newY); 
+  }
+  getPlanarTrackers(): PlanarTracker[] { return this.orchestrator.getPlanarTrackers(); }
+  clearAllPlanarTrackers(): void { this.orchestrator.clearAllPlanarTrackers(); }
 }
 
 export { TrackingPoint, TrackingOptions };

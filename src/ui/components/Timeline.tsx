@@ -148,16 +148,7 @@ export const Timeline: React.FC<TimelineProps> = ({
                                 <div className="tick-label">{label}</div>
                             </div>
                         );
-                    })}
-                </div>
-                
-                {/* Current position marker */}
-                <div 
-                    className="timeline-current-position" 
-                    style={{ 
-                        left: `${totalFrames > 1 ? (currentFrame / (totalFrames - 1)) * 100 : 0}%` 
-                    }}
-                />
+                    })}                </div>
             </div>
         </div>
     );

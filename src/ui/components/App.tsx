@@ -5,11 +5,13 @@ import { VideoUpload } from './VideoUpload';
 import { TrackingControls } from './TrackingControls';
 import { TrackingPanel } from './TrackingPointsPanel';
 import { InteractionModeSelector } from './InteractionModeSelector';
+import { TrackingModeSelector } from './TrackingModeSelector';
 import { Toast } from './Toast';
 import { useToast } from '../hooks/useToast';
 import { useVideoTracking } from '../hooks/useVideoTracking';
 import { useTrackingOperations } from '../hooks/useTrackingOperations';
 import { DocumentSandboxApi } from '../../models/DocumentSandboxApi';
+import { InteractionMode } from '../utils/tracking/TrackingTypes';
 import './App.css';
 
 interface AppProps {
@@ -22,41 +24,58 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     const videoTracking = useVideoTracking({ showToast });
     const trackingOperations = useTrackingOperations({ videoTracking, showToast });
 
-    const [interactionMode, setInteractionMode] = React.useState<'scale' | 'move'>('scale');
+    const [interactionMode, setInteractionMode] = React.useState<InteractionMode>('scale');    const getPointColor = (index: number) => `hsl(${(index * 60) % 360}, 70%, 50%)`;
 
-    const getPointColor = (index: number) => `hsl(${(index * 60) % 360}, 70%, 50%)`;    const handleMovePoint = (pointId: string, x: number, y: number) => {
+    const handleMovePoint = (pointId: string, x: number, y: number) => {
         if (videoTracking.trackerRef.current) {
             videoTracking.trackerRef.current.updatePointPosition(pointId, x, y);
         }
     };
 
     return (
-        <div className="app">
-            <main className="app-main"><section className="video-section">
+        <div className="app">            <main className="app-main">
+                {videoTracking.videoSrc && (
+                    <div className="video-controls-above">
+                        <div className="tracking-controls">
+                            <TrackingModeSelector
+                                mode={videoTracking.trackingMode}
+                                onModeChange={videoTracking.setTrackingMode}
+                                disabled={videoTracking.isTracking}
+                            />
+                        </div>
+                        <div className="interaction-controls">
+                            <InteractionModeSelector
+                                mode={interactionMode}
+                                onModeChange={setInteractionMode}
+                            />
+                        </div>
+                    </div>
+                )}
+                
+                <section className="video-section">
                     {!videoTracking.videoSrc ? (
-                        <VideoUpload onVideoUpload={videoTracking.handleVideoUpload} />
-                    ) : (                        <div className="video-container-with-controls">
+                        <VideoUpload onVideoUpload={videoTracking.handleVideoUpload} />                    ) : (
+                        <div className="video-container-with-controls">
                             <VideoPlayer
                                 ref={videoTracking.videoRef}
                                 src={videoTracking.videoSrc}
                                 currentFrame={videoTracking.currentFrame}
                                 isPlaying={videoTracking.isPlaying}
-                                trackingPoints={videoTracking.trackingPoints}                                onMetadataLoaded={videoTracking.handleVideoLoaded}
+                                trackingPoints={videoTracking.trackingPoints}
+                                planarTrackers={videoTracking.planarTrackers}
+                                trackingMode={videoTracking.trackingMode}
+                                onMetadataLoaded={videoTracking.handleVideoLoaded}
                                 onAddTrackingPoint={videoTracking.handleAddTrackingPoint}
+                                onAddPlanarTracker={videoTracking.handleAddPlanarTracker}
                                 onUpdateSearchRadius={videoTracking.handleUpdateSearchRadius}
                                 onMovePoint={handleMovePoint}
+                                onMovePlanarCorner={videoTracking.handleMovePlanarCorner}
                                 getPointColor={getPointColor}
                                 getTrajectoryPaths={(frame, range) =>
                                     videoTracking.trackerRef.current?.getTrajectoryPaths(frame, range) || []
                                 }
                                 interactionMode={interactionMode}
                             />
-                            <div className="video-external-controls">
-                                <InteractionModeSelector
-                                    mode={interactionMode}
-                                    onModeChange={setInteractionMode}
-                                />
-                            </div>
                         </div>
                     )}
                 </section>

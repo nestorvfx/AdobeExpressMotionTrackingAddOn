@@ -169,14 +169,4 @@
     font-variant-numeric: tabular-nums;
 }
 
-.timeline-current-position {
-    position: absolute;
-    top: -2px;
-    width: 2px;
-    height: 8px;
-    background-color: #dc2626;
-    transform: translateX(-50%);
-    pointer-events: none;
-    z-index: 10;
-    border-radius: 1px;
-}
+

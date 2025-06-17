@@ -1,9 +1,10 @@
-import { TrackingPoint } from './TrackingTypes';
+import { TrackingPoint, PlanarTracker } from './TrackingTypes';
 
 export class StateManager {
   private frameCount: number = 0;
   private lastProcessedFrame: number | null = null;
   private points: TrackingPoint[] = [];
+  private planarTrackers: PlanarTracker[] = [];
   private isInitialized: boolean = false;
   private isContinuousTracking: boolean = false;
 
@@ -202,9 +203,56 @@ export class StateManager {
 
   dispose(): void {
     this.points = [];
+    this.planarTrackers = [];
     this.isInitialized = false;
     this.frameCount = 0;
     this.lastProcessedFrame = null;
     this.isContinuousTracking = false;
+  }
+
+  // Planar tracker management
+  getPlanarTrackers(): PlanarTracker[] {
+    return [...this.planarTrackers];
+  }
+
+  getActivePlanarTrackers(): PlanarTracker[] {
+    return this.planarTrackers.filter(t => t.isActive);
+  }
+
+  getInactivePlanarTrackers(): PlanarTracker[] {
+    return this.planarTrackers.filter(t => !t.isActive);
+  }
+
+  addPlanarTracker(tracker: PlanarTracker): void {
+    this.planarTrackers.push(tracker);
+  }
+
+  removePlanarTracker(trackerId: string): boolean {
+    const index = this.planarTrackers.findIndex(t => t.id === trackerId);
+    if (index !== -1) {
+      this.planarTrackers.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  findPlanarTracker(trackerId: string): PlanarTracker | undefined {
+    return this.planarTrackers.find(t => t.id === trackerId);
+  }
+
+  findPlanarTrackerIndex(trackerId: string): number {
+    return this.planarTrackers.findIndex(t => t.id === trackerId);
+  }
+
+  clearAllPlanarTrackers(): void {
+    this.planarTrackers = [];
+  }
+
+  getTotalPlanarTrackerCount(): number {
+    return this.planarTrackers.length;
+  }
+
+  getActivePlanarTrackerCount(): number {
+    return this.planarTrackers.filter(t => t.isActive).length;
   }
 }

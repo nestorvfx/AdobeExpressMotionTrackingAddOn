@@ -38,6 +38,22 @@
     align-items: center;
 }
 
+/* Video controls positioned above the video container */
+.video-controls-above {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.interaction-controls,
+.tracking-controls {
+    display: flex;
+    align-items: center;
+}
+
+/* Legacy support for existing controls */
 .video-external-controls {
     position: absolute;
     top: 10px;

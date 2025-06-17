@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { LucasKanadeTracker, TrackingPoint } from '../utils/lucasKanadeTracker';
+import { PlanarTracker, TrackingMode } from '../utils/tracking/TrackingTypes';
 
 export interface UseVideoTrackingProps {
   showToast: (message: string, type: 'info' | 'success' | 'error') => void;
@@ -17,6 +18,8 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
 
   // Tracking state
   const [trackingPoints, setTrackingPoints] = useState<TrackingPoint[]>([]);
+  const [planarTrackers, setPlanarTrackers] = useState<PlanarTracker[]>([]);
+  const [trackingMode, setTrackingMode] = useState<TrackingMode>('point');
   const [isTracking, setIsTracking] = useState(false);
   const [trackingProgress, setTrackingProgress] = useState(0);
   const trackingCancelledRef = useRef(false);
@@ -151,6 +154,87 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     showToast('Stopping tracking...', 'info');
   };
 
+  // Planar tracking handlers
+  const handleAddPlanarTracker = async (x: number, y: number) => {
+    if (!trackerRef.current || !videoRef.current) return;
+
+    try {
+      const isInitialized = await trackerRef.current.initialize();
+      if (!isInitialized) {
+        showToast('Tracker not initialized', 'error');
+        return;
+      }
+
+      const video = videoRef.current;
+      const trackerId = trackerRef.current.addPlanarTracker(
+        x, y, 
+        video.videoWidth, 
+        video.videoHeight, 
+        `hsl(${(planarTrackers.length * 60) % 360}, 70%, 50%)`
+      );
+      
+      if (trackerId) {
+        const updatedTrackers = trackerRef.current.getPlanarTrackers();
+        setPlanarTrackers(updatedTrackers);
+        
+        // Also update tracking points as planar tracker adds feature points
+        const updatedPoints = trackerRef.current.getTrackingPoints();
+        setTrackingPoints(updatedPoints);
+        
+        showToast(`Added planar tracker at (${Math.round(x)}, ${Math.round(y)})`, 'success');
+      }
+    } catch (error) {
+      console.error('Error adding planar tracker:', error);
+      showToast('Failed to add planar tracker', 'error');
+    }
+  };
+
+  const handleRemovePlanarTracker = (trackerId: string) => {
+    if (!trackerRef.current) return;
+
+    try {
+      trackerRef.current.removePlanarTracker(trackerId);
+      const updatedTrackers = trackerRef.current.getPlanarTrackers();
+      setPlanarTrackers(updatedTrackers);
+      
+      // Also update tracking points as planar tracker removes feature points
+      const updatedPoints = trackerRef.current.getTrackingPoints();
+      setTrackingPoints(updatedPoints);
+      
+      showToast('Planar tracker removed', 'info');
+    } catch (error) {
+      console.error('Error removing planar tracker:', error);
+    }
+  };
+
+  const handleClearAllPlanarTrackers = () => {
+    if (!trackerRef.current) return;
+
+    try {
+      trackerRef.current.clearAllPlanarTrackers();
+      setPlanarTrackers([]);
+      
+      // Also update tracking points 
+      const updatedPoints = trackerRef.current.getTrackingPoints();
+      setTrackingPoints(updatedPoints);
+      
+      showToast('All planar trackers cleared', 'info');
+    } catch (error) {
+      console.error('Error clearing planar trackers:', error);
+    }
+  };
+
+  const handleMovePlanarCorner = (trackerId: string, cornerIndex: number, newX: number, newY: number) => {
+    if (!trackerRef.current) return;
+
+    try {
+      trackerRef.current.updatePlanarTrackerCorner(trackerId, cornerIndex, newX, newY);
+      const updatedTrackers = trackerRef.current.getPlanarTrackers();
+      setPlanarTrackers(updatedTrackers);
+    } catch (error) {
+      console.error('Error moving planar corner:', error);
+    }
+  };
   // Controlled continuous playback with perfect frame/point synchronization
   useEffect(() => {
     const video = videoRef.current;
@@ -274,6 +358,10 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     // Tracking state
     trackingPoints,
     setTrackingPoints,
+    planarTrackers,
+    setPlanarTrackers,
+    trackingMode,
+    setTrackingMode,
     isTracking,
     setIsTracking,
     trackingProgress,
@@ -294,5 +382,9 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     handleClearAllPoints,
     handleUpdateSearchRadius,
     handleStopTracking,
+    handleAddPlanarTracker,
+    handleRemovePlanarTracker,
+    handleClearAllPlanarTrackers,
+    handleMovePlanarCorner,
   };
 };

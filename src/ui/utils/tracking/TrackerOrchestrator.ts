@@ -1,8 +1,9 @@
-import { TrackingPoint, TrackingOptions } from './TrackingTypes';
+import { TrackingPoint, TrackingOptions, PlanarTracker } from './TrackingTypes';
 import { FrameProcessor } from './FrameProcessor';
 import { TrajectoryManager } from './TrajectoryManager';
 import { OpticalFlowEngine } from './OpticalFlowEngine';
 import { StateManager } from './StateManager';
+import { PlanarTrackerManager } from './PlanarTrackerManager';
 
 export class TrackerOrchestrator {
   private cv: any = null;
@@ -11,6 +12,7 @@ export class TrackerOrchestrator {
   private trajectoryManager: TrajectoryManager;
   private opticalFlowEngine: OpticalFlowEngine | null = null;
   private stateManager: StateManager;
+  private planarTrackerManager: PlanarTrackerManager;
   private isInitialized: boolean = false;
   private initializationPromise: Promise<boolean> | null = null;
 
@@ -34,6 +36,7 @@ export class TrackerOrchestrator {
     this.stateManager = new StateManager();
     this.frameProcessor = new FrameProcessor();
     this.trajectoryManager = new TrajectoryManager();
+    this.planarTrackerManager = new PlanarTrackerManager();
   }
   async initialize(): Promise<boolean> {
     if (this.isInitialized && this.cv) {
@@ -52,6 +55,7 @@ export class TrackerOrchestrator {
           this.stateManager.setInitialized(true);
           this.options.criteria.type = this.cv.TERM_CRITERIA_EPS | this.cv.TERM_CRITERIA_COUNT;
           this.frameProcessor.setOpenCV(this.cv);
+          this.planarTrackerManager.setOpenCV(this.cv);
           this.opticalFlowEngine = new OpticalFlowEngine(this.cv, this.options);
           resolve(true);
           return;
@@ -64,6 +68,7 @@ export class TrackerOrchestrator {
             this.stateManager.setInitialized(true);
             this.options.criteria.type = this.cv.TERM_CRITERIA_EPS | this.cv.TERM_CRITERIA_COUNT;
             this.frameProcessor.setOpenCV(this.cv);
+            this.planarTrackerManager.setOpenCV(this.cv);
             this.opticalFlowEngine = new OpticalFlowEngine(this.cv, this.options);
             window.removeEventListener('opencv-loaded', handleOpenCvLoaded);
             resolve(true);
@@ -144,7 +149,12 @@ export class TrackerOrchestrator {
         if (newGray) {
           newGray.delete();
         }
-      }      src.delete();      this.stateManager.incrementFrameCount();
+      }      src.delete();
+
+      // Process planar tracking after point tracking
+      this.processPlanarTracking(null as any, canvas); // We already have the processed frame
+
+      this.stateManager.incrementFrameCount();
       const activePointsAfter = this.stateManager.getActivePoints();
       return activePointsAfter;
     } catch (error) {
@@ -448,6 +458,7 @@ export class TrackerOrchestrator {
     
     report.push('=== END TEST ===');
     return report.join('\n');  }
+
   /**
    * Process frame for single-step tracking - uses the same core logic as continuous tracking
    * Both continuous and frame-by-frame use identical frame processing logic
@@ -455,5 +466,97 @@ export class TrackerOrchestrator {
   async processFrameByFrame(videoElement: HTMLVideoElement, canvas: HTMLCanvasElement): Promise<TrackingPoint[]> {
     // Use the exact same logic as processFrame - no need for separate implementation
     return this.processFrame(videoElement, canvas);
+  }
+
+  // Planar Tracking Methods
+  addPlanarTracker(centerX: number, centerY: number, videoWidth: number, videoHeight: number, color: string): string {
+    const frameCount = this.stateManager.getFrameCount();
+    const planarTracker = this.planarTrackerManager.createPlanarTracker(
+      centerX, centerY, videoWidth, videoHeight, color, frameCount
+    );
+    
+    // Generate feature points for the planar tracker
+    const featurePoints = this.planarTrackerManager.generateFeaturePoints(planarTracker, frameCount);
+    planarTracker.featurePoints = featurePoints;
+    
+    // Add feature points to the main tracking system
+    featurePoints.forEach(point => {
+      this.stateManager.addPoint(point);
+    });
+    
+    // Store planar tracker in state manager
+    this.stateManager.addPlanarTracker(planarTracker);
+    
+    return planarTracker.id;
+  }
+
+  removePlanarTracker(trackerId: string): boolean {
+    const planarTracker = this.stateManager.findPlanarTracker(trackerId);
+    if (!planarTracker) {
+      return false;
+    }
+    
+    // Remove all associated feature points
+    planarTracker.featurePoints.forEach(point => {
+      this.stateManager.removePoint(point.id);
+    });
+    
+    // Remove the planar tracker itself
+    return this.stateManager.removePlanarTracker(trackerId);
+  }
+
+  updatePlanarTrackerCorner(trackerId: string, cornerIndex: number, newX: number, newY: number): boolean {
+    const planarTracker = this.stateManager.findPlanarTracker(trackerId);
+    if (!planarTracker) {
+      return false;
+    }
+    
+    this.planarTrackerManager.updateCornerPosition(planarTracker, cornerIndex, newX, newY);
+    return true;
+  }
+
+  getPlanarTrackers(): PlanarTracker[] {
+    return this.stateManager.getPlanarTrackers();
+  }
+
+  clearAllPlanarTrackers(): void {
+    const planarTrackers = this.stateManager.getPlanarTrackers();
+    planarTrackers.forEach(tracker => {
+      this.removePlanarTracker(tracker.id);
+    });
+  }
+
+  processPlanarTracking(videoElement: HTMLVideoElement, canvas: HTMLCanvasElement): void {
+    if (!this.isInitialized || !this.cv) {
+      return;
+    }
+
+    const planarTrackers = this.stateManager.getActivePlanarTrackers();
+    const frameCount = this.stateManager.getFrameCount();
+    
+    planarTrackers.forEach(planarTracker => {
+      // Track feature points using existing optical flow
+      const activeFeatures = planarTracker.featurePoints.filter(p => p.isActive);
+      
+      if (activeFeatures.length >= 4) {
+        // Update homography based on tracked features
+        const homographyData = this.planarTrackerManager.updatePlanarTrackerFromFeatures(
+          planarTracker, activeFeatures, frameCount
+        );
+        
+        if (homographyData && homographyData.confidence > 0.3) {
+          planarTracker.isActive = true;
+          planarTracker.confidence = homographyData.confidence;
+        } else {
+          // Disable planar tracker if tracking quality is poor
+          planarTracker.isActive = false;
+          planarTracker.confidence = 0;
+        }
+      } else {
+        // Not enough feature points for reliable tracking
+        planarTracker.isActive = false;
+        planarTracker.confidence = 0;
+      }
+    });
   }
 }
