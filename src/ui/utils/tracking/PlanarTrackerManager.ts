@@ -121,8 +121,7 @@ export class PlanarTrackerManager {
 
   /**
    * Update planar tracker corners based on feature point tracking results
-   */
-  updatePlanarTrackerFromFeatures(
+   */  updatePlanarTrackerFromFeatures(
     planarTracker: PlanarTracker, 
     trackedFeatures: TrackingPoint[], 
     frameCount: number
@@ -139,38 +138,76 @@ export class PlanarTrackerManager {
 
       if (currentPoints.length < 4) {
         return null;
-      }
-
-      // Get original feature positions (from frame 0 or first frame)
-      const originalPoints = trackedFeatures
-        .filter(f => f.trajectory.length > 0)
-        .map(f => f.trajectory[0])
+      }      // Get previous frame feature positions (or original if no previous frame)
+      const previousPoints = trackedFeatures
+        .filter(f => f.trajectory.length > 1)
+        .map(f => f.trajectory[f.trajectory.length - 2]) // Second to last frame
         .map(t => ({ x: t.x, y: t.y }));
+      
+      // If we don't have previous frame data, fall back to original positions
+      const sourcePoints = previousPoints.length === currentPoints.length ? 
+        previousPoints : 
+        trackedFeatures
+          .filter(f => f.trajectory.length > 0)
+          .map(f => f.trajectory[0])
+          .map(t => ({ x: t.x, y: t.y }));
 
-      if (originalPoints.length !== currentPoints.length) {
+      if (sourcePoints.length !== currentPoints.length) {
         return null;
-      }      // Calculate homography using RANSAC
+      }      // Calculate homography from previous frame to current frame (incremental transformation)
       const srcPointsFlat: number[] = [];
-      originalPoints.forEach(p => { srcPointsFlat.push(p.x, p.y); });
+      sourcePoints.forEach(p => { srcPointsFlat.push(p.x, p.y); });
       const dstPointsFlat: number[] = [];
       currentPoints.forEach(p => { dstPointsFlat.push(p.x, p.y); });
       
-      const srcPoints = this.cv.matFromArray(originalPoints.length, 1, this.cv.CV_32FC2, srcPointsFlat);
+      const srcPoints = this.cv.matFromArray(sourcePoints.length, 1, this.cv.CV_32FC2, srcPointsFlat);
       const dstPoints = this.cv.matFromArray(currentPoints.length, 1, this.cv.CV_32FC2, dstPointsFlat);
 
-      const homography = new this.cv.Mat();
+      console.log('[TRACKING ADDON] Computing homography with', currentPoints.length, 'points');
+      console.log('[TRACKING ADDON] Feature point movements:');
+      const isIncremental = previousPoints.length === currentPoints.length;
+      console.log('[TRACKING ADDON] Using', isIncremental ? 'incremental (prev->curr)' : 'absolute (orig->curr)', 'tracking');
+      for (let i = 0; i < Math.min(4, sourcePoints.length); i++) {
+        console.log(`[TRACKING ADDON]   Point ${i}: (${sourcePoints[i].x.toFixed(1)}, ${sourcePoints[i].y.toFixed(1)}) -> (${currentPoints[i].x.toFixed(1)}, ${currentPoints[i].y.toFixed(1)})`);
+      }
+      if (sourcePoints.length > 4) {
+        console.log(`[TRACKING ADDON]   ... and ${sourcePoints.length - 4} more points`);
+      }
+
       const mask = new this.cv.Mat();
 
-      // Use RANSAC for robust homography estimation
-      this.cv.findHomography(srcPoints, dstPoints, this.cv.RANSAC, 3.0, mask, 2000, 0.995);
+      // Use RANSAC for robust homography estimation  
+      // In OpenCV.js, findHomography returns the homography matrix directly
+      const homography = this.cv.findHomography(srcPoints, dstPoints, this.cv.RANSAC, 3.0, mask, 2000, 0.995);
+
+      if (!homography || homography.empty()) {
+        console.log('[TRACKING ADDON] Homography calculation failed - empty result');
+        // Cleanup and return null if homography calculation failed
+        srcPoints.delete();
+        dstPoints.delete();
+        if (homography) homography.delete();
+        mask.delete();
+        return null;
+      }
 
       // Count inliers
       const inlierCount = this.cv.countNonZero(mask);
-      const confidence = inlierCount / currentPoints.length;      // Get homography matrix as flat array
-      const homographyArray: number[] = Array.from(homography.data64F || homography.data32F) as number[];
+      const confidence = inlierCount / currentPoints.length;
 
-      // Apply homography to original corners to get new positions
-      this.updateCornersFromHomography(planarTracker, homographyArray, frameCount);
+      // Only proceed if we have reasonable confidence
+      if (confidence < 0.3) {
+        srcPoints.delete();
+        dstPoints.delete();
+        homography.delete();
+        mask.delete();
+        return null;
+      }      // Get homography matrix as flat array
+      const homographyArray: number[] = Array.from(homography.data64F || homography.data32F) as number[];      console.log('[TRACKING ADDON] Homography matrix:');
+      console.log(`[TRACKING ADDON]   [${homographyArray[0].toFixed(3)}, ${homographyArray[1].toFixed(3)}, ${homographyArray[2].toFixed(3)}]`);
+      console.log(`[TRACKING ADDON]   [${homographyArray[3].toFixed(3)}, ${homographyArray[4].toFixed(3)}, ${homographyArray[5].toFixed(3)}]`);
+      console.log(`[TRACKING ADDON]   [${homographyArray[6].toFixed(3)}, ${homographyArray[7].toFixed(3)}, ${homographyArray[8].toFixed(3)}]`);
+      console.log('[TRACKING ADDON] Confidence:', confidence, 'Inliers:', inlierCount, '/', currentPoints.length);      // Apply homography to corners (incremental or absolute based on what we computed)
+      this.updateCornersFromHomography(planarTracker, homographyArray, frameCount, isIncremental);
 
       // Store homography for this frame
       planarTracker.frameHomographies.set(frameCount, homographyArray);
@@ -195,30 +232,54 @@ export class PlanarTrackerManager {
       return null;
     }
   }
-
   /**
    * Update corner positions based on homography transformation
    */
   private updateCornersFromHomography(
     planarTracker: PlanarTracker, 
     homographyMatrix: number[], 
-    frameCount: number
+    frameCount: number,
+    isIncremental: boolean = false
   ): void {
     if (!this.cv || homographyMatrix.length !== 9) {
+      console.log('[TRACKING ADDON] Invalid homography matrix:', homographyMatrix.length, 'elements');
       return;
-    }
+    }    try {
+      // Check if this tracker has been manually adjusted
+      const hasManualAdjustment = (planarTracker as any).hasManualAdjustment;
+      
+      // Choose source corners based on tracking mode
+      let sourceCorners;
+      let shouldUseIncremental = isIncremental || hasManualAdjustment;
+      
+      if (shouldUseIncremental && planarTracker.trajectory.length > 0) {
+        // For incremental tracking or after manual adjustment, use current corner positions
+        sourceCorners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
+        console.log('[TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)' + 
+                   (hasManualAdjustment ? ' [AFTER MANUAL ADJUSTMENT]' : ''));
+        
+        // Clear the manual adjustment flag after first use
+        if (hasManualAdjustment) {
+          delete (planarTracker as any).hasManualAdjustment;
+          console.log('[TRACKING ADDON] Cleared manual adjustment flag');
+        }
+      } else {
+        // For absolute tracking, use original corner positions
+        if (planarTracker.trajectory.length > 0) {
+          sourceCorners = planarTracker.trajectory[0].corners;
+        } else {
+          sourceCorners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
+        }
+        console.log('[TRACKING ADDON] Using ABSOLUTE tracking (original->new corners)');
+      }
 
-    try {
-      // Get original corner positions (first frame)
-      const originalCorners = planarTracker.trajectory[0]?.corners || 
-        planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
-
-      // Apply homography transformation to each corner
+      console.log('[TRACKING ADDON] Source corners:', sourceCorners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      console.log('[TRACKING ADDON] Current corners before update:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));// Apply homography transformation to each corner
       const homMat = this.cv.matFromArray(3, 3, this.cv.CV_64FC1, homographyMatrix);
       
-      originalCorners.forEach((originalCorner, index) => {
+      sourceCorners.forEach((sourceCorner, index) => {
         // Convert point to homogeneous coordinates
-        const point = this.cv.matFromArray(1, 1, this.cv.CV_64FC2, [originalCorner.x, originalCorner.y]);
+        const point = this.cv.matFromArray(1, 1, this.cv.CV_64FC2, [sourceCorner.x, sourceCorner.y]);
         const transformedPoint = new this.cv.Mat();
         
         // Apply transformation
@@ -226,18 +287,32 @@ export class PlanarTrackerManager {
         
         // Extract transformed coordinates
         const transformed = transformedPoint.data64F;
-        planarTracker.corners[index].x = transformed[0];
-        planarTracker.corners[index].y = transformed[1];
+        const newX = transformed[0];
+        const newY = transformed[1];
+        
+        console.log(`[TRACKING ADDON] Corner ${index}: (${sourceCorner.x.toFixed(1)}, ${sourceCorner.y.toFixed(1)}) -> (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
+        
+        planarTracker.corners[index].x = newX;
+        planarTracker.corners[index].y = newY;
         
         // Cleanup
         point.delete();
         transformedPoint.delete();
-      });
-
-      // Update center point
+      });// Update center point
       const centerX = planarTracker.corners.reduce((sum, c) => sum + c.x, 0) / 4;
       const centerY = planarTracker.corners.reduce((sum, c) => sum + c.y, 0) / 4;
-      planarTracker.center = { x: centerX, y: centerY };
+      planarTracker.center = { x: centerX, y: centerY };      console.log('[TRACKING ADDON] Updated corners:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      console.log('[TRACKING ADDON] New center:', `(${planarTracker.center.x.toFixed(1)}, ${planarTracker.center.y.toFixed(1)})`);
+
+      // Check for unreasonable corner positions (likely indicates a bad homography)
+      const hasUnreasonableCorners = planarTracker.corners.some(corner => 
+        Math.abs(corner.x) > 10000 || Math.abs(corner.y) > 10000 || 
+        isNaN(corner.x) || isNaN(corner.y)
+      );
+      
+      if (hasUnreasonableCorners) {
+        console.warn('[TRACKING ADDON] WARNING: Corners have unreasonable values, homography may be unstable');
+      }
 
       // Add to trajectory
       planarTracker.trajectory.push({
@@ -253,7 +328,6 @@ export class PlanarTrackerManager {
       console.warn('Failed to update corners from homography:', error);
     }
   }
-
   /**
    * Update corner position manually (when user drags a corner)
    */
@@ -271,6 +345,24 @@ export class PlanarTrackerManager {
       const centerX = planarTracker.corners.reduce((sum, c) => sum + c.x, 0) / 4;
       const centerY = planarTracker.corners.reduce((sum, c) => sum + c.y, 0) / 4;
       planarTracker.center = { x: centerX, y: centerY };
+      
+      console.log(`[TRACKING ADDON] Manual corner ${cornerIndex} update: (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
+      console.log('[TRACKING ADDON] All corners after manual adjustment:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      
+      // CRITICAL: Reset the tracking reference to the current corners
+      // This ensures that future tracking uses these manually adjusted corners as the baseline
+      if (planarTracker.trajectory.length > 0) {
+        // Update the most recent trajectory entry to reflect the manual adjustment
+        const lastTrajectoryEntry = planarTracker.trajectory[planarTracker.trajectory.length - 1];
+        lastTrajectoryEntry.corners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
+        lastTrajectoryEntry.center = { x: centerX, y: centerY };
+        
+        console.log('[TRACKING ADDON] Updated trajectory reference to manual adjustment');
+      }
+      
+      // Mark that this tracker has been manually adjusted
+      // We'll use this flag to ensure proper incremental tracking on the next frame
+      (planarTracker as any).hasManualAdjustment = true;
     }
   }
 

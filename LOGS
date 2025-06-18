@@ -1,0 +1,1157 @@
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 0 trackers: 0
+PlanarTrackerManager.ts:314 [TRACKING ADDON] Manual corner 0 update: (348.0, 956.8)
+PlanarTrackerManager.ts:315 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (348.0, 956.8)', '[1]: (520.0, 888.8)', '[2]: (520.0, 1104.8)', '[3]: (304.0, 1104.8)']
+PlanarTrackerManager.ts:497 [TRACKING ADDON] EMA smoothing reset after manual adjustment
+PlanarTrackerManager.ts:325 [TRACKING ADDON] Updated trajectory reference to manual adjustment
+PlanarTrackerManager.ts:314 [TRACKING ADDON] Manual corner 1 update: (460.0, 948.8)
+PlanarTrackerManager.ts:315 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (520.0, 1104.8)', '[3]: (304.0, 1104.8)']
+PlanarTrackerManager.ts:497 [TRACKING ADDON] EMA smoothing reset after manual adjustment
+PlanarTrackerManager.ts:325 [TRACKING ADDON] Updated trajectory reference to manual adjustment
+PlanarTrackerManager.ts:314 [TRACKING ADDON] Manual corner 3 update: (364.0, 1076.8)
+PlanarTrackerManager.ts:315 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (520.0, 1104.8)', '[3]: (364.0, 1076.8)']
+PlanarTrackerManager.ts:497 [TRACKING ADDON] EMA smoothing reset after manual adjustment
+PlanarTrackerManager.ts:325 [TRACKING ADDON] Updated trajectory reference to manual adjustment
+PlanarTrackerManager.ts:314 [TRACKING ADDON] Manual corner 2 update: (500.0, 1052.8)
+PlanarTrackerManager.ts:315 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (500.0, 1052.8)', '[3]: (364.0, 1076.8)']
+PlanarTrackerManager.ts:497 [TRACKING ADDON] EMA smoothing reset after manual adjustment
+PlanarTrackerManager.ts:325 [TRACKING ADDON] Updated trajectory reference to manual adjustment
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 1 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using absolute (orig->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (347.2, 942.8) -> (347.2, 942.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (390.4, 942.8) -> (390.4, 942.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (433.6, 942.8) -> (433.6, 942.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (476.8, 942.8) -> (476.8, 942.8)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.000, -0.000, 0.000]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.000, 1.000, 0.000]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners) [AFTER MANUAL ADJUSTMENT]
+PlanarTrackerManager.ts:234 [TRACKING ADDON] Cleared manual adjustment flag
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (500.0, 1052.8)', '[3]: (364.0, 1076.8)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (500.0, 1052.8)', '[3]: (364.0, 1076.8)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (348.0, 956.8) -> (348.0, 956.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (460.0, 948.8) -> (460.0, 948.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (500.0, 1052.8) -> (500.0, 1052.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (364.0, 1076.8) -> (364.0, 1076.8) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=0.0, smoothed_move=0.0
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=0.0, smoothed_move=0.0
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (348.0, 956.8) -> (348.0, 956.8) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (460.0, 948.8) -> (460.0, 948.8) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (500.0, 1052.8) -> (500.0, 1052.8) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (364.0, 1076.8) -> (364.0, 1076.8) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (500.0, 1052.8)', '[3]: (364.0, 1076.8)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (418.0, 1008.8)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 2 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using absolute (orig->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (347.2, 942.8) -> (347.2, 942.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (390.4, 942.8) -> (390.4, 942.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (433.6, 942.8) -> (412.8, 925.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (476.8, 942.8) -> (457.2, 922.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.589, 0.082, -189.861]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.421, 1.664, -455.351]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.75 Inliers: 9 / 12
+PlanarTrackerManager.ts:245 [TRACKING ADDON] Using ABSOLUTE tracking (original->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (500.0, 1052.8)', '[3]: (364.0, 1076.8)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (348.0, 956.8)', '[1]: (460.0, 948.8)', '[2]: (500.0, 1052.8)', '[3]: (364.0, 1076.8)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (348.0, 956.8) -> (322.5, 938.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (460.0, 948.8) -> (438.0, 932.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (500.0, 1052.8) -> (475.3, 1037.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (364.0, 1076.8) -> (339.5, 1061.8) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.300, final=0.660
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.660
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=31.7, smoothed_move=20.9
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=27.1, smoothed_move=17.9
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (322.5, 938.0) -> (331.2, 944.4) [SMOOTHED, diff=10.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (438.0, 932.9) -> (445.5, 938.3) [SMOOTHED, diff=9.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (475.3, 1037.3) -> (483.7, 1042.6) [SMOOTHED, diff=9.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (339.5, 1061.8) -> (347.9, 1066.9) [SMOOTHED, diff=9.8px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (331.2, 944.4)', '[1]: (445.5, 938.3)', '[2]: (483.7, 1042.6)', '[3]: (347.9, 1066.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (402.1, 998.0)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.75
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 3 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (347.2, 942.8) -> (333.3, 931.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (390.4, 942.8) -> (375.5, 931.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (412.8, 925.9) -> (399.0, 914.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (457.2, 922.4) -> (442.4, 909.1)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.838, -0.021, 20.919]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.099, 0.793, 104.574]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (331.2, 944.4)', '[1]: (445.5, 938.3)', '[2]: (483.7, 1042.6)', '[3]: (347.9, 1066.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (331.2, 944.4)', '[1]: (445.5, 938.3)', '[2]: (483.7, 1042.6)', '[3]: (347.9, 1066.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (331.2, 944.4) -> (317.0, 932.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (445.5, 938.3) -> (431.6, 926.5) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (483.7, 1042.6) -> (473.3, 1033.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (347.9, 1066.9) -> (334.9, 1056.6) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.300, motion_boost=0.106, final=0.406
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.750, alpha=0.406
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=18.4, smoothed_move=7.4
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=18.2, smoothed_move=7.4
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (317.0, 932.7) -> (325.4, 939.7) [SMOOTHED, diff=10.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (431.6, 926.5) -> (439.9, 933.5) [SMOOTHED, diff=10.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (473.3, 1033.3) -> (479.5, 1038.8) [SMOOTHED, diff=8.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (334.9, 1056.6) -> (342.6, 1062.7) [SMOOTHED, diff=9.8px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (325.4, 939.7)', '[1]: (439.9, 933.5)', '[2]: (479.5, 1038.8)', '[3]: (342.6, 1062.7)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (396.8, 993.7)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 4 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (333.3, 931.2) -> (317.3, 917.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (375.5, 931.2) -> (362.6, 917.1)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (399.0, 914.6) -> (386.6, 900.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (442.4, 909.1) -> (425.1, 896.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [-11.343, -2.767, 3865.380]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-6.762, -15.613, 9546.513]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.007, -0.007, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.6666666666666666 Inliers: 8 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (325.4, 939.7)', '[1]: (439.9, 933.5)', '[2]: (479.5, 1038.8)', '[3]: (342.6, 1062.7)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (325.4, 939.7)', '[1]: (439.9, 933.5)', '[2]: (479.5, 1038.8)', '[3]: (342.6, 1062.7)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (325.4, 939.7) -> (305.3, 922.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (439.9, 933.5) -> (428.1, 924.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (479.5, 1038.8) -> (459.3, 1024.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (342.6, 1062.7) -> (330.9, 1046.3) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.180, final=0.540
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.540
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=26.8, smoothed_move=14.5
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=15.0, smoothed_move=8.1
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (305.3, 922.0) -> (314.6, 930.1) [SMOOTHED, diff=12.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (428.1, 924.2) -> (433.5, 928.5) [SMOOTHED, diff=6.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (459.3, 1024.0) -> (468.6, 1030.8) [SMOOTHED, diff=11.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (330.9, 1046.3) -> (336.3, 1053.9) [SMOOTHED, diff=9.3px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (314.6, 930.1)', '[1]: (433.5, 928.5)', '[2]: (468.6, 1030.8)', '[3]: (336.3, 1053.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (388.2, 985.8)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.6666666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 5 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (317.3, 917.6) -> (299.3, 904.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (362.6, 917.1) -> (346.2, 903.4)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (386.6, 900.2) -> (369.6, 886.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (425.1, 896.4) -> (408.5, 884.2)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.172, 0.054, -78.727]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.048, 1.280, -155.779]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (314.6, 930.1)', '[1]: (433.5, 928.5)', '[2]: (468.6, 1030.8)', '[3]: (336.3, 1053.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (314.6, 930.1)', '[1]: (433.5, 928.5)', '[2]: (468.6, 1030.8)', '[3]: (336.3, 1053.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (314.6, 930.1) -> (297.0, 916.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (433.5, 928.5) -> (417.0, 915.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (468.6, 1030.8) -> (451.3, 1017.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (336.3, 1053.9) -> (319.9, 1039.2) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.300, motion_boost=0.178, final=0.478
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.667, alpha=0.478
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=22.1, smoothed_move=10.6
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=20.8, smoothed_move=9.9
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (297.0, 916.7) -> (306.2, 923.7) [SMOOTHED, diff=11.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (417.0, 915.9) -> (425.6, 922.5) [SMOOTHED, diff=10.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (451.3, 1017.1) -> (460.3, 1024.3) [SMOOTHED, diff=11.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (319.9, 1039.2) -> (328.5, 1046.9) [SMOOTHED, diff=11.5px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (306.2, 923.7)', '[1]: (425.6, 922.5)', '[2]: (460.3, 1024.3)', '[3]: (328.5, 1046.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (380.2, 979.3)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 6 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (299.3, 904.6) -> (273.8, 893.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (346.2, 903.4) -> (330.1, 891.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (369.6, 886.8) -> (351.6, 875.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (408.5, 884.2) -> (385.0, 871.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.659, -0.081, 70.379]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.075, 0.383, 298.346]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.6666666666666666 Inliers: 8 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (306.2, 923.7)', '[1]: (425.6, 922.5)', '[2]: (460.3, 1024.3)', '[3]: (328.5, 1046.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (306.2, 923.7)', '[1]: (425.6, 922.5)', '[2]: (460.3, 1024.3)', '[3]: (328.5, 1046.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (306.2, 923.7) -> (286.1, 911.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (425.6, 922.5) -> (404.6, 908.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (460.3, 1024.3) -> (448.5, 1012.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (328.5, 1046.9) -> (311.0, 1038.2) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.154, final=0.514
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.514
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=23.3, smoothed_move=12.0
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=25.4, smoothed_move=13.1
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (286.1, 911.9) -> (295.8, 917.6) [SMOOTHED, diff=11.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (404.6, 908.2) -> (414.8, 915.1) [SMOOTHED, diff=12.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (448.5, 1012.2) -> (454.3, 1018.1) [SMOOTHED, diff=8.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (311.0, 1038.2) -> (319.5, 1042.4) [SMOOTHED, diff=9.5px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (295.8, 917.6)', '[1]: (414.8, 915.1)', '[2]: (454.3, 1018.1)', '[3]: (319.5, 1042.4)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (371.1, 973.3)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.6666666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 7 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (273.8, 893.9) -> (238.2, 879.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (330.1, 891.5) -> (296.6, 876.7)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (351.6, 875.6) -> (317.0, 860.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (385.0, 871.4) -> (347.4, 853.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.970, 0.000, -35.779]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.031, 0.914, 19.827]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (295.8, 917.6)', '[1]: (414.8, 915.1)', '[2]: (454.3, 1018.1)', '[3]: (319.5, 1042.4)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (295.8, 917.6)', '[1]: (414.8, 915.1)', '[2]: (454.3, 1018.1)', '[3]: (319.5, 1042.4)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (295.8, 917.6) -> (261.4, 902.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (414.8, 915.1) -> (378.6, 897.5) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (454.3, 1018.1) -> (419.8, 1000.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (319.5, 1042.4) -> (287.2, 1028.9) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.300, motion_boost=0.300, final=0.600
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.667, alpha=0.600
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=37.5, smoothed_move=22.5
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=40.3, smoothed_move=24.2
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (261.4, 902.8) -> (275.2, 908.7) [SMOOTHED, diff=15.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (378.6, 897.5) -> (393.1, 904.5) [SMOOTHED, diff=16.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (419.8, 1000.0) -> (433.6, 1007.2) [SMOOTHED, diff=15.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (287.2, 1028.9) -> (300.1, 1034.3) [SMOOTHED, diff=14.0px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (275.2, 908.7)', '[1]: (393.1, 904.5)', '[2]: (433.6, 1007.2)', '[3]: (300.1, 1034.3)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (350.5, 963.7)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 8 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (238.2, 879.8) -> (225.7, 874.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (296.6, 876.7) -> (284.8, 871.0)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (317.0, 860.3) -> (305.6, 854.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (347.4, 853.4) -> (335.1, 847.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.984, 0.001, -9.105]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.037, 1.001, 1.221]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (275.2, 908.7)', '[1]: (393.1, 904.5)', '[2]: (433.6, 1007.2)', '[3]: (300.1, 1034.3)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (275.2, 908.7)', '[1]: (393.1, 904.5)', '[2]: (433.6, 1007.2)', '[3]: (300.1, 1034.3)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (275.2, 908.7) -> (263.0, 902.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (393.1, 904.5) -> (381.4, 899.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (433.6, 1007.2) -> (422.0, 1001.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (300.1, 1034.3) -> (287.6, 1027.6) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=13.6, smoothed_move=4.9
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=12.8, smoothed_move=4.6
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (263.0, 902.8) -> (270.8, 906.6) [SMOOTHED, diff=8.7px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (381.4, 899.1) -> (388.9, 902.6) [SMOOTHED, diff=8.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (422.0, 1001.9) -> (429.4, 1005.3) [SMOOTHED, diff=8.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (287.6, 1027.6) -> (295.6, 1031.9) [SMOOTHED, diff=9.1px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (270.8, 906.6)', '[1]: (388.9, 902.6)', '[2]: (429.4, 1005.3)', '[3]: (295.6, 1031.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (346.2, 961.6)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 9 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (225.7, 874.6) -> (225.7, 874.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (284.8, 871.0) -> (284.8, 871.0)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (305.6, 854.8) -> (305.6, 854.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (335.1, 847.4) -> (335.1, 847.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.000, 0.000, -0.000]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.000, 1.000, -0.000]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (270.8, 906.6)', '[1]: (388.9, 902.6)', '[2]: (429.4, 1005.3)', '[3]: (295.6, 1031.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (270.8, 906.6)', '[1]: (388.9, 902.6)', '[2]: (429.4, 1005.3)', '[3]: (295.6, 1031.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (270.8, 906.6) -> (270.8, 906.6) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (388.9, 902.6) -> (388.9, 902.6) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (429.4, 1005.3) -> (429.4, 1005.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (295.6, 1031.9) -> (295.6, 1031.9) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.128, final=0.488
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.488
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=0.0, smoothed_move=0.0
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=0.0, smoothed_move=0.0
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (270.8, 906.6) -> (270.8, 906.6) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (388.9, 902.6) -> (388.9, 902.6) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (429.4, 1005.3) -> (429.4, 1005.3) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (295.6, 1031.9) -> (295.6, 1031.9) [SMOOTHED, diff=0.0px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (270.8, 906.6)', '[1]: (388.9, 902.6)', '[2]: (429.4, 1005.3)', '[3]: (295.6, 1031.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (346.2, 961.6)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 10 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (225.7, 874.6) -> (211.7, 867.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (284.8, 871.0) -> (269.9, 864.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (305.6, 854.8) -> (290.5, 848.0)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (335.1, 847.4) -> (316.4, 843.2)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.035, -0.015, -14.146]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.153, 0.922, 15.220]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (270.8, 906.6)', '[1]: (388.9, 902.6)', '[2]: (429.4, 1005.3)', '[3]: (295.6, 1031.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (270.8, 906.6)', '[1]: (388.9, 902.6)', '[2]: (429.4, 1005.3)', '[3]: (295.6, 1031.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (270.8, 906.6) -> (255.0, 900.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (388.9, 902.6) -> (370.3, 895.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (429.4, 1005.3) -> (409.9, 994.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (295.6, 1031.9) -> (280.0, 1024.2) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.288, final=0.648
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.648
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=17.0, smoothed_move=11.0
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=19.9, smoothed_move=12.9
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (255.0, 900.3) -> (260.6, 902.5) [SMOOTHED, diff=6.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (370.3, 895.4) -> (376.9, 897.9) [SMOOTHED, diff=7.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (409.9, 994.2) -> (416.8, 998.1) [SMOOTHED, diff=7.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (280.0, 1024.2) -> (285.5, 1026.9) [SMOOTHED, diff=6.1px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (260.6, 902.5)', '[1]: (376.9, 897.9)', '[2]: (416.8, 998.1)', '[3]: (285.5, 1026.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (334.9, 956.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 11 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (211.7, 867.8) -> (205.9, 866.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (269.9, 864.3) -> (261.1, 863.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (290.5, 848.0) -> (281.8, 847.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (316.4, 843.2) -> (316.2, 843.1)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.806, -0.046, 41.501]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.053, 0.675, 152.259]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.75 Inliers: 9 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (260.6, 902.5)', '[1]: (376.9, 897.9)', '[2]: (416.8, 998.1)', '[3]: (285.5, 1026.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (260.6, 902.5)', '[1]: (376.9, 897.9)', '[2]: (416.8, 998.1)', '[3]: (285.5, 1026.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (260.6, 902.5) -> (252.7, 901.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (376.9, 897.9) -> (368.5, 896.5) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (416.8, 998.1) -> (411.7, 999.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (285.5, 1026.9) -> (277.7, 1029.7) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=7.9, smoothed_move=2.8
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=8.5, smoothed_move=3.1
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (252.7, 901.7) -> (257.7, 902.2) [SMOOTHED, diff=5.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (368.5, 896.5) -> (373.8, 897.4) [SMOOTHED, diff=5.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (411.7, 999.8) -> (414.9, 998.7) [SMOOTHED, diff=3.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (277.7, 1029.7) -> (282.7, 1027.9) [SMOOTHED, diff=5.3px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (257.7, 902.2)', '[1]: (373.8, 897.4)', '[2]: (414.9, 998.7)', '[3]: (282.7, 1027.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (332.3, 956.6)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.75
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 12 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (205.9, 866.9) -> (186.6, 866.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (261.1, 863.6) -> (242.6, 863.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (281.8, 847.3) -> (264.0, 846.7)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (316.2, 843.1) -> (301.0, 846.1)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.007, -0.014, -11.832]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.045, 0.964, 7.183]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (257.7, 902.2)', '[1]: (373.8, 897.4)', '[2]: (414.9, 998.7)', '[3]: (282.7, 1027.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (257.7, 902.2)', '[1]: (373.8, 897.4)', '[2]: (414.9, 998.7)', '[3]: (282.7, 1027.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (257.7, 902.2) -> (239.0, 901.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (373.8, 897.4) -> (355.6, 897.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (414.9, 998.7) -> (396.4, 998.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (282.7, 1027.9) -> (263.4, 1028.7) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.300, motion_boost=0.211, final=0.511
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.750, alpha=0.511
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=18.8, smoothed_move=9.6
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=18.3, smoothed_move=9.3
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (239.0, 901.8) -> (248.1, 902.0) [SMOOTHED, diff=9.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (355.6, 897.1) -> (364.5, 897.3) [SMOOTHED, diff=8.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (396.4, 998.7) -> (405.5, 998.7) [SMOOTHED, diff=9.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (263.4, 1028.7) -> (272.8, 1028.3) [SMOOTHED, diff=9.4px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (248.1, 902.0)', '[1]: (364.5, 897.3)', '[2]: (405.5, 998.7)', '[3]: (272.8, 1028.3)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (322.7, 956.6)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 13 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (186.6, 866.5) -> (176.5, 866.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (242.6, 863.2) -> (229.4, 863.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (264.0, 846.7) -> (251.2, 846.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (301.0, 846.1) -> (288.0, 844.8)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.789, -0.027, 20.959]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.065, 0.641, 169.330]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (248.1, 902.0)', '[1]: (364.5, 897.3)', '[2]: (405.5, 998.7)', '[3]: (272.8, 1028.3)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (248.1, 902.0)', '[1]: (364.5, 897.3)', '[2]: (405.5, 998.7)', '[3]: (272.8, 1028.3)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (248.1, 902.0) -> (237.2, 901.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (364.5, 897.3) -> (353.6, 896.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (405.5, 998.7) -> (401.4, 1001.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (272.8, 1028.3) -> (265.4, 1031.6) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=11.0, smoothed_move=4.0
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=11.0, smoothed_move=4.0
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (237.2, 901.2) -> (244.2, 901.7) [SMOOTHED, diff=7.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (353.6, 896.2) -> (360.6, 896.9) [SMOOTHED, diff=7.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (401.4, 1001.2) -> (404.0, 999.6) [SMOOTHED, diff=3.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (265.4, 1031.6) -> (270.2, 1029.5) [SMOOTHED, diff=5.2px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (244.2, 901.7)', '[1]: (360.6, 896.9)', '[2]: (404.0, 999.6)', '[3]: (270.2, 1029.5)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (319.7, 956.9)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 14 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (176.5, 866.5) -> (168.6, 864.4)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (229.4, 863.5) -> (219.5, 861.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (251.2, 846.6) -> (242.0, 844.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (288.0, 844.8) -> (279.3, 842.8)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.986, -0.016, 6.485]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.017, 0.997, -0.826]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (244.2, 901.7)', '[1]: (360.6, 896.9)', '[2]: (404.0, 999.6)', '[3]: (270.2, 1029.5)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (244.2, 901.7)', '[1]: (360.6, 896.9)', '[2]: (404.0, 999.6)', '[3]: (270.2, 1029.5)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (244.2, 901.7) -> (234.3, 900.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (360.6, 896.9) -> (350.6, 895.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (404.0, 999.6) -> (392.5, 998.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (270.2, 1029.5) -> (258.2, 1028.7) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.087, final=0.447
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.447
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=10.0, smoothed_move=4.5
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=10.1, smoothed_move=4.5
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (234.3, 900.1) -> (239.8, 901.0) [SMOOTHED, diff=5.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (350.6, 895.1) -> (356.1, 896.1) [SMOOTHED, diff=5.6px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (392.5, 998.7) -> (398.9, 999.2) [SMOOTHED, diff=6.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (258.2, 1028.7) -> (264.8, 1029.2) [SMOOTHED, diff=6.6px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (239.8, 901.0)', '[1]: (356.1, 896.1)', '[2]: (398.9, 999.2)', '[3]: (264.8, 1029.2)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (314.9, 956.3)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 15 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (168.6, 864.4) -> (155.5, 861.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (219.5, 861.6) -> (209.8, 858.1)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (242.0, 844.9) -> (231.4, 841.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (279.3, 842.8) -> (270.7, 838.5)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.222, 0.047, -58.735]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.007, 1.412, -191.477]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (239.8, 901.0)', '[1]: (356.1, 896.1)', '[2]: (398.9, 999.2)', '[3]: (264.8, 1029.2)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (239.8, 901.0)', '[1]: (356.1, 896.1)', '[2]: (398.9, 999.2)', '[3]: (264.8, 1029.2)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (239.8, 901.0) -> (229.3, 897.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (356.1, 896.1) -> (346.4, 891.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (398.9, 999.2) -> (386.0, 992.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (264.8, 1029.2) -> (253.5, 1023.4) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.102, final=0.462
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.462
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=10.9, smoothed_move=5.1
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=10.8, smoothed_move=5.0
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (229.3, 897.8) -> (234.9, 899.5) [SMOOTHED, diff=5.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (346.4, 891.3) -> (351.6, 893.8) [SMOOTHED, diff=5.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (386.0, 992.4) -> (392.9, 996.1) [SMOOTHED, diff=7.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (253.5, 1023.4) -> (259.6, 1026.5) [SMOOTHED, diff=6.8px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (234.9, 899.5)', '[1]: (351.6, 893.8)', '[2]: (392.9, 996.1)', '[3]: (259.6, 1026.5)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (309.8, 954.0)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 16 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (155.5, 861.5) -> (145.1, 858.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (209.8, 858.1) -> (201.9, 854.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (231.4, 841.3) -> (220.6, 838.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (270.7, 838.5) -> (263.7, 831.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.350, 0.052, -58.756]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.090, 1.750, -336.753]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (234.9, 899.5)', '[1]: (351.6, 893.8)', '[2]: (392.9, 996.1)', '[3]: (259.6, 1026.5)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (234.9, 899.5)', '[1]: (351.6, 893.8)', '[2]: (392.9, 996.1)', '[3]: (259.6, 1026.5)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (234.9, 899.5) -> (224.9, 896.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (351.6, 893.8) -> (343.8, 888.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (392.9, 996.1) -> (378.1, 989.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (259.6, 1026.5) -> (245.1, 1019.8) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.097, final=0.457
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.457
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=10.6, smoothed_move=4.9
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=9.4, smoothed_move=4.3
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (224.9, 896.1) -> (230.3, 897.9) [SMOOTHED, diff=5.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (343.8, 888.7) -> (348.1, 891.5) [SMOOTHED, diff=5.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (378.1, 989.9) -> (386.2, 993.3) [SMOOTHED, diff=8.7px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (245.1, 1019.8) -> (253.0, 1023.4) [SMOOTHED, diff=8.7px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (230.3, 897.9)', '[1]: (348.1, 891.5)', '[2]: (386.2, 993.3)', '[3]: (253.0, 1023.4)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (304.4, 951.5)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 17 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (145.1, 858.8) -> (127.1, 856.1)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (201.9, 854.8) -> (184.9, 851.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (220.6, 838.6) -> (204.4, 835.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (270.7, 838.5) -> (263.7, 831.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.344, 0.071, -90.941]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.125, 1.602, -285.324]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (230.3, 897.9)', '[1]: (348.1, 891.5)', '[2]: (386.2, 993.3)', '[3]: (253.0, 1023.4)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (230.3, 897.9)', '[1]: (348.1, 891.5)', '[2]: (386.2, 993.3)', '[3]: (253.0, 1023.4)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (230.3, 897.9) -> (213.7, 895.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (348.1, 891.5) -> (330.1, 890.5) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (386.2, 993.3) -> (363.7, 988.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (253.0, 1023.4) -> (235.7, 1016.7) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.185, final=0.545
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.545
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=16.7, smoothed_move=9.1
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=18.0, smoothed_move=9.8
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (213.7, 895.8) -> (221.3, 896.8) [SMOOTHED, diff=7.6px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (330.1, 890.5) -> (338.3, 890.9) [SMOOTHED, diff=8.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (363.7, 988.4) -> (373.9, 990.6) [SMOOTHED, diff=10.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (235.7, 1016.7) -> (243.6, 1019.8) [SMOOTHED, diff=8.4px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (221.3, 896.8)', '[1]: (338.3, 890.9)', '[2]: (373.9, 990.6)', '[3]: (243.6, 1019.8)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (294.3, 949.5)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 18 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (127.1, 856.1) -> (119.3, 856.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (184.9, 851.9) -> (176.5, 851.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (204.4, 835.3) -> (198.7, 835.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.7, 831.4) -> (263.6, 831.6)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.150, 0.025, -31.592]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.051, 1.265, -123.598]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.75 Inliers: 9 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (221.3, 896.8)', '[1]: (338.3, 890.9)', '[2]: (373.9, 990.6)', '[3]: (243.6, 1019.8)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (221.3, 896.8)', '[1]: (338.3, 890.9)', '[2]: (373.9, 990.6)', '[3]: (243.6, 1019.8)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (221.3, 896.8) -> (215.1, 896.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (338.3, 890.9) -> (331.4, 891.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (373.9, 990.6) -> (364.2, 989.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (243.6, 1019.8) -> (236.4, 1017.8) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=6.2, smoothed_move=2.2
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=6.9, smoothed_move=2.5
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (215.1, 896.9) -> (219.1, 896.8) [SMOOTHED, diff=4.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (331.4, 891.3) -> (335.8, 891.1) [SMOOTHED, diff=4.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (364.2, 989.1) -> (370.4, 990.1) [SMOOTHED, diff=6.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (236.4, 1017.8) -> (241.0, 1019.1) [SMOOTHED, diff=4.8px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (219.1, 896.8)', '[1]: (335.8, 891.1)', '[2]: (370.4, 990.1)', '[3]: (241.0, 1019.1)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (291.6, 949.3)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.75
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 19 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (119.3, 856.3) -> (118.9, 855.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (176.5, 851.9) -> (172.1, 851.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (198.7, 835.2) -> (194.6, 835.0)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.6, 831.6) -> (263.2, 831.9)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.050, 0.007, -9.209]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.137, 1.142, -47.591]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.75 Inliers: 9 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (219.1, 896.8)', '[1]: (335.8, 891.1)', '[2]: (370.4, 990.1)', '[3]: (241.0, 1019.1)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (219.1, 896.8)', '[1]: (335.8, 891.1)', '[2]: (370.4, 990.1)', '[3]: (241.0, 1019.1)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (219.1, 896.8) -> (215.0, 896.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (335.8, 891.1) -> (337.2, 892.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (370.4, 990.1) -> (371.4, 992.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (241.0, 1019.1) -> (235.6, 1017.7) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.750, alpha=0.300
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=4.1, smoothed_move=1.2
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=1.7, smoothed_move=0.5
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (215.0, 896.9) -> (217.8, 896.8) [SMOOTHED, diff=2.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (337.2, 892.0) -> (336.2, 891.4) [SMOOTHED, diff=1.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (371.4, 992.3) -> (370.7, 990.7) [SMOOTHED, diff=1.7px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (235.6, 1017.7) -> (239.4, 1018.7) [SMOOTHED, diff=3.9px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (217.8, 896.8)', '[1]: (336.2, 891.4)', '[2]: (370.7, 990.7)', '[3]: (239.4, 1018.7)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (291.0, 949.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.75
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 20 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (118.9, 855.8) -> (115.1, 855.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (172.1, 851.9) -> (168.3, 852.0)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (194.6, 835.0) -> (190.9, 835.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.2, 831.9) -> (263.2, 831.9)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.146, 0.010, -13.293]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.080, 1.322, -136.718]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (217.8, 896.8)', '[1]: (336.2, 891.4)', '[2]: (370.7, 990.7)', '[3]: (239.4, 1018.7)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (217.8, 896.8)', '[1]: (336.2, 891.4)', '[2]: (370.7, 990.7)', '[3]: (239.4, 1018.7)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (217.8, 896.8) -> (213.8, 897.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (336.2, 891.4) -> (335.1, 891.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (370.7, 990.7) -> (365.7, 991.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (239.4, 1018.7) -> (232.1, 1017.4) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.750, alpha=0.300
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=4.1, smoothed_move=1.2
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=1.2, smoothed_move=0.4
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (213.8, 897.4) -> (216.6, 897.0) [SMOOTHED, diff=2.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (335.1, 891.8) -> (335.9, 891.5) [SMOOTHED, diff=0.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (365.7, 991.3) -> (369.2, 990.9) [SMOOTHED, diff=3.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (232.1, 1017.4) -> (237.2, 1018.3) [SMOOTHED, diff=5.2px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (216.6, 897.0)', '[1]: (335.9, 891.5)', '[2]: (369.2, 990.9)', '[3]: (237.2, 1018.3)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (289.7, 949.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 21 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (115.1, 855.8) -> (113.9, 855.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (168.3, 852.0) -> (166.4, 851.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (190.9, 835.2) -> (187.3, 835.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.2, 831.9) -> (263.2, 831.9)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.102, -0.003, -1.877]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.054, 1.214, -90.360]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (216.6, 897.0)', '[1]: (335.9, 891.5)', '[2]: (369.2, 990.9)', '[3]: (237.2, 1018.3)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (216.6, 897.0)', '[1]: (335.9, 891.5)', '[2]: (369.2, 990.9)', '[3]: (237.2, 1018.3)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (216.6, 897.0) -> (212.8, 897.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (335.9, 891.5) -> (334.8, 891.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (369.2, 990.9) -> (364.6, 991.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (237.2, 1018.3) -> (230.2, 1017.3) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=3.8, smoothed_move=1.4
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=1.1, smoothed_move=0.4
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (212.8, 897.3) -> (215.3, 897.1) [SMOOTHED, diff=2.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (334.8, 891.7) -> (335.5, 891.6) [SMOOTHED, diff=0.7px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (364.6, 991.0) -> (367.5, 990.9) [SMOOTHED, diff=2.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (230.2, 1017.3) -> (234.7, 1017.9) [SMOOTHED, diff=4.5px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (215.3, 897.1)', '[1]: (335.5, 891.6)', '[2]: (367.5, 990.9)', '[3]: (234.7, 1017.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (288.2, 949.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 22 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (113.9, 855.6) -> (109.2, 857.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (166.4, 851.8) -> (158.7, 853.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (187.3, 835.3) -> (181.6, 837.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.2, 831.9) -> (263.3, 832.1)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.012, 0.007, -11.812]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.028, 1.015, -5.224]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (215.3, 897.1)', '[1]: (335.5, 891.6)', '[2]: (367.5, 990.9)', '[3]: (234.7, 1017.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (215.3, 897.1)', '[1]: (335.5, 891.6)', '[2]: (367.5, 990.9)', '[3]: (234.7, 1017.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (215.3, 897.1) -> (209.1, 899.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (335.5, 891.6) -> (328.0, 893.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (367.5, 990.9) -> (360.0, 992.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (234.7, 1017.9) -> (228.9, 1019.1) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=6.5, smoothed_move=2.3
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=7.8, smoothed_move=2.8
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (209.1, 899.1) -> (213.0, 897.8) [SMOOTHED, diff=4.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (328.0, 893.9) -> (332.8, 892.4) [SMOOTHED, diff=5.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (360.0, 992.3) -> (364.8, 991.4) [SMOOTHED, diff=4.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (228.9, 1019.1) -> (232.6, 1018.3) [SMOOTHED, diff=3.7px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (213.0, 897.8)', '[1]: (332.8, 892.4)', '[2]: (364.8, 991.4)', '[3]: (232.6, 1018.3)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (285.8, 950.0)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 23 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (109.2, 857.2) -> (108.6, 858.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (158.7, 853.9) -> (157.0, 855.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (181.6, 837.3) -> (180.2, 838.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.3, 832.1) -> (263.4, 832.1)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.931, 0.002, 0.835]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.111, 0.921, 45.378]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (213.0, 897.8)', '[1]: (332.8, 892.4)', '[2]: (364.8, 991.4)', '[3]: (232.6, 1018.3)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (213.0, 897.8)', '[1]: (332.8, 892.4)', '[2]: (364.8, 991.4)', '[3]: (232.6, 1018.3)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (213.0, 897.8) -> (212.5, 899.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (332.8, 892.4) -> (336.0, 894.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (364.8, 991.4) -> (371.2, 996.5) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (232.6, 1018.3) -> (233.5, 1021.4) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.107, final=0.467
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.467
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=1.5, smoothed_move=0.7
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=3.7, smoothed_move=1.7
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (212.5, 899.2) -> (212.8, 898.5) [SMOOTHED, diff=0.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (336.0, 894.3) -> (334.3, 893.3) [SMOOTHED, diff=2.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (371.2, 996.5) -> (367.8, 993.8) [SMOOTHED, diff=4.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (233.5, 1021.4) -> (233.0, 1019.8) [SMOOTHED, diff=1.7px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (212.8, 898.5)', '[1]: (334.3, 893.3)', '[2]: (367.8, 993.8)', '[3]: (233.0, 1019.8)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (287.0, 951.3)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 24 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (108.6, 858.8) -> (109.8, 860.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (157.0, 855.8) -> (156.5, 858.0)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (180.2, 838.8) -> (181.3, 840.7)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.4, 832.1) -> (263.4, 832.1)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.831, -0.026, 25.773]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.083, 0.706, 138.664]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (212.8, 898.5)', '[1]: (334.3, 893.3)', '[2]: (367.8, 993.8)', '[3]: (233.0, 1019.8)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (212.8, 898.5)', '[1]: (334.3, 893.3)', '[2]: (367.8, 993.8)', '[3]: (233.0, 1019.8)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (212.8, 898.5) -> (213.3, 899.5) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (334.3, 893.3) -> (337.7, 893.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (367.8, 993.8) -> (376.5, 998.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (233.0, 1019.8) -> (235.4, 1024.8) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=1.1, smoothed_move=0.4
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=3.4, smoothed_move=1.2
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (213.3, 899.5) -> (212.9, 898.8) [SMOOTHED, diff=0.7px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (337.7, 893.9) -> (335.5, 893.5) [SMOOTHED, diff=2.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (376.5, 998.7) -> (370.9, 995.5) [SMOOTHED, diff=6.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (235.4, 1024.8) -> (233.9, 1021.6) [SMOOTHED, diff=3.6px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (212.9, 898.8)', '[1]: (335.5, 893.5)', '[2]: (370.9, 995.5)', '[3]: (233.9, 1021.6)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (288.3, 952.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 25 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (109.8, 860.9) -> (110.4, 862.0)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (156.5, 858.0) -> (155.7, 859.4)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (181.3, 840.7) -> (181.1, 842.2)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.4, 832.1) -> (263.4, 832.0)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.843, -0.028, 26.705]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.085, 0.727, 130.945]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (212.9, 898.8)', '[1]: (335.5, 893.5)', '[2]: (370.9, 995.5)', '[3]: (233.9, 1021.6)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (212.9, 898.8)', '[1]: (335.5, 893.5)', '[2]: (370.9, 995.5)', '[3]: (233.9, 1021.6)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (212.9, 898.8) -> (212.6, 899.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (335.5, 893.5) -> (338.2, 893.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (370.9, 995.5) -> (378.4, 999.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (233.9, 1021.6) -> (234.6, 1025.4) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=0.6, smoothed_move=0.2
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=2.7, smoothed_move=1.0
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (212.6, 899.3) -> (212.8, 899.0) [SMOOTHED, diff=0.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (338.2, 893.3) -> (336.5, 893.4) [SMOOTHED, diff=1.7px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (378.4, 999.0) -> (373.6, 996.8) [SMOOTHED, diff=5.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (234.6, 1025.4) -> (234.1, 1023.0) [SMOOTHED, diff=2.5px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (212.8, 899.0)', '[1]: (336.5, 893.4)', '[2]: (373.6, 996.8)', '[3]: (234.1, 1023.0)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (289.3, 953.1)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 26 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (110.4, 862.0) -> (107.3, 862.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (155.7, 859.4) -> (154.7, 859.7)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (181.1, 842.2) -> (179.4, 842.7)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.4, 832.0) -> (263.3, 831.9)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.076, 0.004, -6.025]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.054, 1.163, -68.290]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (212.8, 899.0)', '[1]: (336.5, 893.4)', '[2]: (373.6, 996.8)', '[3]: (234.1, 1023.0)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (212.8, 899.0)', '[1]: (336.5, 893.4)', '[2]: (373.6, 996.8)', '[3]: (234.1, 1023.0)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (212.8, 899.0) -> (210.8, 899.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (336.5, 893.4) -> (337.5, 894.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (373.6, 996.8) -> (372.7, 998.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (234.1, 1023.0) -> (230.3, 1023.2) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=2.2, smoothed_move=0.8
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=1.6, smoothed_move=0.6
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (210.8, 899.9) -> (212.1, 899.3) [SMOOTHED, diff=1.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (337.5, 894.8) -> (336.8, 893.9) [SMOOTHED, diff=1.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (372.7, 998.7) -> (373.3, 997.5) [SMOOTHED, diff=1.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (230.3, 1023.2) -> (232.8, 1023.0) [SMOOTHED, diff=2.4px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (212.1, 899.3)', '[1]: (336.8, 893.9)', '[2]: (373.3, 997.5)', '[3]: (232.8, 1023.0)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (288.7, 953.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 27 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (107.3, 862.8) -> (103.9, 862.4)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (154.7, 859.7) -> (149.1, 859.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (179.4, 842.7) -> (172.2, 842.4)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.3, 831.9) -> (263.8, 831.5)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.542, 0.096, -94.896]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.154, 2.147, -510.614]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.001, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (212.1, 899.3)', '[1]: (336.8, 893.9)', '[2]: (373.3, 997.5)', '[3]: (232.8, 1023.0)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (212.1, 899.3)', '[1]: (336.8, 893.9)', '[2]: (373.3, 997.5)', '[3]: (232.8, 1023.0)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (212.1, 899.3) -> (206.8, 901.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (336.8, 893.9) -> (337.7, 898.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (373.3, 997.5) -> (367.0, 1002.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (232.8, 1023.0) -> (224.1, 1021.5) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.077, final=0.437
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.437
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=5.7, smoothed_move=2.5
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=4.2, smoothed_move=1.8
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (206.8, 901.4) -> (209.8, 900.2) [SMOOTHED, diff=3.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (337.7, 898.0) -> (337.2, 895.7) [SMOOTHED, diff=2.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (367.0, 1002.0) -> (370.5, 999.4) [SMOOTHED, diff=4.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (224.1, 1021.5) -> (229.0, 1022.4) [SMOOTHED, diff=4.9px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (209.8, 900.2)', '[1]: (337.2, 895.7)', '[2]: (370.5, 999.4)', '[3]: (229.0, 1022.4)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (286.6, 954.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 28 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (103.9, 862.4) -> (102.3, 862.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (149.1, 859.6) -> (148.4, 859.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (172.2, 842.4) -> (170.6, 842.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.8, 831.5) -> (261.9, 831.6)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.075, 0.004, -7.353]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.059, 1.120, -58.909]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (209.8, 900.2)', '[1]: (337.2, 895.7)', '[2]: (370.5, 999.4)', '[3]: (229.0, 1022.4)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (209.8, 900.2)', '[1]: (337.2, 895.7)', '[2]: (370.5, 999.4)', '[3]: (229.0, 1022.4)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (209.8, 900.2) -> (207.7, 900.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (337.2, 895.7) -> (333.4, 895.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (370.5, 999.4) -> (364.2, 997.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (229.0, 1022.4) -> (225.8, 1021.3) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=2.0, smoothed_move=0.7
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=3.8, smoothed_move=1.4
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (207.7, 900.4) -> (209.0, 900.3) [SMOOTHED, diff=1.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (333.4, 895.9) -> (335.9, 895.8) [SMOOTHED, diff=2.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (364.2, 997.8) -> (368.3, 998.9) [SMOOTHED, diff=4.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (225.8, 1021.3) -> (227.8, 1022.0) [SMOOTHED, diff=2.2px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (209.0, 900.3)', '[1]: (335.9, 895.8)', '[2]: (368.3, 998.9)', '[3]: (227.8, 1022.0)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (285.2, 954.2)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 29 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (102.3, 862.5) -> (98.3, 862.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (148.4, 859.5) -> (144.6, 859.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (170.6, 842.6) -> (170.3, 842.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (261.9, 831.6) -> (262.1, 831.5)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.944, -0.007, 5.641]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.162, 0.938, 45.122]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (209.0, 900.3)', '[1]: (335.9, 895.8)', '[2]: (368.3, 998.9)', '[3]: (227.8, 1022.0)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (209.0, 900.3)', '[1]: (335.9, 895.8)', '[2]: (368.3, 998.9)', '[3]: (227.8, 1022.0)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (209.0, 900.3) -> (206.6, 900.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (335.9, 895.8) -> (341.1, 896.6) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (368.3, 998.9) -> (376.3, 1003.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (227.8, 1022.0) -> (225.5, 1022.5) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.087, final=0.447
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.447
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=2.4, smoothed_move=1.1
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=5.3, smoothed_move=2.4
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (206.6, 900.4) -> (208.0, 900.3) [SMOOTHED, diff=1.3px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (341.1, 896.6) -> (338.2, 896.2) [SMOOTHED, diff=3.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (376.3, 1003.1) -> (371.8, 1000.7) [SMOOTHED, diff=5.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (225.5, 1022.5) -> (226.8, 1022.2) [SMOOTHED, diff=1.3px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (208.0, 900.3)', '[1]: (338.2, 896.2)', '[2]: (371.8, 1000.7)', '[3]: (226.8, 1022.2)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (286.2, 954.9)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 30 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (98.3, 862.6) -> (97.6, 861.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (144.6, 859.6) -> (143.7, 858.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (170.3, 842.9) -> (169.4, 842.1)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (262.1, 831.5) -> (262.2, 831.6)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.134, 0.002, -5.148]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.058, 1.243, -115.519]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (208.0, 900.3)', '[1]: (338.2, 896.2)', '[2]: (371.8, 1000.7)', '[3]: (226.8, 1022.2)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (208.0, 900.3)', '[1]: (338.2, 896.2)', '[2]: (371.8, 1000.7)', '[3]: (226.8, 1022.2)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (208.0, 900.3) -> (206.3, 900.1) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (338.2, 896.2) -> (335.1, 896.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (371.8, 1000.7) -> (363.9, 998.9) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (226.8, 1022.2) -> (222.1, 1020.2) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.089, final=0.449
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.449
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=1.7, smoothed_move=0.8
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=3.2, smoothed_move=1.4
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (206.3, 900.1) -> (207.2, 900.2) [SMOOTHED, diff=0.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (335.1, 896.3) -> (336.8, 896.2) [SMOOTHED, diff=1.7px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (363.9, 998.9) -> (368.3, 999.9) [SMOOTHED, diff=4.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (222.1, 1020.2) -> (224.7, 1021.3) [SMOOTHED, diff=2.8px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (207.2, 900.2)', '[1]: (336.8, 896.2)', '[2]: (368.3, 999.9)', '[3]: (224.7, 1021.3)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (284.2, 954.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 31 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (97.6, 861.6) -> (98.1, 860.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (143.7, 858.5) -> (141.4, 858.1)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (169.4, 842.1) -> (167.8, 841.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (262.2, 831.6) -> (263.2, 831.9)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.108, 0.037, -28.857]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.157, 1.315, -127.298]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.8333333333333334 Inliers: 10 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (207.2, 900.2)', '[1]: (336.8, 896.2)', '[2]: (368.3, 999.9)', '[3]: (224.7, 1021.3)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (207.2, 900.2)', '[1]: (336.8, 896.2)', '[2]: (368.3, 999.9)', '[3]: (224.7, 1021.3)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (207.2, 900.2) -> (206.0, 900.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (336.8, 896.2) -> (339.9, 898.7) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (368.3, 999.9) -> (369.9, 1004.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (224.7, 1021.3) -> (223.0, 1020.0) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=1.3, smoothed_move=0.5
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=3.9, smoothed_move=1.4
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (206.0, 900.7) -> (206.8, 900.4) [SMOOTHED, diff=0.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (339.9, 898.7) -> (337.9, 897.1) [SMOOTHED, diff=2.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (369.9, 1004.0) -> (368.9, 1001.4) [SMOOTHED, diff=2.8px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (223.0, 1020.0) -> (224.1, 1020.8) [SMOOTHED, diff=1.4px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (206.8, 900.4)', '[1]: (337.9, 897.1)', '[2]: (368.9, 1001.4)', '[3]: (224.1, 1020.8)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (284.4, 954.9)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.8333333333333334
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 32 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (98.1, 860.8) -> (95.6, 860.7)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (141.4, 858.1) -> (142.2, 857.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (167.8, 841.5) -> (165.7, 841.4)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.2, 831.9) -> (263.7, 832.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.163, 0.016, -18.817]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.100, 1.269, -128.939]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (206.8, 900.4)', '[1]: (337.9, 897.1)', '[2]: (368.9, 1001.4)', '[3]: (224.1, 1020.8)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (206.8, 900.4)', '[1]: (337.9, 897.1)', '[2]: (368.9, 1001.4)', '[3]: (224.1, 1020.8)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (206.8, 900.4) -> (205.1, 900.6) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (337.9, 897.1) -> (333.7, 897.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (368.9, 1001.4) -> (360.4, 998.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (224.1, 1020.8) -> (220.7, 1018.6) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.079, final=0.439
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.833, alpha=0.439
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=1.7, smoothed_move=0.7
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=4.2, smoothed_move=1.9
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (205.1, 900.6) -> (206.0, 900.5) [SMOOTHED, diff=0.9px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (333.7, 897.3) -> (336.1, 897.2) [SMOOTHED, diff=2.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (360.4, 998.3) -> (365.2, 1000.0) [SMOOTHED, diff=5.0px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (220.7, 1018.6) -> (222.6, 1019.9) [SMOOTHED, diff=2.3px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (206.0, 900.5)', '[1]: (336.1, 897.2)', '[2]: (365.2, 1000.0)', '[3]: (222.6, 1019.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (282.5, 954.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 33 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (95.6, 860.7) -> (96.7, 860.9)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (142.2, 857.5) -> (142.4, 857.7)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (165.7, 841.4) -> (166.0, 841.8)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.7, 832.4) -> (263.2, 832.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [0.809, -0.037, 34.609]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [-0.044, 0.638, 167.421]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 0.9166666666666666 Inliers: 11 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (206.0, 900.5)', '[1]: (336.1, 897.2)', '[2]: (365.2, 1000.0)', '[3]: (222.6, 1019.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (206.0, 900.5)', '[1]: (336.1, 897.2)', '[2]: (365.2, 1000.0)', '[3]: (222.6, 1019.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (206.0, 900.5) -> (205.9, 899.6) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (336.1, 897.2) -> (337.2, 895.5) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (365.2, 1000.0) -> (371.4, 1001.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (222.6, 1019.9) -> (223.5, 1022.3) [RAW]
+PlanarTrackerManager.ts:439 [TRACKING ADDON] Alpha calculation: base=0.300, confidence_adj=0.360, motion_boost=0.080, final=0.440
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.440
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=0.9, smoothed_move=0.4
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=2.1, smoothed_move=0.9
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (205.9, 899.6) -> (206.0, 900.1) [SMOOTHED, diff=0.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (337.2, 895.5) -> (336.6, 896.4) [SMOOTHED, diff=1.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (371.4, 1001.4) -> (367.9, 1000.6) [SMOOTHED, diff=3.6px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (223.5, 1022.3) -> (223.0, 1020.9) [SMOOTHED, diff=1.5px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (206.0, 900.1)', '[1]: (336.6, 896.4)', '[2]: (367.9, 1000.6)', '[3]: (223.0, 1020.9)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (283.4, 954.5)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 0.9166666666666666
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 34 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (96.7, 860.9) -> (95.7, 860.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (142.4, 857.7) -> (140.8, 857.6)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (166.0, 841.8) -> (165.4, 841.5)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.2, 832.4) -> (263.2, 832.5)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.028, 0.004, -5.344]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.000, 1.049, -22.056]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (206.0, 900.1)', '[1]: (336.6, 896.4)', '[2]: (367.9, 1000.6)', '[3]: (223.0, 1020.9)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (206.0, 900.1)', '[1]: (336.6, 896.4)', '[2]: (367.9, 1000.6)', '[3]: (223.0, 1020.9)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (206.0, 900.1) -> (205.4, 900.0) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (336.6, 896.4) -> (336.5, 896.3) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (367.9, 1000.6) -> (367.3, 1000.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (223.0, 1020.9) -> (222.3, 1020.4) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=0.917, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=0.6, smoothed_move=0.2
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=0.2, smoothed_move=0.1
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (205.4, 900.0) -> (205.8, 900.0) [SMOOTHED, diff=0.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (336.5, 896.3) -> (336.5, 896.4) [SMOOTHED, diff=0.1px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (367.3, 1000.2) -> (367.7, 1000.5) [SMOOTHED, diff=0.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (222.3, 1020.4) -> (222.7, 1020.7) [SMOOTHED, diff=0.6px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (205.8, 900.0)', '[1]: (336.5, 896.4)', '[2]: (367.7, 1000.5)', '[3]: (222.7, 1020.7)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (283.2, 954.4)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:455 [TRACKING ADDON] Processing planar tracking, frame: 35 trackers: 1
+TrackerOrchestrator.ts:459 [TRACKING ADDON] Planar tracker planar_1750239171998_ikpnhmdus has 12 active features
+PlanarTrackerManager.ts:149 [TRACKING ADDON] Computing homography with 12 points
+PlanarTrackerManager.ts:150 [TRACKING ADDON] Feature point movements:
+PlanarTrackerManager.ts:152 [TRACKING ADDON] Using incremental (prev->curr) tracking
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 0: (95.7, 860.6) -> (95.5, 860.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 1: (140.8, 857.6) -> (140.3, 857.4)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 2: (165.4, 841.5) -> (165.1, 841.3)
+PlanarTrackerManager.ts:154 [TRACKING ADDON]   Point 3: (263.2, 832.5) -> (263.3, 832.4)
+PlanarTrackerManager.ts:157 [TRACKING ADDON]   ... and 8 more points
+PlanarTrackerManager.ts:185 [TRACKING ADDON] Homography matrix:
+PlanarTrackerManager.ts:186 [TRACKING ADDON]   [1.111, 0.011, -11.883]
+PlanarTrackerManager.ts:187 [TRACKING ADDON]   [0.040, 1.205, -95.968]
+PlanarTrackerManager.ts:188 [TRACKING ADDON]   [0.000, 0.000, 1.000]
+PlanarTrackerManager.ts:189 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
+PlanarTrackerManager.ts:229 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
+PlanarTrackerManager.ts:247 [TRACKING ADDON] Source corners: (4) ['[0]: (205.8, 900.0)', '[1]: (336.5, 896.4)', '[2]: (367.7, 1000.5)', '[3]: (222.7, 1020.7)']
+PlanarTrackerManager.ts:248 [TRACKING ADDON] Current corners before update: (4) ['[0]: (205.8, 900.0)', '[1]: (336.5, 896.4)', '[2]: (367.7, 1000.5)', '[3]: (222.7, 1020.7)']
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 0: (205.8, 900.0) -> (205.0, 900.2) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 1: (336.5, 896.4) -> (334.6, 896.4) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 2: (367.7, 1000.5) -> (362.6, 998.8) [RAW]
+PlanarTrackerManager.ts:261 [TRACKING ADDON] Corner 3: (222.7, 1020.7) -> (220.5, 1019.3) [RAW]
+PlanarTrackerManager.ts:452 [TRACKING ADDON] EMA smoothing: confidence=1.000, alpha=0.360
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 0: raw_move=0.7, smoothed_move=0.3
+PlanarTrackerManager.ts:466 [TRACKING ADDON] Corner 1: raw_move=2.0, smoothed_move=0.7
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 0: (205.0, 900.2) -> (205.5, 900.1) [SMOOTHED, diff=0.5px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 1: (334.6, 896.4) -> (335.8, 896.4) [SMOOTHED, diff=1.2px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 2: (362.6, 998.8) -> (365.9, 999.9) [SMOOTHED, diff=3.4px]
+PlanarTrackerManager.ts:278 [TRACKING ADDON] Corner 3: (220.5, 1019.3) -> (221.9, 1020.2) [SMOOTHED, diff=1.7px]
+PlanarTrackerManager.ts:283 [TRACKING ADDON] Updated corners: (4) ['[0]: (205.5, 900.1)', '[1]: (335.8, 896.4)', '[2]: (365.9, 999.9)', '[3]: (221.9, 1020.2)']
+PlanarTrackerManager.ts:284 [TRACKING ADDON] New center: (282.3, 954.1)
+TrackerOrchestrator.ts:466 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1

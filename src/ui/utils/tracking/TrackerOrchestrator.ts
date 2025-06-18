@@ -525,7 +525,6 @@ export class TrackerOrchestrator {
       this.removePlanarTracker(tracker.id);
     });
   }
-
   processPlanarTracking(videoElement: HTMLVideoElement, canvas: HTMLCanvasElement): void {
     if (!this.isInitialized || !this.cv) {
       return;
@@ -534,9 +533,13 @@ export class TrackerOrchestrator {
     const planarTrackers = this.stateManager.getActivePlanarTrackers();
     const frameCount = this.stateManager.getFrameCount();
     
+    console.log('[TRACKING ADDON] Processing planar tracking, frame:', frameCount, 'trackers:', planarTrackers.length);
+    
     planarTrackers.forEach(planarTracker => {
       // Track feature points using existing optical flow
       const activeFeatures = planarTracker.featurePoints.filter(p => p.isActive);
+      
+      console.log('[TRACKING ADDON] Planar tracker', planarTracker.id, 'has', activeFeatures.length, 'active features');
       
       if (activeFeatures.length >= 4) {
         // Update homography based on tracked features
@@ -547,15 +550,18 @@ export class TrackerOrchestrator {
         if (homographyData && homographyData.confidence > 0.3) {
           planarTracker.isActive = true;
           planarTracker.confidence = homographyData.confidence;
+          console.log('[TRACKING ADDON] Planar tracker updated successfully, confidence:', homographyData.confidence);
         } else {
           // Disable planar tracker if tracking quality is poor
           planarTracker.isActive = false;
           planarTracker.confidence = 0;
+          console.log('[TRACKING ADDON] Planar tracker disabled - low confidence');
         }
       } else {
         // Not enough feature points for reliable tracking
         planarTracker.isActive = false;
         planarTracker.confidence = 0;
+        console.log('[TRACKING ADDON] Planar tracker disabled - insufficient features');
       }
     });
   }

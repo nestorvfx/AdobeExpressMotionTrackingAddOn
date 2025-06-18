@@ -510,12 +510,20 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         if (!ctx) return;        // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);// Get current tracking points - visual positions are already synced to frame during scrubbing
         const framePoints = trackingPoints;
-        const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];
-
-        // Draw trajectory paths first (background) - show full ±5 frames paths
+        const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];        // Draw trajectory paths first (background) - show full ±5 frames paths
         trajectoryPaths.forEach((pathData, pathIndex) => {
             const pointIndex = framePoints.findIndex(p => p.id === pathData.pointId);
             if (pointIndex === -1 || pathData.path.length < 2) return;
+
+            // Check if this trajectory belongs to a feature point (should be hidden)
+            const isFeaturePointTrajectory = planarTrackers.some(tracker => 
+                tracker.featurePoints?.some(featurePoint => featurePoint.id === pathData.pointId)
+            );
+            
+            // Skip rendering trajectories for feature points
+            if (isFeaturePointTrajectory) {
+                return;
+            }
 
             const color = getPointColor(pointIndex);
 

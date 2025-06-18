@@ -148,39 +148,35 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     } catch (error) {
       console.error('Error updating search radius:', error);
     }
-  };
-  const handleStopTracking = () => {
+  };  const handleStopTracking = () => {
     trackingCancelledRef.current = true;
     showToast('Stopping tracking...', 'info');
   };
 
-  // Planar tracking handlers
   const handleAddPlanarTracker = async (x: number, y: number) => {
     if (!trackerRef.current || !videoRef.current) return;
 
     try {
-      const isInitialized = await trackerRef.current.initialize();
-      if (!isInitialized) {
-        showToast('Tracker not initialized', 'error');
-        return;
-      }
-
-      const video = videoRef.current;
+      // Process current frame first to ensure tracker state is ready
+      const canvasElement = document.createElement('canvas');
+      canvasElement.width = videoRef.current.videoWidth;
+      canvasElement.height = videoRef.current.videoHeight;
+      
+      await trackerRef.current.processFrame(videoRef.current, canvasElement);
+      
+      // Add the planar tracker with required parameters
+      const color = `hsl(${(planarTrackers.length * 60) % 360}, 70%, 50%)`;
       const trackerId = trackerRef.current.addPlanarTracker(
         x, y, 
-        video.videoWidth, 
-        video.videoHeight, 
-        `hsl(${(planarTrackers.length * 60) % 360}, 70%, 50%)`
+        videoRef.current.videoWidth, 
+        videoRef.current.videoHeight, 
+        color
       );
-      
       if (trackerId) {
         const updatedTrackers = trackerRef.current.getPlanarTrackers();
         setPlanarTrackers(updatedTrackers);
-        
-        // Also update tracking points as planar tracker adds feature points
         const updatedPoints = trackerRef.current.getTrackingPoints();
         setTrackingPoints(updatedPoints);
-        
         showToast(`Added planar tracker at (${Math.round(x)}, ${Math.round(y)})`, 'success');
       }
     } catch (error) {
@@ -196,11 +192,8 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
       trackerRef.current.removePlanarTracker(trackerId);
       const updatedTrackers = trackerRef.current.getPlanarTrackers();
       setPlanarTrackers(updatedTrackers);
-      
-      // Also update tracking points as planar tracker removes feature points
       const updatedPoints = trackerRef.current.getTrackingPoints();
       setTrackingPoints(updatedPoints);
-      
       showToast('Planar tracker removed', 'info');
     } catch (error) {
       console.error('Error removing planar tracker:', error);
@@ -213,28 +206,26 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
     try {
       trackerRef.current.clearAllPlanarTrackers();
       setPlanarTrackers([]);
-      
-      // Also update tracking points 
       const updatedPoints = trackerRef.current.getTrackingPoints();
       setTrackingPoints(updatedPoints);
-      
       showToast('All planar trackers cleared', 'info');
     } catch (error) {
       console.error('Error clearing planar trackers:', error);
     }
   };
 
-  const handleMovePlanarCorner = (trackerId: string, cornerIndex: number, newX: number, newY: number) => {
+  const handleMovePlanarCorner = (trackerId: string, cornerIndex: number, x: number, y: number) => {
     if (!trackerRef.current) return;
 
     try {
-      trackerRef.current.updatePlanarTrackerCorner(trackerId, cornerIndex, newX, newY);
+      trackerRef.current.updatePlanarTrackerCorner(trackerId, cornerIndex, x, y);
       const updatedTrackers = trackerRef.current.getPlanarTrackers();
       setPlanarTrackers(updatedTrackers);
     } catch (error) {
       console.error('Error moving planar corner:', error);
     }
   };
+
   // Controlled continuous playback with perfect frame/point synchronization
   useEffect(() => {
     const video = videoRef.current;

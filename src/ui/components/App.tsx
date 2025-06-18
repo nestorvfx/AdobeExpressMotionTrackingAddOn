@@ -110,8 +110,10 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                 )}                {videoTracking.videoSrc && (
                     <TrackingPanel
                         trackingPoints={videoTracking.trackingPoints}
+                        planarTrackers={videoTracking.planarTrackers}
                         isTracking={videoTracking.isTracking}
                         onRemovePoint={videoTracking.handleRemoveTrackingPoint}
+                        onRemovePlanarTracker={videoTracking.handleRemovePlanarTracker}
                         onClearAllPoints={videoTracking.handleClearAllPoints}
                         onReactivatePoints={() => {
                             if (videoTracking.trackerRef.current) {
@@ -130,8 +132,9 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                             }
                         }}
                         getPointColor={getPointColor}
+                        getPlanarTrackerColor={(index) => `hsl(${(index * 60) % 360}, 70%, 50%)`}
                     />
-                )}            </main>
+                )}</main>
 
             {toast && <Toast toast={toast} />}
         </div>

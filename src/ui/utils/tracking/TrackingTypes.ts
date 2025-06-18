@@ -71,6 +71,13 @@ export interface PlanarTracker {
   featurePoints: TrackingPoint[]; // Internal feature points for tracking
   frameHomographies: Map<number, number[]>; // Homography per frame
   trajectory: Array<{ center: Position; corners: Position[]; frame: number }>;
+  // EMA Smoothing data
+  smoothing?: {
+    enabled: boolean;
+    smoothedCorners: [Position, Position, Position, Position]; // Smoothed positions for each corner
+    previousRawCorners: [Position, Position, Position, Position]; // Previous raw positions for motion calculation
+    baseAlpha: number; // Base smoothing factor
+  };
 }
 
 export interface HomographyData {
