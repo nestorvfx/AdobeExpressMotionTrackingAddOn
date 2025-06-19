@@ -87,10 +87,10 @@ export interface Text3DRenderContext {
 // Default values
 export const DEFAULT_TEXT_STYLE: TextStyle = {
   fontFamily: 'Arial',
-  fontSize: 96, // Increased even more for maximum visibility
+  fontSize: 64, // Larger font size for better visibility
   fontWeight: 'bold', // Make it bold for better visibility
   fontStyle: 'normal',
-  color: '#ffffff',
+  color: '#ff0000', // Red color for high visibility testing
   textAlign: 'center',
   textBaseline: 'middle'
 };
@@ -98,13 +98,13 @@ export const DEFAULT_TEXT_STYLE: TextStyle = {
 export const DEFAULT_TRANSFORM: Transform3D = {
   position: { x: 0, y: 0, z: 0 },
   rotation: { x: 0, y: 0, z: 0 },
-  scale: { x: 3.0, y: 3.0 } // Even larger default scale for better visibility
+  scale: { x: 2.0, y: 2.0 } // Larger scale for visibility
 };
 
 // Gizmo visual configuration
 export const GIZMO_CONFIG = {
-  size: 150, // Even larger gizmos for better visibility
-  lineWidth: 6, // Thicker lines for better visibility
+  size: 80, // Moderate gizmo size for better usability
+  lineWidth: 3, // Good visibility without being too thick
   colors: {
     x: '#ff4444', // Red
     y: '#44ff44', // Green
@@ -113,8 +113,8 @@ export const GIZMO_CONFIG = {
     hover: '#ff8844' // Orange
   },
   opacity: {
-    normal: 1.0, // Full opacity
-    hover: 1.0,
+    normal: 0.8, // Good visibility
+    hover: 0.9,
     selected: 1.0
   }
 };

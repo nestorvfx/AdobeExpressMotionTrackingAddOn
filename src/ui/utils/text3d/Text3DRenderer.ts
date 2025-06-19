@@ -21,20 +21,33 @@ export class Text3DRenderer {
     planarTrackers: PlanarTracker[],
     currentFrame: number
   ): void {
+    console.log(`[TEXT3D_RENDERER] renderAllTexts called with ${texts.length} texts`);
+    
     texts.forEach(text => {
-      if (!text.isVisible) return;
+      if (!text.isVisible) {
+        console.log(`[TEXT3D_RENDERER] Skipping invisible text: ${text.id}`);
+        return;
+      }
+
+      console.log(`[TEXT3D_RENDERER] Rendering text: ${text.content}, attached to: ${text.attachedToTrackerId}`);
 
       if (text.attachedToPointId) {
         // Render text attached to single point tracker
         const point = trackingPoints.find(p => p.id === text.attachedToPointId);
         if (point) {
+          console.log(`[TEXT3D_RENDERER] Found point tracker for text`);
           this.renderTextForPoint(text, point, currentFrame);
+        } else {
+          console.log(`[TEXT3D_RENDERER] Point tracker not found: ${text.attachedToPointId}`);
         }
       } else {
         // Render text attached to planar tracker
         const tracker = planarTrackers.find(t => t.id === text.attachedToTrackerId);
         if (tracker) {
+          console.log(`[TEXT3D_RENDERER] Found planar tracker for text`);
           this.renderTextForPlanarTracker(text, tracker, currentFrame);
+        } else {
+          console.log(`[TEXT3D_RENDERER] Planar tracker not found: ${text.attachedToTrackerId}`);
         }
       }
     });
@@ -115,6 +128,8 @@ export class Text3DRenderer {
     screenPos: Vector2,
     depth: number
   ): void {
+    console.log(`[TEXT3D_RENDERER] renderTextAtPosition: ${text.content} at (${screenPos.x}, ${screenPos.y})`);
+    
     this.ctx.save();
 
     // Apply text styling
@@ -140,13 +155,23 @@ export class Text3DRenderer {
       this.renderSelectionOutline(text);
     }
 
-    // Render the actual text
+    // Render the actual text with stroke for better visibility
+    const depthOpacity = this.calculateDepthOpacity(depth);
+    this.ctx.fillStyle = this.applyOpacityToColor(text.style.color, depthOpacity);
+    this.ctx.strokeStyle = '#000000'; // Black stroke for contrast
+    this.ctx.lineWidth = 2;
+    
+    console.log(`[TEXT3D_RENDERER] Drawing text "${text.content}" with fillStyle: ${this.ctx.fillStyle}, font: ${this.ctx.font}`);
+    
+    // Draw stroke first (behind fill)
+    this.ctx.strokeText(text.content, 0, 0);
+    // Draw fill on top
     this.ctx.fillText(text.content, 0, 0);
 
-    // Add stroke if text is selected
+    // Add selection outline if selected
     if (text.isSelected) {
       this.ctx.strokeStyle = '#ffff00'; // Yellow outline
-      this.ctx.lineWidth = 1;
+      this.ctx.lineWidth = 3;
       this.ctx.strokeText(text.content, 0, 0);
     }
 

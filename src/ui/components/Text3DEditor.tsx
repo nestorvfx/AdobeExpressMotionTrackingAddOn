@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Text3DElement, Vector3, TextStyle } from '../utils/text3d/Text3DTypes';
-import { Text3DManagerImpl } from '../utils/text3d/Text3DManager';
+import React, { useRef, useEffect, useState } from 'react';
+import { Timeline } from './Timeline';
+import { Text3DElement, Text3DManager as Text3DManagerType, Transform3D, TextStyle, Vector3 } from '../utils/text3d/Text3DTypes';
 import { Text3DRenderer } from '../utils/text3d/Text3DRenderer';
 import { GizmoRenderer } from '../utils/text3d/GizmoRenderer';
+import { Text3DManagerImpl } from '../utils/text3d/Text3DManager';
 import { TrackingPoint, PlanarTracker } from '../utils/tracking/TrackingTypes';
-import { Timeline } from './Timeline';
+import './Text3DEditor.css';
 
 interface Text3DEditorProps {
   videoSrc: string;
@@ -46,6 +47,8 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
   const [texts, setTexts] = useState<Text3DElement[]>([]);
   const [selectedText, setSelectedText] = useState<Text3DElement | null>(null);
   const [selectedTracker, setSelectedTracker] = useState<string | null>(null);
+  const [hoveredTrackerId, setHoveredTrackerId] = useState<string | null>(null);
+  const [hoveredTextId, setHoveredTextId] = useState<string | null>(null);
 
   // Initialize renderers when canvas is ready
   useEffect(() => {
@@ -64,12 +67,14 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
   useEffect(() => {
     setSelectedText(text3DManagerRef.current.getSelectedText());
   }, [texts]);
+
   // Handle video load and canvas setup
   useEffect(() => {
     if (videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-        const handleVideoLoad = () => {
+
+      const handleVideoLoad = () => {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         
@@ -82,22 +87,23 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
         renderFrame();
       };
 
-      video.addEventListener('loadedmetadata', handleVideoLoad);
-      video.addEventListener('seeked', renderFrame);
-      
-      return () => {
-        video.removeEventListener('loadedmetadata', handleVideoLoad);
-        video.removeEventListener('seeked', renderFrame);
+      const handleSeeked = () => {
+        renderFrame();
       };
+
+      if (video.readyState >= 2) {
+        handleVideoLoad();
+      } else {
+        video.addEventListener('loadedmetadata', handleVideoLoad);
+        video.addEventListener('seeked', handleSeeked);
+
+        return () => {
+          video.removeEventListener('loadedmetadata', handleVideoLoad);
+          video.removeEventListener('seeked', handleSeeked);
+        };
+      }
     }
   }, [videoSrc]);
-  // Update video time when current frame changes
-  useEffect(() => {
-    if (videoRef.current && videoRef.current.duration) {
-      const frameTime = currentFrame / 30; // Assuming 30fps, should be passed as prop
-      videoRef.current.currentTime = Math.min(frameTime, videoRef.current.duration);
-    }
-  }, [currentFrame]);
 
   // Sync video to current frame and force re-render
   useEffect(() => {
@@ -106,27 +112,15 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
       if (video.duration) {
         const time = (currentFrame / totalFrames) * video.duration;
         video.currentTime = time;
-        
-        // Force immediate re-render after seek
-        const handleSeeked = () => {
-          // Double render to ensure tracking data is synced
-          renderFrame();
-          requestAnimationFrame(() => {
-            renderFrame();
-          });
-        };
-        
-        video.addEventListener('seeked', handleSeeked, { once: true });
+        // Wait for video to seek to correct position before rendering
+        video.addEventListener('seeked', renderFrame, { once: true });
       }
     }
     
-    // Always render frame when currentFrame changes
-    renderFrame();
-    
-    // Additional render after a small delay to catch any async updates
+    // Add a small delay to ensure tracking data has been synced
     const timeoutId = setTimeout(() => {
       renderFrame();
-    }, 50); // Increased delay to 50ms for better sync
+    }, 10); // 10ms delay to allow tracking sync to complete
     
     return () => clearTimeout(timeoutId);
   }, [currentFrame, totalFrames, isPlaying]);
@@ -146,6 +140,9 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Debug: Log canvas and video info
+    console.log(`[RENDER] Canvas: ${canvas.width}x${canvas.height}, Video: ${video.videoWidth}x${video.videoHeight}, readyState: ${video.readyState}`);
+
     // Draw video frame
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -154,6 +151,12 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
 
     // Render planar trackers (optional debug)
     renderPlanarTrackers(ctx);
+
+    // Debug: Log text rendering
+    console.log(`[RENDER] Rendering ${texts.length} texts`);
+    texts.forEach(text => {
+      console.log(`[RENDER] Text: ${text.content}, visible: ${text.isVisible}, position: ${text.transform.position.x}, ${text.transform.position.y}`);
+    });
 
     // Render all 3D texts
     text3DRendererRef.current.renderAllTexts(
@@ -177,6 +180,7 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
       }
     }
   };
+
   const renderTrackingPoints = (ctx: CanvasRenderingContext2D) => {
     trackingPoints.forEach((point, index) => {
       // Skip feature points from planar trackers
@@ -186,32 +190,51 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
       
       if (isFeaturePoint || !point.isActive) return;
       
+      const isHovered = hoveredTrackerId === point.id;
+      const isSelected = selectedTracker === point.id;
+      
       // Get position for current frame or fallback to current position
       const pos = point.framePositions?.get(currentFrame) || { x: point.x, y: point.y };
       const color = `hsl(${(index * 60) % 360}, 70%, 50%)`;
       
-      // Draw point with larger size and border
+      // Draw hover/selection circle
+      if (isHovered || isSelected) {
+        ctx.fillStyle = color;
+        ctx.globalAlpha = isSelected ? 0.2 : 0.1;
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      }
+      
+      // Draw point with hover/selection effects
+      const pointSize = isSelected ? 8 : isHovered ? 7 : 6;
       ctx.fillStyle = color;
       ctx.strokeStyle = 'white';
       ctx.lineWidth = 2;
+      ctx.globalAlpha = isSelected ? 1.0 : isHovered ? 0.9 : 0.8;
       ctx.beginPath();
-      ctx.arc(pos.x, pos.y, 6, 0, Math.PI * 2);
+      ctx.arc(pos.x, pos.y, pointSize, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
       
       // Draw search radius
       ctx.strokeStyle = color;
       ctx.lineWidth = 1;
-      ctx.globalAlpha = 0.3;
+      ctx.globalAlpha = isSelected ? 0.4 : isHovered ? 0.35 : 0.25;
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, point.searchRadius, 0, Math.PI * 2);
       ctx.stroke();
       ctx.globalAlpha = 1.0;
     });
-  };  const renderPlanarTrackers = (ctx: CanvasRenderingContext2D) => {
+  };
+
+  const renderPlanarTrackers = (ctx: CanvasRenderingContext2D) => {
     planarTrackers.forEach((tracker, index) => {
       if (!tracker.isActive) return;
       
+      const isHovered = hoveredTrackerId === tracker.id;
+      const isSelected = selectedTracker === tracker.id;
       const color = `hsl(${(index * 60) % 360}, 70%, 50%)`;
       
       // Get current frame position from trajectory or use current position
@@ -248,9 +271,27 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
         }
       }
       
-      // Draw tracker outline with thicker lines
+      // Draw hover/selection fill
+      if (isHovered || isSelected) {
+        ctx.fillStyle = color;
+        ctx.globalAlpha = isSelected ? 0.15 : 0.08;
+        ctx.beginPath();
+        corners.forEach((corner, i) => {
+          if (i === 0) {
+            ctx.moveTo(corner.x, corner.y);
+          } else {
+            ctx.lineTo(corner.x, corner.y);
+          }
+        });
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      }
+      
+      // Draw tracker outline with hover/selection effects
       ctx.strokeStyle = color;
-      ctx.lineWidth = 3;
+      ctx.lineWidth = isSelected ? 4 : isHovered ? 3 : 2;
+      ctx.globalAlpha = isSelected ? 1.0 : isHovered ? 0.9 : 0.7;
       ctx.beginPath();
       
       corners.forEach((corner, i) => {
@@ -263,25 +304,30 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
       ctx.closePath();
       ctx.stroke();
       
-      // Draw corner handles larger
+      // Draw corner handles
+      const handleSize = isSelected ? 6 : isHovered ? 5 : 4;
+      ctx.globalAlpha = 1.0;
       corners.forEach(corner => {
         ctx.fillStyle = color;
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 2;
-        ctx.fillRect(corner.x - 5, corner.y - 5, 10, 10);
-        ctx.strokeRect(corner.x - 5, corner.y - 5, 10, 10);
+        ctx.fillRect(corner.x - handleSize, corner.y - handleSize, handleSize * 2, handleSize * 2);
+        ctx.strokeRect(corner.x - handleSize, corner.y - handleSize, handleSize * 2, handleSize * 2);
       });
       
       // Draw center point using trajectory center if available
+      const centerSize = isSelected ? 5 : isHovered ? 4 : 3;
       ctx.fillStyle = color;
       ctx.strokeStyle = 'white';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.arc(center.x, center.y, 4, 0, Math.PI * 2);
+      ctx.arc(center.x, center.y, centerSize, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
     });
-  };  const getTextScreenPosition = (text: Text3DElement) => {
+  };
+
+  const getTextScreenPosition = (text: Text3DElement) => {
     if (text.attachedToPointId) {
       const point = trackingPoints.find(p => p.id === text.attachedToPointId);
       if (point) {
@@ -348,13 +394,140 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
         currentFrame
       )) {
         selectText(text.id);
+        setSelectedTracker(null); // Deselect tracker when text is selected
         return;
       }
     }
 
-    // If no text was clicked, deselect
+    // Test if any tracker was clicked
+    const clickedTracker = getTrackerAtPosition(canvasX, canvasY);
+    if (clickedTracker) {
+      setSelectedTracker(clickedTracker.id);
+      setSelectedText(null); // Deselect text when tracker is selected
+      text3DManagerRef.current.deselectAll();
+      setTexts([...text3DManagerRef.current.getAllTexts()]);
+      return;
+    }
+
+    // If nothing was clicked, deselect everything
+    setSelectedTracker(null);
+    setSelectedText(null);
     text3DManagerRef.current.deselectAll();
     setTexts([...text3DManagerRef.current.getAllTexts()]);
+  };
+
+  const handleCanvasMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Scale coordinates to canvas size
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const canvasX = x * scaleX;
+    const canvasY = y * scaleY;
+
+    // Check for text hover
+    let hoveredText: string | null = null;
+    if (text3DRendererRef.current) {
+      for (const text of texts) {
+        if (text3DRendererRef.current.hitTestText(
+          text,
+          { x: canvasX, y: canvasY },
+          trackingPoints,
+          planarTrackers,
+          currentFrame
+        )) {
+          hoveredText = text.id;
+          break;
+        }
+      }
+    }
+
+    // Check for tracker hover
+    let hoveredTracker: string | null = null;
+    const tracker = getTrackerAtPosition(canvasX, canvasY);
+    if (tracker) {
+      hoveredTracker = tracker.id;
+    }
+
+    setHoveredTextId(hoveredText);
+    setHoveredTrackerId(hoveredTracker);
+
+    // Update cursor
+    const cursor = hoveredText || hoveredTracker ? 'pointer' : 'default';
+    canvas.style.cursor = cursor;
+  };
+
+  const getTrackerAtPosition = (x: number, y: number) => {
+    // Check planar trackers first
+    for (const tracker of planarTrackers) {
+      if (!tracker.isActive) continue;
+      
+      // Get current frame corners
+      let corners = [...tracker.corners];
+      if (tracker.trajectory && tracker.trajectory.length > 0) {
+        const frameEntry = tracker.trajectory.find(t => t.frame === currentFrame);
+        if (frameEntry && frameEntry.corners.length === 4) {
+          corners = frameEntry.corners.map((c, i) => ({
+            ...tracker.corners[i],
+            x: c.x,
+            y: c.y
+          }));
+        } else {
+          const validEntries = tracker.trajectory.filter(t => t.frame <= currentFrame);
+          if (validEntries.length > 0) {
+            const closestEntry = validEntries[validEntries.length - 1];
+            if (closestEntry.corners.length === 4) {
+              corners = closestEntry.corners.map((c, i) => ({
+                ...tracker.corners[i],
+                x: c.x,
+                y: c.y
+              }));
+            }
+          }
+        }
+      }
+      
+      // Check if point is inside polygon
+      if (isPointInPolygon(x, y, corners)) {
+        return { id: tracker.id, type: 'planar' as const };
+      }
+    }
+
+    // Check point trackers
+    for (const point of trackingPoints) {
+      if (!point.isActive) continue;
+      
+      // Skip feature points from planar trackers
+      const isFeaturePoint = planarTrackers.some(tracker => 
+        tracker.featurePoints?.some(fp => fp.id === point.id)
+      );
+      if (isFeaturePoint) continue;
+      
+      const pos = point.framePositions?.get(currentFrame) || { x: point.x, y: point.y };
+      const distance = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
+      
+      if (distance <= 12) { // 12px hit radius
+        return { id: point.id, type: 'point' as const };
+      }
+    }
+
+    return null;
+  };
+
+  const isPointInPolygon = (x: number, y: number, polygon: { x: number; y: number }[]) => {
+    let inside = false;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      if (((polygon[i].y > y) !== (polygon[j].y > y)) &&
+          (x < (polygon[j].x - polygon[i].x) * (y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x)) {
+        inside = !inside;
+      }
+    }
+    return inside;
   };
 
   const selectText = (textId: string) => {
@@ -399,6 +572,7 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
       onTextDelete(selectedText.id);
     }
   };
+
   return (
     <div className="text3d-editor">
       {/* Video Section */}
@@ -415,6 +589,7 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
             <canvas
               ref={canvasRef}
               onClick={handleCanvasClick}
+              onMouseMove={handleCanvasMouseMove}
               style={{
                 width: '100%',
                 height: 'auto',
@@ -422,7 +597,8 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
               }}
             />
           </div>
-        </div>      </section>
+        </div>
+      </section>
 
       {/* Timeline Section */}
       {onSeek && (
@@ -446,8 +622,10 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
         <div className="text3d-section-header">
           <h3>3D Text Elements</h3>
           <span className="text-count">{texts.length}</span>
-        </div>        <Text3DPropertyPanel
+        </div>
+        <Text3DPropertyPanel
           selectedText={selectedText}
+          selectedTracker={selectedTracker}
           trackingPoints={trackingPoints}
           planarTrackers={planarTrackers}
           onTextUpdate={updateSelectedText}
@@ -455,8 +633,17 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
           onDeleteText={deleteSelectedText}
           onSelectText={selectText}
           allTexts={texts}
-        />
-      </section>
+        />      </section>
+
+      {/* Fixed Add Text Button */}
+      <button
+        className={`fixed-add-text-btn ${selectedTracker ? 'active' : 'inactive'}`}
+        onClick={() => selectedTracker && addTextToTracker(selectedTracker, trackingPoints.some(p => p.id === selectedTracker))}
+        disabled={!selectedTracker}
+        data-tooltip={selectedTracker ? "Add 3D Text" : "Select a tracker first"}
+      >
+        +
+      </button>
     </div>
   );
 };
@@ -464,6 +651,7 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
 // Property panel component
 interface Text3DPropertyPanelProps {
   selectedText: Text3DElement | null;
+  selectedTracker: string | null;
   trackingPoints: TrackingPoint[];
   planarTrackers: PlanarTracker[];
   onTextUpdate: (updates: Partial<Text3DElement>) => void;
@@ -475,6 +663,7 @@ interface Text3DPropertyPanelProps {
 
 const Text3DPropertyPanel: React.FC<Text3DPropertyPanelProps> = ({
   selectedText,
+  selectedTracker,
   trackingPoints,
   planarTrackers,
   onTextUpdate,
@@ -509,89 +698,55 @@ const Text3DPropertyPanel: React.FC<Text3DPropertyPanelProps> = ({
     const newStyle = { ...selectedText.style, ...style };
     onTextUpdate({ style: newStyle });
   };
+
   return (
-    <div className="text3d-property-panel">
-      {/* Show existing texts if any */}
+    <div className="text3d-property-panel">      {/* Show existing texts if any */}
       {allTexts.length > 0 && (
         <div className="existing-texts-section">
-          <h4>Existing Texts</h4>
-          {allTexts.map(text => (            <div 
+          <h4>
+            Text Layers
+            <span className="texts-count">{allTexts.length}</span>
+          </h4>
+          {allTexts.map(text => (
+            <div 
               key={text.id} 
               className={`text-item ${text.isSelected ? 'selected' : ''}`}
               onClick={() => onSelectText(text.id)}
+              title={`"${text.content}" - ${text.attachedToPointId ? 'Point Tracker' : 'Planar Tracker'}`}
             >
               <div className="text-item-info">
-                <div className="text-item-name">{text.name}</div>
-                <div className="text-item-content">"{text.content}"</div>
+                <div className="text-item-content">{text.content}</div>
                 <div className="text-item-tracker">
-                  {text.attachedToPointId ? 
-                    `Point: ${text.attachedToPointId.slice(-8)}` : 
-                    `Planar: ${text.attachedToTrackerId.slice(-8)}`
-                  }
+                  {text.attachedToPointId ? 'Point' : 'Planar'}
                 </div>
               </div>
             </div>
           ))}
         </div>
-      )}      {/* Add Text Section */}
-      <div className="add-text-section">
-        {allTexts.length === 0 && (
-          <div className="text3d-empty-state">
-            <div className="empty-icon">✨</div>
-            <p>Create stunning 3D text elements that follow your tracking points</p>
-          </div>
-        )}
-        
-        {planarTrackers.length > 0 && (
-          <div>
-            <h4>📐 Attach Text to Planar Trackers</h4>
-            <p className="section-description">Text will follow the plane's movement, rotation, and perspective</p>
-            {planarTrackers.map(tracker => (
-              <button
-                key={tracker.id}
-                onClick={() => onAddText(tracker.id, false)}
-                className="add-text-btn"
-              >
-                📐 Planar Tracker #{tracker.id.slice(-6)}
-              </button>
-            ))}
-          </div>
-        )}
-        
-        {trackingPoints.length > 0 && (
-          <div>
-            <h4>📍 Attach Text to Point Trackers</h4>
-            <p className="section-description">Text will follow individual point movement</p>
-            {trackingPoints
-              .filter(point => !planarTrackers.some(tracker => 
-                tracker.featurePoints?.some(fp => fp.id === point.id)
-              ))
-              .map(point => (
-                <button
-                  key={point.id}
-                  onClick={() => onAddText(point.id, true)}
-                  className="add-text-btn"
-                >
-                  📍 Point Tracker #{point.id.slice(-6)}
-                </button>
-              ))}
-          </div>
-        )}
+      )}
 
-        {planarTrackers.length === 0 && trackingPoints.length === 0 && (
-          <div className="text3d-empty-state">
-            <div className="empty-icon">🎯</div>
-            <p>Create tracking points or planar trackers in the Tracking tab first</p>
-            <p className="helper-text">Switch to the Tracking tab to set up motion tracking</p>
-          </div>
-        )}
-      </div>
+      {/* Simplified instructions */}
+      {allTexts.length === 0 && (
+        <div className="text3d-empty-state">
+          <div className="empty-icon">🎯</div>
+          <p>Select a tracker and click + to add text</p>
+        </div>
+      )}      {/* No trackers available state */}
+      {allTexts.length === 0 && (planarTrackers.length === 0 && trackingPoints.filter(p => 
+        !planarTrackers.some(tracker => tracker.featurePoints?.some(fp => fp.id === p.id))
+      ).length === 0) && (
+        <div className="text3d-empty-state">
+          <div className="empty-icon">🎯</div>
+          <p>Create trackers in the Tracking tab first</p>
+        </div>
+      )}
 
       {/* Text Property Editing */}
-      {selectedText && (        <div className="text-properties">
-          <h3>Edit Text Element: {selectedText.name}</h3>
+      {selectedText && (
+        <div className="text-properties">
+          <h3>Text Properties: {selectedText.name}</h3>
           
-          <div className="property-section-title">Content</div>
+          {/* Content */}
           <div className="property-group">
             <label>📝 Text Content</label>
             <input
@@ -600,9 +755,10 @@ const Text3DPropertyPanel: React.FC<Text3DPropertyPanelProps> = ({
               onChange={(e) => updateContent(e.target.value)}
               className="text-input"
               placeholder="Enter your text here..."
-            />          </div>
+            />
+          </div>
 
-          <div className="property-section-title">Transform</div>
+          {/* Position */}
           <div className="property-group">
             <label>📍 Position Offset</label>
             <div className="vector-inputs">
@@ -632,7 +788,7 @@ const Text3DPropertyPanel: React.FC<Text3DPropertyPanelProps> = ({
 
           {/* Rotation */}
           <div className="property-group">
-            <label>🔄 Rotation</label>
+            <label>🔄 Rotation (Degrees)</label>
             <div className="vector-inputs">
               <input
                 type="number"
@@ -679,9 +835,10 @@ const Text3DPropertyPanel: React.FC<Text3DPropertyPanelProps> = ({
                 min="0.1"
               />
               <div></div> {/* Empty div for grid layout */}
-            </div>          </div>
+            </div>
+          </div>
 
-          <div className="property-section-title">Typography</div>
+          {/* Typography */}
           <div className="property-group">
             <label>🎨 Font Family</label>
             <select
@@ -699,7 +856,7 @@ const Text3DPropertyPanel: React.FC<Text3DPropertyPanelProps> = ({
           </div>
 
           <div className="property-group">
-            <label>� Font Size</label>
+            <label>📏 Font Size</label>
             <input
               type="number"
               value={selectedText.style.fontSize}
@@ -737,18 +894,19 @@ const Text3DPropertyPanel: React.FC<Text3DPropertyPanelProps> = ({
           </div>
 
           <div className="property-group">
-            <label>� Font Style</label>
+            <label>📐 Font Style</label>
             <select
               value={selectedText.style.fontStyle}
               onChange={(e) => updateStyle({ fontStyle: e.target.value as any })}
             >
               <option value="normal">Normal</option>
               <option value="italic">Italic</option>
-            </select>          </div>
+            </select>
+          </div>
 
-          <div className="property-separator"></div>
+          {/* Delete Button */}
           <button onClick={onDeleteText} className="delete-text-btn">
-            🗑️ Delete Text Element
+            Delete Text
           </button>
         </div>
       )}

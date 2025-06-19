@@ -1,326 +1,1053 @@
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 0 trackers: 0
-TrackerOrchestrator.ts:429 [FIXED-GRID] Created planar tracker planar_1750354344009_lqjmocd2w with 26 feature points
-TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 2 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
-TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 3 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
-TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 0 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
-TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 1 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 1 trackers: 1
-TrackerOrchestrator.ts:473 [FIXED-GRID] Regenerating feature points for tracker planar_1750354344009_lqjmocd2w
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 2 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 3 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 4 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 5 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 6 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 7 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 8 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 9 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 10 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 11 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 12 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 13 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 14 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 15 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 16 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 17 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 18 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 19 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 20 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 21 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 22 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 23 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 24 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 25 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 26 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 27 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 28 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 29 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 30 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 31 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 32 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 33 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 34 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 35 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 36 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 37 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 38 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 39 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 40 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 41 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 42 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 43 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 44 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 45 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 46 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 47 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 48 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 49 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 50 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 51 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 52 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 53 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 54 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 17
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 17
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 17
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 17
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 17
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 17
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 18
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 18
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 18
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 18
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 18
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 18
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 20
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 20
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 20
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 20
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 20
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 20
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 22
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 22
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 22
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 22
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 22
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 22
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 23
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 23
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 23
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 23
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 23
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 23
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 25
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 25
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 25
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 25
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 25
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 25
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 23
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 23
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 23
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 23
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 23
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 23
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 22
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 22
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 22
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 22
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 22
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 22
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 20
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 20
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 20
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 20
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 20
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 20
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 18
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 18
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 18
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 18
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 18
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 18
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 17
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 17
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 17
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 17
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 17
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 17
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 15
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 15
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 15
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 15
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 15
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 15
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 13
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 13
-PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 13
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 13
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 13
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 13
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 14 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 15 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 16 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 17 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 18 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 19 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
-TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 20 trackers: 1
-TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
-PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
-TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+hz-startup-ui-index.e001782126c8121d0384.js:1 An uncaught promise rejection error occurred: Error: Failed to reload Add-on motion-tracking-addon-test Object
+_mirrorOriginalConsole @ hz-startup-ui-index.e001782126c8121d0384.js:1
+vendor-coretech-addon.168ac1e3b8faf7c37372.js:1 Uncaught (in promise) Error: Failed to reload Add-on motion-tracking-addon-test
+    at _reloadRuntimeInternal (vendor-coretech-addon.168ac1e3b8faf7c37372.js:1:12176)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (431.1, 258.7) -> (432.1, 258.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (586.2, 268.9) -> (587.2, 268.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (586.5, 545.8) -> (587.6, 545.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (431.6, 562.6) -> (432.6, 562.6)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (509.8, 409.0)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 34 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_2: (452.9, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_3: (475.8, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_4: (500.5, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_5: (525.2, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_8: (453.2, 315.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_9: (477.3, 314.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_10: (501.4, 314.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_11: (525.4, 314.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_14: (453.1, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_15: (476.9, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_16: (501.3, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_17: (525.3, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_20: (452.8, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_21: (477.2, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_22: (501.3, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_grid_23: (525.2, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (548.8, 289.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (574.3, 291.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (548.7, 337.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (574.2, 338.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (444.7, 385.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (471.5, 384.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (497.5, 384.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (523.5, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (548.8, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 33 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (574.4, 384.6)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (432.1, 258.7) -> (433.0, 258.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (587.2, 268.8) -> (588.2, 268.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (587.6, 545.8) -> (588.5, 545.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (432.6, 562.6) -> (433.7, 562.3)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (510.8, 408.8)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 35 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_2: (453.9, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_3: (476.8, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_4: (501.5, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_5: (526.3, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_8: (454.1, 315.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_9: (478.2, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_10: (502.3, 314.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_11: (526.3, 314.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_14: (454.1, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_15: (477.9, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_16: (502.3, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_17: (526.3, 339.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_20: (453.8, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_21: (478.2, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_22: (502.3, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_grid_23: (526.2, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (549.8, 289.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (575.3, 291.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (549.7, 337.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (575.2, 338.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (445.7, 385.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (472.5, 384.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (498.5, 384.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (524.6, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (549.8, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 34 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (575.4, 384.6)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (433.0, 258.6) -> (435.3, 258.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (588.2, 268.9) -> (590.2, 268.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (588.5, 545.5) -> (590.6, 545.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (433.7, 562.3) -> (435.5, 563.2)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (512.9, 409.1)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 36 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_2: (456.1, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_3: (479.3, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_4: (503.8, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_5: (528.4, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_8: (456.3, 315.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_9: (480.5, 314.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_10: (504.7, 314.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_11: (528.5, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_14: (456.4, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_15: (480.4, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_16: (504.7, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_17: (528.4, 338.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_20: (456.0, 362.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_21: (480.4, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_22: (504.5, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_grid_23: (528.4, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (551.9, 289.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (577.4, 290.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (551.8, 337.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (577.3, 337.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (447.8, 385.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (474.7, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (500.7, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (526.7, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (551.9, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 35 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (577.5, 384.6)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (435.3, 258.5) -> (436.4, 258.4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (590.2, 268.9) -> (591.3, 268.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (590.6, 545.8) -> (591.6, 545.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (435.5, 563.2) -> (436.7, 562.9)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (514.0, 408.9)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 37 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_2: (457.2, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_3: (479.9, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_4: (505.0, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_5: (529.5, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_8: (457.5, 315.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_9: (481.7, 314.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_10: (505.7, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_11: (529.6, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_14: (457.4, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_15: (481.4, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_16: (505.8, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_17: (529.5, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_20: (457.1, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_21: (481.5, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_22: (505.6, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_grid_23: (529.5, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (553.0, 289.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (578.4, 290.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (552.9, 337.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (578.3, 337.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (448.9, 385.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (475.7, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (501.8, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (527.8, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (553.0, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 36 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (578.5, 384.6)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (436.4, 258.4) -> (437.4, 258.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (591.3, 268.8) -> (592.2, 268.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (591.6, 545.6) -> (593.0, 546.0)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (436.7, 562.9) -> (437.7, 563.4)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (515.1, 409.2)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 38 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_2: (458.3, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_3: (481.3, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_4: (505.7, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_5: (530.6, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_8: (458.5, 315.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_9: (482.5, 314.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_10: (506.6, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_11: (530.7, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_14: (458.4, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_15: (482.4, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_16: (506.7, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_17: (530.6, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_20: (458.2, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_21: (482.5, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_22: (506.6, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_grid_23: (530.5, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (554.1, 289.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (579.4, 290.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (554.0, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (579.4, 337.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (449.9, 385.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (476.8, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (502.9, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (529.0, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (554.1, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 37 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (579.6, 384.5)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (437.4, 258.5) -> (438.5, 258.4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (592.2, 268.8) -> (593.4, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (593.0, 546.0) -> (593.8, 545.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (437.7, 563.4) -> (438.8, 563.1)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (516.1, 409.0)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 39 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_2: (459.4, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_3: (482.2, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_4: (506.6, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_5: (531.7, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_8: (459.5, 315.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_9: (483.8, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_10: (507.8, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_11: (531.8, 314.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_14: (459.5, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_15: (483.5, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_16: (507.8, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_17: (531.7, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_20: (459.2, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_21: (483.5, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_22: (507.7, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_grid_23: (531.6, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (555.2, 289.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (580.6, 290.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (555.1, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (580.4, 337.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (450.9, 385.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (477.8, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (503.9, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (530.0, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (555.1, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 38 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (580.6, 384.5)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (438.5, 258.4) -> (439.6, 258.4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (593.4, 268.7) -> (594.5, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (593.8, 545.7) -> (595.1, 545.3)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (438.8, 563.1) -> (440.3, 562.9)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (517.4, 408.8)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 40 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_2: (460.5, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_3: (483.3, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_4: (508.2, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_5: (532.8, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_8: (460.7, 315.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_9: (484.9, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_10: (509.1, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_11: (533.0, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_14: (460.7, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_15: (484.7, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_16: (509.0, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_17: (532.9, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_20: (460.4, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_21: (484.8, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_22: (508.9, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_grid_23: (532.8, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (556.3, 289.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (581.7, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (556.2, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (581.6, 337.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (452.3, 385.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (479.2, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (505.1, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (531.3, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (556.5, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 39 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (581.8, 384.5)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (439.6, 258.4) -> (441.8, 258.3)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (594.5, 268.7) -> (596.6, 268.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (595.1, 545.3) -> (597.6, 545.4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (440.3, 562.9) -> (442.6, 563.2)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (519.6, 408.9)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 41 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_2: (462.7, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_3: (485.5, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_4: (510.1, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_5: (535.1, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_8: (462.9, 314.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_9: (487.2, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_10: (511.1, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_11: (535.3, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_14: (462.9, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_15: (486.9, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_16: (511.3, 338.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_17: (535.2, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_20: (462.6, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_21: (487.1, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_22: (511.2, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_grid_23: (535.1, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (558.6, 289.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (583.8, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (558.5, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (583.7, 337.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (454.4, 385.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (481.5, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (507.4, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (533.5, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (558.7, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 40 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (584.1, 384.4)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (441.8, 258.3) -> (443.1, 258.3)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (596.6, 268.8) -> (597.7, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (597.6, 545.4) -> (598.3, 545.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (442.6, 563.2) -> (443.3, 563.5)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (520.6, 409.1)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 42 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_2: (463.9, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_3: (486.8, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_4: (511.6, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_5: (536.2, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_8: (464.2, 315.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_9: (488.3, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_10: (512.1, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_11: (536.3, 314.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_14: (464.1, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_15: (487.9, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_16: (512.2, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_17: (536.2, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_20: (463.6, 362.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_21: (488.1, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_22: (512.3, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_grid_23: (536.2, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (559.7, 289.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (584.9, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (559.5, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (584.7, 337.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (455.5, 385.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (482.5, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (508.5, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (534.5, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (559.7, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 41 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (585.1, 384.4)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (443.1, 258.3) -> (444.3, 258.3)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (597.7, 268.7) -> (598.9, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (598.3, 545.7) -> (599.3, 545.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (443.3, 563.5) -> (444.3, 563.5)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (521.7, 409.1)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 43 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_2: (465.1, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_3: (488.0, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_4: (512.7, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_5: (537.4, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_8: (465.4, 315.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_9: (489.5, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_10: (513.4, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_11: (537.5, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_14: (465.3, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_15: (489.1, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_16: (513.2, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_17: (537.4, 338.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_20: (464.7, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_21: (489.3, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_22: (513.4, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_grid_23: (537.4, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (560.8, 289.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (586.1, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (560.7, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (585.8, 337.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (456.5, 385.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (483.6, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (509.6, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (535.7, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (560.8, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 42 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (586.2, 384.4)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (444.3, 258.3) -> (445.4, 258.2)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (598.9, 268.7) -> (600.1, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (599.3, 545.7) -> (600.5, 545.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (444.3, 563.5) -> (445.6, 563.4)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (522.9, 409.0)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 44 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_2: (466.1, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_3: (489.1, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_4: (513.8, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_5: (538.5, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_8: (466.5, 315.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_9: (490.8, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_10: (514.8, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_11: (538.6, 314.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_14: (466.4, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_15: (490.4, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_16: (514.3, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_17: (538.5, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_20: (465.9, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_21: (490.5, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_22: (514.6, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_grid_23: (538.5, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (562.0, 289.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (587.2, 290.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (561.8, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (587.0, 337.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (457.7, 384.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (484.8, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (510.8, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (536.9, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (562.0, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 43 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (587.4, 384.4)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (445.4, 258.2) -> (446.5, 258.2)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (600.1, 268.7) -> (601.2, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (600.5, 545.5) -> (601.7, 545.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (445.6, 563.4) -> (446.8, 563.3)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (524.1, 408.9)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 45 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_2: (467.4, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_3: (490.3, 290.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_4: (514.8, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_5: (539.8, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_8: (467.6, 314.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_9: (491.8, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_10: (515.9, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_11: (539.8, 314.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_14: (467.6, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_15: (491.5, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_16: (515.7, 338.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_17: (539.7, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_20: (467.2, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_21: (491.6, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_22: (515.7, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_grid_23: (539.7, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (563.2, 289.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (588.4, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (563.0, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (588.2, 337.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (458.9, 384.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (486.0, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (512.0, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (538.2, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (563.2, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 44 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (588.5, 384.4)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (446.5, 258.2) -> (448.6, 258.1)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (601.2, 268.7) -> (603.4, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (601.7, 545.5) -> (604.4, 545.0)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (446.8, 563.3) -> (449.9, 562.7)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (526.6, 408.6)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 46 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_2: (469.6, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_3: (492.5, 290.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_4: (516.7, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_5: (542.1, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_8: (470.0, 314.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_9: (493.9, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_10: (517.9, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_11: (542.2, 314.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_14: (469.9, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_15: (493.8, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_16: (517.7, 338.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_17: (542.2, 338.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_20: (469.5, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_21: (494.1, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_22: (518.2, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_grid_23: (542.2, 362.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (565.5, 289.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (590.6, 290.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (565.3, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (590.5, 337.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (461.4, 384.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (488.5, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (514.4, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (540.5, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (565.6, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 45 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (590.8, 384.3)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (448.6, 258.1) -> (449.8, 258.1)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (603.4, 268.7) -> (604.5, 268.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (604.4, 545.0) -> (605.7, 545.3)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (449.9, 562.7) -> (451.0, 562.9)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (527.8, 408.7)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 47 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_2: (470.8, 290.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_3: (493.4, 290.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_4: (518.0, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_5: (543.2, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_8: (471.2, 314.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_9: (495.1, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_10: (519.1, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_11: (543.3, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_14: (471.2, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_15: (495.2, 338.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_16: (518.7, 338.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_17: (543.3, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_20: (470.6, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_21: (495.2, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_22: (519.3, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_grid_23: (543.3, 362.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (566.6, 289.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (591.7, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (566.5, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (591.6, 337.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (462.5, 384.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (489.6, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (515.6, 384.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (541.6, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (566.8, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 46 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (592.0, 384.3)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (449.8, 258.1) -> (451.2, 258.1)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (604.5, 268.6) -> (605.6, 268.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (605.7, 545.3) -> (606.9, 545.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (451.0, 562.9) -> (451.7, 564.1)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (528.8, 409.2)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 48 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_2: (472.0, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_3: (495.2, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_4: (519.2, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_5: (544.4, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_8: (472.4, 314.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_9: (496.5, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_10: (520.2, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_11: (544.5, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_14: (472.4, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_15: (496.2, 338.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_16: (520.4, 338.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_17: (544.4, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_20: (471.8, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_21: (496.4, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_22: (520.6, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_grid_23: (544.4, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (567.7, 289.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (592.8, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (567.6, 337.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (592.7, 337.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (463.6, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (490.7, 384.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (516.8, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (542.9, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (567.9, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 47 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (593.2, 384.2)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (451.2, 258.1) -> (452.7, 258.0)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (605.6, 268.6) -> (606.8, 268.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (606.9, 545.9) -> (607.8, 545.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (451.7, 564.1) -> (452.3, 564.8)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (529.9, 409.4)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 49 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_2: (473.3, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_3: (496.7, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_4: (521.2, 290.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_5: (545.6, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_8: (473.5, 314.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_9: (497.9, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_10: (521.8, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_11: (545.7, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_14: (473.6, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_15: (497.5, 338.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_16: (521.7, 338.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_17: (545.7, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_20: (473.1, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_21: (497.6, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_22: (521.8, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_grid_23: (545.6, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (568.9, 289.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (594.1, 290.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (568.8, 337.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (593.9, 337.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (464.8, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (492.0, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (518.1, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (544.2, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (569.2, 384.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 48 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (594.3, 384.2)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (452.7, 258.0) -> (453.6, 257.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (606.8, 268.8) -> (608.1, 268.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (607.8, 545.9) -> (608.9, 544.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (452.3, 564.8) -> (454.0, 563.6)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (531.1, 408.7)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 50 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_2: (474.5, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_3: (497.7, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_4: (522.2, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_5: (546.9, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_8: (474.7, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_9: (498.9, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_10: (522.7, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_11: (547.0, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_14: (474.7, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_15: (498.7, 338.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_16: (522.7, 338.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_17: (546.9, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_20: (474.3, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_21: (498.7, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_22: (522.9, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_grid_23: (546.9, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (570.2, 289.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (595.3, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (570.0, 337.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (595.1, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (466.0, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (493.3, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (519.3, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (545.4, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (570.5, 384.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 49 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (595.5, 384.1)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (453.6, 257.9) -> (456.2, 257.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (608.1, 268.7) -> (610.4, 268.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (608.9, 544.8) -> (611.3, 545.3)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (454.0, 563.6) -> (456.2, 564.3)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (533.5, 409.0)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 51 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_2: (477.0, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_3: (500.3, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_4: (524.5, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_5: (549.3, 290.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_8: (477.3, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_9: (501.4, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_10: (525.2, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_11: (549.4, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_14: (477.3, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_15: (501.2, 338.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_16: (525.2, 338.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_17: (549.4, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_20: (476.6, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_21: (501.3, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_22: (525.4, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_grid_23: (549.4, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (572.6, 289.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (597.7, 290.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (572.5, 337.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (597.5, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (468.4, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (495.6, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (521.7, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (547.8, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (572.8, 384.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 50 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (597.9, 384.1)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (456.2, 257.9) -> (457.4, 257.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (610.4, 268.6) -> (611.6, 268.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (611.3, 545.3) -> (612.7, 545.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (456.2, 564.3) -> (457.2, 564.8)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (534.7, 409.2)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 52 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_2: (478.2, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_3: (501.7, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_4: (525.8, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_5: (550.6, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_8: (478.4, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_9: (502.4, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_10: (526.2, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_11: (550.5, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_14: (478.4, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_15: (502.5, 338.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_16: (526.2, 338.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_17: (550.5, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_20: (477.8, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_21: (502.4, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_22: (526.7, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_grid_23: (550.6, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (573.9, 289.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (598.9, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (573.6, 337.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (598.6, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (469.6, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (496.7, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (522.9, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (549.2, 384.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (574.1, 384.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 51 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (599.2, 384.0)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (457.4, 257.9) -> (458.5, 257.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (611.6, 268.6) -> (612.9, 268.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (612.7, 545.6) -> (613.9, 544.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (457.2, 564.8) -> (459.2, 563.8)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (536.1, 408.7)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 53 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_2: (479.5, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_3: (502.8, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_4: (526.7, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_5: (551.9, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_8: (479.7, 314.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_9: (503.9, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_10: (527.7, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_11: (552.0, 314.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_14: (479.7, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_15: (503.7, 338.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_16: (527.5, 337.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_17: (551.9, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_20: (479.2, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_21: (503.8, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_22: (528.1, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_grid_23: (551.9, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (575.2, 289.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (600.2, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (575.0, 337.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (599.9, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (470.9, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (498.3, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (524.3, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (550.4, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (575.4, 383.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 52 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (600.4, 384.0)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (458.5, 257.8) -> (459.7, 257.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (612.9, 268.5) -> (614.2, 268.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (613.9, 544.7) -> (615.0, 544.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (459.2, 563.8) -> (460.6, 563.4)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (537.4, 408.5)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 54 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_2: (480.7, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_3: (503.9, 289.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_4: (527.9, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_5: (553.1, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_8: (481.0, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_9: (505.1, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_10: (529.1, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_11: (553.2, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_14: (481.0, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_15: (504.9, 338.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_16: (528.7, 337.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_17: (553.2, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_20: (480.5, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_21: (505.1, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_22: (529.3, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_grid_23: (553.2, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (576.4, 289.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (601.4, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (576.2, 337.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (601.2, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (472.2, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (499.5, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (525.5, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (551.7, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (576.6, 384.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 53 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (601.6, 384.0)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (459.7, 257.7) -> (460.9, 257.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (614.2, 268.5) -> (615.4, 268.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (615.0, 544.5) -> (616.4, 544.9)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (460.6, 563.4) -> (461.8, 563.6)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (538.6, 408.7)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 55 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_2: (482.0, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_3: (505.1, 289.8)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_4: (528.9, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_5: (554.4, 290.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_8: (482.3, 314.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_9: (506.4, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_10: (530.1, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_11: (554.4, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_14: (482.3, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_15: (506.1, 338.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_16: (529.8, 337.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_17: (554.4, 338.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_20: (481.7, 362.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_21: (506.3, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_22: (530.5, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_grid_23: (554.4, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (577.6, 289.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (602.6, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (577.5, 337.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (602.4, 337.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (473.4, 384.7)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (500.7, 384.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (526.8, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (553.0, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (577.8, 384.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 54 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (602.9, 384.1)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (460.9, 257.8) -> (463.4, 257.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (615.4, 268.6) -> (617.7, 268.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (616.4, 544.9) -> (619.2, 545.0)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (461.8, 563.6) -> (464.4, 563.9)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (541.2, 408.8)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 56 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_2: (484.5, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_3: (507.5, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_4: (531.3, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_5: (556.9, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_8: (484.7, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_9: (508.7, 314.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_10: (532.7, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_11: (556.9, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_14: (484.7, 338.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_15: (508.8, 338.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_16: (532.3, 337.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_17: (556.9, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_20: (484.3, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_21: (508.9, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_22: (533.1, 362.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_grid_23: (556.9, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (580.1, 289.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (605.0, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (579.9, 336.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (604.8, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (475.8, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (503.3, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (529.3, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (555.4, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (580.4, 384.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 55 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (605.3, 384.0)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (463.4, 257.8) -> (464.7, 257.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (617.7, 268.6) -> (619.0, 268.5)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (619.2, 545.0) -> (620.4, 544.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (464.4, 563.9) -> (465.9, 563.4)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (542.5, 408.6)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:489 [FIXED-GRID] Processing planar tracking, frame: 57 trackers: 1
+TrackerOrchestrator.ts:511 [FIXED-GRID] Planar tracker planar_1750367462390_ezoxuu6ct has 26 active features
+PlanarTrackerManager.ts:215 [FIXED-GRID] Processing 26/26 active points
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_2: (485.8, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_3: (508.8, 289.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_4: (532.6, 290.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_5: (558.2, 290.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_8: (486.3, 314.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_9: (510.0, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_10: (533.9, 314.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_11: (558.2, 314.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_14: (486.1, 338.4)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_15: (509.8, 338.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_16: (533.5, 338.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_17: (558.2, 338.5)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_20: (485.5, 362.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_21: (510.2, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_22: (534.4, 362.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_grid_23: (558.3, 362.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_0: (581.4, 289.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_1: (606.3, 290.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_2: (581.3, 336.9)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_3: (606.0, 337.3)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_4: (477.2, 384.6)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_5: (504.6, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_6: (530.6, 384.2)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_7: (556.8, 384.1)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_8: (581.7, 384.0)
+PlanarTrackerManager.ts:278 [FIXED-GRID] Using exact previous frame 56 for point planar_1750367462390_ezoxuu6ct_regen_1_9: (606.6, 384.0)
+PlanarTrackerManager.ts:319 [FIXED-GRID] Computing homography for planar_1750367462390_ezoxuu6ct with 26 points
+PlanarTrackerManager.ts:348 [FIXED-GRID] Homography confidence: 1.000, inliers: 26/26
+PlanarTrackerManager.ts:413 [FIXED-GRID] Applying incremental homography to corners
+PlanarTrackerManager.ts:414 [FIXED-GRID] Source corners: Array(4)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 0: (464.7, 257.8) -> (466.0, 257.7)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 1: (619.0, 268.5) -> (620.2, 268.6)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 2: (620.4, 544.6) -> (621.7, 544.8)
+PlanarTrackerManager.ts:435 [FIXED-GRID] Corner 3: (465.9, 563.4) -> (467.0, 564.0)
+PlanarTrackerManager.ts:445 [FIXED-GRID] Updated corners: Array(4)
+PlanarTrackerManager.ts:446 [FIXED-GRID] New center: (543.7, 408.8)
+PlanarTrackerManager.ts:260 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:518 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+Text3DManager.ts:22 [TEXT3D] Created text element: text3d_1750367716955_o43caf7op for tracker: planar_1750367462390_ezoxuu6ct
