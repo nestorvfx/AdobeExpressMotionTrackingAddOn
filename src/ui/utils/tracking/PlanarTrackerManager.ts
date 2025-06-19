@@ -1,7 +1,18 @@
 import { PlanarTracker, PlanarCorner, TrackingPoint, Position, HomographyData } from './TrackingTypes';
 
+interface GridPoint {
+  x: number;
+  y: number;
+  confidence: number;
+  textureScore: number;
+}
+
 export class PlanarTrackerManager {
   private cv: any = null;
+  private readonly GRID_SIZE = 26; // 26 internal points + 4 corners = 30 total
+  private readonly MIN_TRACKING_POINTS = 15;
+  private readonly TEXTURE_SEARCH_RADIUS = 10;
+  private readonly CONFIDENCE_THRESHOLD = 0.3;
 
   constructor(cv?: any) {
     this.cv = cv;
@@ -9,8 +20,7 @@ export class PlanarTrackerManager {
 
   setOpenCV(cv: any): void {
     this.cv = cv;
-  }
-  /**
+  }  /**
    * Create a new planar tracker at the specified position
    */
   createPlanarTracker(
@@ -76,204 +86,442 @@ export class PlanarTrackerManager {
 
     return planarTracker;
   }
-
   /**
-   * Generate feature points within the planar tracker region
+   * Generate fixed grid of feature points within the planar tracker region
+   * Uses texture analysis to snap grid points to high-texture areas
    */
-  generateFeaturePoints(planarTracker: PlanarTracker, frameCount: number): TrackingPoint[] {
+  generateFeaturePoints(planarTracker: PlanarTracker, frameCount: number, imageData?: ImageData): TrackingPoint[] {
     const { corners } = planarTracker;
     const featurePoints: TrackingPoint[] = [];
     
-    // Create a 3x4 grid of feature points within the quadrilateral
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 4; col++) {
-        const u = (col + 1) / 5; // Normalized position (0.2, 0.4, 0.6, 0.8)
-        const v = (row + 1) / 4; // Normalized position (0.25, 0.5, 0.75)
-        
-        // Bilinear interpolation within the quadrilateral
-        const topX = corners[0].x + u * (corners[1].x - corners[0].x);
-        const topY = corners[0].y + u * (corners[1].y - corners[0].y);
-        const bottomX = corners[3].x + u * (corners[2].x - corners[3].x);
-        const bottomY = corners[3].y + u * (corners[2].y - corners[3].y);
-        
-        const x = topX + v * (bottomX - topX);
-        const y = topY + v * (bottomY - topY);
-        
-        const featurePoint: TrackingPoint = {
-          id: `${planarTracker.id}_feature_${row}_${col}`,
-          x,
-          y,
-          confidence: 1.0,
-          isActive: true,
-          trajectory: [{ x, y, frame: frameCount }],
-          searchRadius: 50, // Smaller search radius for feature points
-          framePositions: new Map([[frameCount, { x, y }]]),
-          adaptiveWindowSize: 15
-        };
-        
-        featurePoints.push(featurePoint);
-      }
-    }
+    console.log(`[FIXED-GRID] Generating ${this.GRID_SIZE} feature points for frame ${frameCount}`);
     
+    // Generate uniform grid within the quadrilateral
+    const gridPoints = this.generateUniformGrid(corners);
+    
+    // If we have image data, snap grid points to high-texture areas
+    const finalPoints = imageData ? 
+      this.snapGridPointsToTexture(gridPoints, imageData) : 
+      gridPoints;
+    
+    // Convert grid points to TrackingPoint objects
+    finalPoints.forEach((point, index) => {
+      const featurePoint: TrackingPoint = {
+        id: `${planarTracker.id}_grid_${index}`,
+        x: point.x,
+        y: point.y,
+        confidence: point.confidence,
+        isActive: true,
+        trajectory: [{ x: point.x, y: point.y, frame: frameCount }],
+        searchRadius: 30,
+        framePositions: new Map([[frameCount, { x: point.x, y: point.y }]]),
+        adaptiveWindowSize: 15
+      };
+      
+      featurePoints.push(featurePoint);
+    });
+    
+    console.log(`[FIXED-GRID] Generated ${featurePoints.length} feature points`);
     return featurePoints;
   }
 
   /**
+   * Generate uniform grid within quadrilateral bounds
+   */
+  private generateUniformGrid(corners: [PlanarCorner, PlanarCorner, PlanarCorner, PlanarCorner]): GridPoint[] {
+    const gridPoints: GridPoint[] = [];
+    
+    // Create a roughly square grid that fills the quadrilateral
+    const gridDim = Math.ceil(Math.sqrt(this.GRID_SIZE));
+    const actualPoints = Math.min(this.GRID_SIZE, gridDim * gridDim);
+    
+    for (let i = 0; i < actualPoints; i++) {
+      const row = Math.floor(i / gridDim);
+      const col = i % gridDim;
+      
+      // Normalized coordinates within grid (0 to 1)
+      const u = (col + 0.5) / gridDim; // Add 0.5 to center points in grid cells
+      const v = (row + 0.5) / gridDim;
+      
+      // Bilinear interpolation within the quadrilateral
+      const topX = corners[0].x + u * (corners[1].x - corners[0].x);
+      const topY = corners[0].y + u * (corners[1].y - corners[0].y);
+      const bottomX = corners[3].x + u * (corners[2].x - corners[3].x);
+      const bottomY = corners[3].y + u * (corners[2].y - corners[3].y);
+      
+      const x = topX + v * (bottomX - topX);
+      const y = topY + v * (bottomY - topY);
+      
+      gridPoints.push({
+        x,
+        y,
+        confidence: 1.0,
+        textureScore: 0.5 // Default texture score
+      });
+    }
+    
+    return gridPoints;
+  }
+
+  /**
+   * Snap grid points to nearby high-texture areas for better tracking
+   */
+  private snapGridPointsToTexture(gridPoints: GridPoint[], imageData: ImageData): GridPoint[] {
+    if (!this.cv) {
+      return gridPoints; // Return original points if OpenCV not available
+    }
+
+    try {
+      // Convert ImageData to OpenCV Mat
+      const imageWidth = imageData.width;
+      const imageHeight = imageData.height;
+      const mat = this.cv.matFromArray(imageHeight, imageWidth, this.cv.CV_8UC4, imageData.data);
+      
+      // Convert to grayscale for texture analysis
+      const gray = new this.cv.Mat();
+      this.cv.cvtColor(mat, gray, this.cv.COLOR_RGBA2GRAY);
+      
+      // Calculate gradient magnitude for texture detection
+      const gradX = new this.cv.Mat();
+      const gradY = new this.cv.Mat();
+      this.cv.Sobel(gray, gradX, this.cv.CV_32F, 1, 0, 3);
+      this.cv.Sobel(gray, gradY, this.cv.CV_32F, 0, 1, 3);
+      
+      const gradMag = new this.cv.Mat();
+      this.cv.magnitude(gradX, gradY, gradMag);
+      
+      const snappedPoints = gridPoints.map(point => {
+        const bestPoint = this.findBestTexturePoint(point, gradMag, imageWidth, imageHeight);
+        return bestPoint;
+      });
+      
+      // Cleanup
+      mat.delete();
+      gray.delete();
+      gradX.delete();
+      gradY.delete();
+      gradMag.delete();
+      
+      return snappedPoints;
+      
+    } catch (error) {
+      console.warn('[FIXED-GRID] Texture analysis failed, using original grid:', error);
+      return gridPoints;
+    }
+  }
+
+  /**
+   * Find the best texture point within search radius
+   */
+  private findBestTexturePoint(originalPoint: GridPoint, gradMag: any, imageWidth: number, imageHeight: number): GridPoint {
+    const searchRadius = this.TEXTURE_SEARCH_RADIUS;
+    let bestX = originalPoint.x;
+    let bestY = originalPoint.y;
+    let bestScore = 0;
+    
+    // Search in a small radius around the original point
+    for (let dy = -searchRadius; dy <= searchRadius; dy += 2) {
+      for (let dx = -searchRadius; dx <= searchRadius; dx += 2) {
+        const testX = Math.round(originalPoint.x + dx);
+        const testY = Math.round(originalPoint.y + dy);
+        
+        // Ensure point is within image bounds
+        if (testX >= 0 && testX < imageWidth && testY >= 0 && testY < imageHeight) {
+          try {
+            const score = gradMag.floatAt(testY, testX);
+            if (score > bestScore) {
+              bestScore = score;
+              bestX = testX;
+              bestY = testY;
+            }
+          } catch (e) {
+            // Skip invalid points
+          }
+        }
+      }
+    }
+    
+    return {
+      x: bestX,
+      y: bestY,
+      confidence: Math.min(1.0, bestScore / 50.0), // Normalize score to 0-1
+      textureScore: bestScore
+    };
+  }
+  /**
    * Update planar tracker corners based on feature point tracking results
-   */  updatePlanarTrackerFromFeatures(
+   * Uses robust homography estimation with the fixed grid approach
+   */
+  updatePlanarTrackerFromFeatures(
     planarTracker: PlanarTracker, 
     trackedFeatures: TrackingPoint[], 
     frameCount: number
   ): HomographyData | null {
-    if (!this.cv || trackedFeatures.length < 4) {
+    if (!this.cv) {
+      console.log('[FIXED-GRID] OpenCV not available');
       return null;
     }
 
+    // Filter active and confident points
+    const activePoints = trackedFeatures.filter(f => 
+      f.isActive && f.confidence > this.CONFIDENCE_THRESHOLD
+    );
+
+    console.log(`[FIXED-GRID] Processing ${activePoints.length}/${trackedFeatures.length} active points`);
+
+    // Check minimum point threshold
+    if (activePoints.length < this.MIN_TRACKING_POINTS) {
+      console.log(`[FIXED-GRID] Insufficient points: ${activePoints.length} < ${this.MIN_TRACKING_POINTS}`);
+      
+      // Regenerate grid if we have too few good points
+      this.regenerateFailedPoints(planarTracker, trackedFeatures, frameCount);
+      return null;
+    }    try {
+      // Get current and previous frame positions
+      const currentPoints = activePoints.map(f => ({ x: f.x, y: f.y }));
+      const previousPoints = this.getPreviousFramePositions(activePoints, frameCount);
+
+      if (previousPoints.length !== currentPoints.length) {
+        console.log('[FIXED-GRID] Point count mismatch, skipping homography');
+        return null;
+      }
+
+      // Special case: if previous and current points are identical (after scrubbing),
+      // skip homography calculation to avoid division by zero
+      const pointsAreIdentical = currentPoints.every((curr, i) => {
+        const prev = previousPoints[i];
+        return Math.abs(curr.x - prev.x) < 0.1 && Math.abs(curr.y - prev.y) < 0.1;
+      });
+
+      if (pointsAreIdentical) {
+        console.log('[FIXED-GRID] Points are identical (likely after scrubbing), skipping homography this frame');
+        // Add current positions to trajectory without homography transformation
+        this.addTrajectoryEntry(planarTracker, frameCount);
+        return {
+          matrix: [1, 0, 0, 0, 1, 0, 0, 0, 1], // Identity matrix
+          confidence: 1.0,
+          inlierCount: activePoints.length,
+          totalFeatures: activePoints.length
+        };
+      }
+
+      // Calculate homography
+      const homographyData = this.calculateRobustHomography(
+        previousPoints, 
+        currentPoints, 
+        planarTracker.id
+      );
+
+      if (!homographyData) {
+        console.log('[FIXED-GRID] Homography calculation failed');
+        return null;
+      }
+
+      // Update corners using homography
+      this.updateCornersFromHomography(planarTracker, homographyData.matrix, frameCount);
+
+      // Store results
+      planarTracker.frameHomographies.set(frameCount, homographyData.matrix);
+      planarTracker.homographyMatrix = homographyData.matrix;
+      planarTracker.confidence = homographyData.confidence;
+
+      console.log(`[FIXED-GRID] Successfully updated tracker with confidence: ${homographyData.confidence.toFixed(3)}`);
+      return homographyData;
+
+    } catch (error) {
+      console.warn('[FIXED-GRID] Error in updatePlanarTrackerFromFeatures:', error);
+      return null;
+    }
+  }  /**
+   * Get previous frame positions for tracking points
+   * Uses framePositions map to get the actual previous frame, not just trajectory order
+   */
+  private getPreviousFramePositions(points: TrackingPoint[], currentFrame?: number): Position[] {
+    return points.map(point => {
+      // If we have framePositions map, use it for accurate frame-based lookup
+      if (point.framePositions && point.framePositions.size > 0 && currentFrame !== undefined) {
+        // Look for the exact previous frame first
+        const prevFramePos = point.framePositions.get(currentFrame - 1);
+        if (prevFramePos) {
+          console.log(`[FIXED-GRID] Using exact previous frame ${currentFrame - 1} for point ${point.id}: (${prevFramePos.x.toFixed(1)}, ${prevFramePos.y.toFixed(1)})`);
+          return prevFramePos;
+        }
+        
+        // If no exact previous frame, use the most recent frame position
+        const frameEntries = Array.from(point.framePositions.entries())
+          .filter(([frame]) => frame < currentFrame)
+          .sort((a, b) => b[0] - a[0]);
+          
+        if (frameEntries.length > 0) {
+          const mostRecentPosition = frameEntries[0][1];
+          console.log(`[FIXED-GRID] Using most recent frame ${frameEntries[0][0]} for point ${point.id}: (${mostRecentPosition.x.toFixed(1)}, ${mostRecentPosition.y.toFixed(1)})`);
+          return mostRecentPosition;
+        }
+      }
+      
+      // Fallback to trajectory-based approach
+      if (point.trajectory.length > 1) {
+        // Use previous frame position from trajectory
+        const prevPos = point.trajectory[point.trajectory.length - 2];
+        console.log(`[FIXED-GRID] Using trajectory previous for point ${point.id}: (${prevPos.x.toFixed(1)}, ${prevPos.y.toFixed(1)})`);
+        return prevPos;
+      } else {
+        // Use current position as reference for first frame or after scrubbing
+        const currentPos = { x: point.x, y: point.y };
+        console.log(`[FIXED-GRID] Using current position as reference for point ${point.id}: (${currentPos.x.toFixed(1)}, ${currentPos.y.toFixed(1)})`);
+        return currentPos;
+      }
+    });
+  }
+
+  /**
+   * Calculate robust homography using RANSAC
+   */
+  private calculateRobustHomography(
+    sourcePoints: Position[], 
+    targetPoints: Position[], 
+    trackerId: string
+  ): HomographyData | null {
     try {
-      // Get current feature positions
-      const currentPoints = trackedFeatures
-        .filter(f => f.isActive && f.confidence > 0.3)
-        .map(f => ({ x: f.x, y: f.y }));
+      // Convert to OpenCV format
+      const srcFlat: number[] = [];
+      sourcePoints.forEach(p => { srcFlat.push(p.x, p.y); });
+      const dstFlat: number[] = [];
+      targetPoints.forEach(p => { dstFlat.push(p.x, p.y); });
 
-      if (currentPoints.length < 4) {
-        return null;
-      }      // Get previous frame feature positions (or original if no previous frame)
-      const previousPoints = trackedFeatures
-        .filter(f => f.trajectory.length > 1)
-        .map(f => f.trajectory[f.trajectory.length - 2]) // Second to last frame
-        .map(t => ({ x: t.x, y: t.y }));
-      
-      // If we don't have previous frame data, fall back to original positions
-      const sourcePoints = previousPoints.length === currentPoints.length ? 
-        previousPoints : 
-        trackedFeatures
-          .filter(f => f.trajectory.length > 0)
-          .map(f => f.trajectory[0])
-          .map(t => ({ x: t.x, y: t.y }));
-
-      if (sourcePoints.length !== currentPoints.length) {
-        return null;
-      }      // Calculate homography from previous frame to current frame (incremental transformation)
-      const srcPointsFlat: number[] = [];
-      sourcePoints.forEach(p => { srcPointsFlat.push(p.x, p.y); });
-      const dstPointsFlat: number[] = [];
-      currentPoints.forEach(p => { dstPointsFlat.push(p.x, p.y); });
-      
-      const srcPoints = this.cv.matFromArray(sourcePoints.length, 1, this.cv.CV_32FC2, srcPointsFlat);
-      const dstPoints = this.cv.matFromArray(currentPoints.length, 1, this.cv.CV_32FC2, dstPointsFlat);
-
-      console.log('[TRACKING ADDON] Computing homography with', currentPoints.length, 'points');
-      console.log('[TRACKING ADDON] Feature point movements:');
-      const isIncremental = previousPoints.length === currentPoints.length;
-      console.log('[TRACKING ADDON] Using', isIncremental ? 'incremental (prev->curr)' : 'absolute (orig->curr)', 'tracking');
-      for (let i = 0; i < Math.min(4, sourcePoints.length); i++) {
-        console.log(`[TRACKING ADDON]   Point ${i}: (${sourcePoints[i].x.toFixed(1)}, ${sourcePoints[i].y.toFixed(1)}) -> (${currentPoints[i].x.toFixed(1)}, ${currentPoints[i].y.toFixed(1)})`);
-      }
-      if (sourcePoints.length > 4) {
-        console.log(`[TRACKING ADDON]   ... and ${sourcePoints.length - 4} more points`);
-      }
-
+      const srcMat = this.cv.matFromArray(sourcePoints.length, 1, this.cv.CV_32FC2, srcFlat);
+      const dstMat = this.cv.matFromArray(targetPoints.length, 1, this.cv.CV_32FC2, dstFlat);
       const mask = new this.cv.Mat();
 
-      // Use RANSAC for robust homography estimation  
-      // In OpenCV.js, findHomography returns the homography matrix directly
-      const homography = this.cv.findHomography(srcPoints, dstPoints, this.cv.RANSAC, 3.0, mask, 2000, 0.995);
+      console.log(`[FIXED-GRID] Computing homography for ${trackerId} with ${sourcePoints.length} points`);
+
+      // Use RANSAC for robust estimation
+      const homography = this.cv.findHomography(
+        srcMat, 
+        dstMat, 
+        this.cv.RANSAC, 
+        3.0, // Reprojection threshold
+        mask, 
+        2000, // Max iterations
+        0.995 // Confidence
+      );
 
       if (!homography || homography.empty()) {
-        console.log('[TRACKING ADDON] Homography calculation failed - empty result');
-        // Cleanup and return null if homography calculation failed
-        srcPoints.delete();
-        dstPoints.delete();
-        if (homography) homography.delete();
+        console.log('[FIXED-GRID] Homography computation failed');
+        srcMat.delete();
+        dstMat.delete();
         mask.delete();
+        if (homography) homography.delete();
         return null;
       }
 
-      // Count inliers
+      // Calculate confidence from inliers
       const inlierCount = this.cv.countNonZero(mask);
-      const confidence = inlierCount / currentPoints.length;
+      const confidence = inlierCount / sourcePoints.length;
 
-      // Only proceed if we have reasonable confidence
-      if (confidence < 0.3) {
-        srcPoints.delete();
-        dstPoints.delete();
-        homography.delete();
+      // Check confidence threshold
+      if (confidence < this.CONFIDENCE_THRESHOLD) {
+        console.log(`[FIXED-GRID] Low confidence: ${confidence.toFixed(3)} < ${this.CONFIDENCE_THRESHOLD}`);
+        srcMat.delete();
+        dstMat.delete();
         mask.delete();
+        homography.delete();
         return null;
-      }      // Get homography matrix as flat array
-      const homographyArray: number[] = Array.from(homography.data64F || homography.data32F) as number[];      console.log('[TRACKING ADDON] Homography matrix:');
-      console.log(`[TRACKING ADDON]   [${homographyArray[0].toFixed(3)}, ${homographyArray[1].toFixed(3)}, ${homographyArray[2].toFixed(3)}]`);
-      console.log(`[TRACKING ADDON]   [${homographyArray[3].toFixed(3)}, ${homographyArray[4].toFixed(3)}, ${homographyArray[5].toFixed(3)}]`);
-      console.log(`[TRACKING ADDON]   [${homographyArray[6].toFixed(3)}, ${homographyArray[7].toFixed(3)}, ${homographyArray[8].toFixed(3)}]`);
-      console.log('[TRACKING ADDON] Confidence:', confidence, 'Inliers:', inlierCount, '/', currentPoints.length);      // Apply homography to corners (incremental or absolute based on what we computed)
-      this.updateCornersFromHomography(planarTracker, homographyArray, frameCount, isIncremental);
+      }
 
-      // Store homography for this frame
-      planarTracker.frameHomographies.set(frameCount, homographyArray);
-      planarTracker.homographyMatrix = homographyArray;
-      planarTracker.confidence = confidence;
+      // Extract homography matrix
+      const matrixArray: number[] = Array.from(homography.data64F || homography.data32F);
+
+      console.log(`[FIXED-GRID] Homography confidence: ${confidence.toFixed(3)}, inliers: ${inlierCount}/${sourcePoints.length}`);
 
       // Cleanup
-      srcPoints.delete();
-      dstPoints.delete();
-      homography.delete();
+      srcMat.delete();
+      dstMat.delete();
       mask.delete();
+      homography.delete();
 
       return {
-        matrix: homographyArray,
+        matrix: matrixArray,
         confidence,
         inlierCount,
-        totalFeatures: currentPoints.length
+        totalFeatures: sourcePoints.length
       };
 
     } catch (error) {
-      console.warn('Homography calculation failed:', error);
+      console.warn('[FIXED-GRID] Homography calculation error:', error);
       return null;
     }
   }
+
   /**
+   * Regenerate failed tracking points in sparse areas
+   */
+  private regenerateFailedPoints(
+    planarTracker: PlanarTracker, 
+    existingPoints: TrackingPoint[], 
+    frameCount: number
+  ): void {
+    console.log('[FIXED-GRID] Regenerating failed tracking points');
+
+    // Preserve high-confidence points
+    const goodPoints = existingPoints.filter(p => 
+      p.isActive && p.confidence > this.CONFIDENCE_THRESHOLD
+    );
+
+    // Deactivate failed points but keep their trajectory data
+    existingPoints.forEach(point => {
+      if (point.confidence <= this.CONFIDENCE_THRESHOLD) {
+        point.isActive = false;
+        console.log(`[FIXED-GRID] Deactivated point ${point.id} (confidence: ${point.confidence.toFixed(3)})`);
+      }
+    });
+
+    // Generate new grid points to fill gaps
+    const neededPoints = this.GRID_SIZE - goodPoints.length;
+    if (neededPoints > 0) {
+      const newGridPoints = this.generateUniformGrid(planarTracker.corners);
+      
+      // Convert to tracking points and add to existing array
+      for (let i = 0; i < Math.min(neededPoints, newGridPoints.length); i++) {
+        const gridPoint = newGridPoints[i];
+        const newPoint: TrackingPoint = {
+          id: `${planarTracker.id}_regen_${frameCount}_${i}`,
+          x: gridPoint.x,
+          y: gridPoint.y,
+          confidence: gridPoint.confidence,
+          isActive: true,
+          trajectory: [{ x: gridPoint.x, y: gridPoint.y, frame: frameCount }],
+          searchRadius: 30,
+          framePositions: new Map([[frameCount, { x: gridPoint.x, y: gridPoint.y }]]),
+          adaptiveWindowSize: 15
+        };
+        
+        existingPoints.push(newPoint);
+      }
+      
+      console.log(`[FIXED-GRID] Added ${neededPoints} new tracking points`);
+    }
+  }  /**
    * Update corner positions based on homography transformation
    */
   private updateCornersFromHomography(
     planarTracker: PlanarTracker, 
     homographyMatrix: number[], 
-    frameCount: number,
-    isIncremental: boolean = false
+    frameCount: number
   ): void {
     if (!this.cv || homographyMatrix.length !== 9) {
-      console.log('[TRACKING ADDON] Invalid homography matrix:', homographyMatrix.length, 'elements');
+      console.log('[FIXED-GRID] Invalid homography matrix:', homographyMatrix.length, 'elements');
       return;
-    }    try {
-      // Check if this tracker has been manually adjusted
-      const hasManualAdjustment = (planarTracker as any).hasManualAdjustment;
-      
-      // Choose source corners based on tracking mode
-      let sourceCorners;
-      let shouldUseIncremental = isIncremental || hasManualAdjustment;
-      
-      if (shouldUseIncremental && planarTracker.trajectory.length > 0) {
-        // For incremental tracking or after manual adjustment, use current corner positions
-        sourceCorners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
-        console.log('[TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)' + 
-                   (hasManualAdjustment ? ' [AFTER MANUAL ADJUSTMENT]' : ''));
-        
-        // Clear the manual adjustment flag after first use
-        if (hasManualAdjustment) {
-          delete (planarTracker as any).hasManualAdjustment;
-          console.log('[TRACKING ADDON] Cleared manual adjustment flag');
-        }
-      } else {
-        // For absolute tracking, use original corner positions
-        if (planarTracker.trajectory.length > 0) {
-          sourceCorners = planarTracker.trajectory[0].corners;
-        } else {
-          sourceCorners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
-        }
-        console.log('[TRACKING ADDON] Using ABSOLUTE tracking (original->new corners)');
-      }
+    }
 
-      console.log('[TRACKING ADDON] Source corners:', sourceCorners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
-      console.log('[TRACKING ADDON] Current corners before update:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));// Apply homography transformation to each corner
+    try {
+      // Use current corner positions as source (incremental tracking)
+      const sourceCorners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
+      
+      console.log('[FIXED-GRID] Applying incremental homography to corners');
+      console.log('[FIXED-GRID] Source corners:', sourceCorners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+
+      // Apply homography transformation to each corner
       const homMat = this.cv.matFromArray(3, 3, this.cv.CV_64FC1, homographyMatrix);
       
       sourceCorners.forEach((sourceCorner, index) => {
@@ -289,29 +537,28 @@ export class PlanarTrackerManager {
         const newX = transformed[0];
         const newY = transformed[1];
         
-        console.log(`[TRACKING ADDON] Corner ${index}: (${sourceCorner.x.toFixed(1)}, ${sourceCorner.y.toFixed(1)}) -> (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
-        
-        planarTracker.corners[index].x = newX;
-        planarTracker.corners[index].y = newY;
+        // Check for reasonable values
+        if (isNaN(newX) || isNaN(newY) || Math.abs(newX) > 10000 || Math.abs(newY) > 10000) {
+          console.warn(`[FIXED-GRID] Unreasonable corner ${index} transformation: (${newX}, ${newY})`);
+          // Keep original position if transformation is unreasonable
+        } else {
+          planarTracker.corners[index].x = newX;
+          planarTracker.corners[index].y = newY;
+          console.log(`[FIXED-GRID] Corner ${index}: (${sourceCorner.x.toFixed(1)}, ${sourceCorner.y.toFixed(1)}) -> (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
+        }
         
         // Cleanup
         point.delete();
         transformedPoint.delete();
-      });// Update center point
+      });
+
+      // Update center point
       const centerX = planarTracker.corners.reduce((sum, c) => sum + c.x, 0) / 4;
       const centerY = planarTracker.corners.reduce((sum, c) => sum + c.y, 0) / 4;
-      planarTracker.center = { x: centerX, y: centerY };      console.log('[TRACKING ADDON] Updated corners:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
-      console.log('[TRACKING ADDON] New center:', `(${planarTracker.center.x.toFixed(1)}, ${planarTracker.center.y.toFixed(1)})`);
+      planarTracker.center = { x: centerX, y: centerY };
 
-      // Check for unreasonable corner positions (likely indicates a bad homography)
-      const hasUnreasonableCorners = planarTracker.corners.some(corner => 
-        Math.abs(corner.x) > 10000 || Math.abs(corner.y) > 10000 || 
-        isNaN(corner.x) || isNaN(corner.y)
-      );
-      
-      if (hasUnreasonableCorners) {
-        console.warn('[TRACKING ADDON] WARNING: Corners have unreasonable values, homography may be unstable');
-      }
+      console.log('[FIXED-GRID] Updated corners:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      console.log('[FIXED-GRID] New center:', `(${planarTracker.center.x.toFixed(1)}, ${planarTracker.center.y.toFixed(1)})`);
 
       // Add to trajectory
       planarTracker.trajectory.push({
@@ -324,11 +571,11 @@ export class PlanarTrackerManager {
       homMat.delete();
 
     } catch (error) {
-      console.warn('Failed to update corners from homography:', error);
+      console.warn('[FIXED-GRID] Failed to update corners from homography:', error);
     }
-  }
-  /**
+  }  /**
    * Update corner position manually (when user drags a corner)
+   * Triggers regeneration of feature points after drag is complete
    */
   updateCornerPosition(
     planarTracker: PlanarTracker, 
@@ -345,24 +592,114 @@ export class PlanarTrackerManager {
       const centerY = planarTracker.corners.reduce((sum, c) => sum + c.y, 0) / 4;
       planarTracker.center = { x: centerX, y: centerY };
       
-      console.log(`[TRACKING ADDON] Manual corner ${cornerIndex} update: (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
-      console.log('[TRACKING ADDON] All corners after manual adjustment:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      console.log(`[FIXED-GRID] Manual corner ${cornerIndex} update: (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
+      console.log('[FIXED-GRID] All corners after manual adjustment:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
       
-      // CRITICAL: Reset the tracking reference to the current corners
-      // This ensures that future tracking uses these manually adjusted corners as the baseline
+      // Update the most recent trajectory entry to reflect the manual adjustment
       if (planarTracker.trajectory.length > 0) {
-        // Update the most recent trajectory entry to reflect the manual adjustment
         const lastTrajectoryEntry = planarTracker.trajectory[planarTracker.trajectory.length - 1];
         lastTrajectoryEntry.corners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
         lastTrajectoryEntry.center = { x: centerX, y: centerY };
         
-        console.log('[TRACKING ADDON] Updated trajectory reference to manual adjustment');
+        console.log('[FIXED-GRID] Updated trajectory reference to manual adjustment');
       }
       
-      // Mark that this tracker has been manually adjusted
-      // We'll use this flag to ensure proper incremental tracking on the next frame
-      (planarTracker as any).hasManualAdjustment = true;
-    }  }
+      // Mark for feature point regeneration on next tracking frame
+      (planarTracker as any).needsFeatureRegeneration = true;
+      console.log('[FIXED-GRID] Marked for feature point regeneration');
+    }
+  }
+
+  /**
+   * Regenerate feature points after manual corner adjustment
+   * Preserves high-confidence existing points that are still within bounds
+   */
+  regenerateFeaturePointsAfterAdjustment(
+    planarTracker: PlanarTracker, 
+    frameCount: number, 
+    imageData?: ImageData
+  ): TrackingPoint[] {
+    console.log('[FIXED-GRID] Regenerating feature points after manual adjustment');
+    
+    // Preserve existing points that are still within the new boundary and have good confidence
+    const preservedPoints = planarTracker.featurePoints.filter(point => {
+      const withinBounds = this.isPointInsideTracker(planarTracker, point.x, point.y);
+      const goodConfidence = point.confidence > this.CONFIDENCE_THRESHOLD;
+      
+      if (withinBounds && goodConfidence) {
+        console.log(`[FIXED-GRID] Preserving point ${point.id} (confidence: ${point.confidence.toFixed(3)})`);
+        return true;
+      } else {
+        // Deactivate but preserve trajectory data
+        point.isActive = false;
+        console.log(`[FIXED-GRID] Deactivating point ${point.id} (bounds: ${withinBounds}, confidence: ${point.confidence.toFixed(3)})`);
+        return false;
+      }
+    });
+
+    // Generate new grid points to fill gaps
+    const neededPoints = this.GRID_SIZE - preservedPoints.length;
+    const newPoints: TrackingPoint[] = [];
+
+    if (neededPoints > 0) {
+      // Generate new grid within updated corners
+      const gridPoints = this.generateUniformGrid(planarTracker.corners);
+      
+      // Apply texture snapping if image data is available
+      const finalGridPoints = imageData ? 
+        this.snapGridPointsToTexture(gridPoints, imageData) : 
+        gridPoints;
+
+      // Avoid placing new points too close to preserved points
+      const minDistance = 20; // Minimum distance between points
+      let addedCount = 0;
+
+      for (const gridPoint of finalGridPoints) {
+        if (addedCount >= neededPoints) break;
+
+        // Check distance to existing preserved points
+        const tooClose = preservedPoints.some(existingPoint => {
+          const distance = Math.sqrt(
+            (gridPoint.x - existingPoint.x) ** 2 + 
+            (gridPoint.y - existingPoint.y) ** 2
+          );
+          return distance < minDistance;
+        });
+
+        if (!tooClose) {
+          const newPoint: TrackingPoint = {
+            id: `${planarTracker.id}_regen_${frameCount}_${addedCount}`,
+            x: gridPoint.x,
+            y: gridPoint.y,
+            confidence: gridPoint.confidence,
+            isActive: true,
+            trajectory: [{ x: gridPoint.x, y: gridPoint.y, frame: frameCount }],
+            searchRadius: 30,
+            framePositions: new Map([[frameCount, { x: gridPoint.x, y: gridPoint.y }]]),
+            adaptiveWindowSize: 15
+          };
+          
+          newPoints.push(newPoint);
+          addedCount++;
+        }
+      }
+
+      console.log(`[FIXED-GRID] Added ${addedCount} new points to reach target of ${this.GRID_SIZE}`);
+    }
+
+    // Combine preserved and new points
+    const allPoints = [...preservedPoints, ...newPoints];
+    
+    // Update the planar tracker's feature points
+    planarTracker.featurePoints = [...planarTracker.featurePoints.filter(p => !p.isActive), ...allPoints];
+    
+    // Clear the regeneration flag
+    delete (planarTracker as any).needsFeatureRegeneration;
+    
+    console.log(`[FIXED-GRID] Feature point regeneration complete: ${preservedPoints.length} preserved + ${newPoints.length} new = ${allPoints.length} active`);
+    
+    return allPoints;
+  }
 
   /**
    * Check if a point is inside the planar tracker region
@@ -396,27 +733,28 @@ export class PlanarTrackerManager {
       }
     }
     return -1;
-  }
-  /**
+  }  /**
    * Sync planar tracker to its trajectory position for a given frame
    * This is used during timeline scrubbing to ensure trackers appear at their correct positions
    */
   syncPlanarTrackerToFrame(planarTracker: PlanarTracker, frame: number): void {
-    console.log(`[TRACKING ADDON] Syncing planar tracker ${planarTracker.id} to frame ${frame}`);
+    console.log(`[FIXED-GRID] Syncing planar tracker ${planarTracker.id} to frame ${frame}`);
     if (planarTracker.trajectory.length === 0) {
-      console.log(`[TRACKING ADDON] No trajectory data available for ${planarTracker.id}`);
-      return; // No trajectory data available
-    }    // Look for exact frame match first
+      console.log(`[FIXED-GRID] No trajectory data available for ${planarTracker.id}`);
+      return;
+    }
+
+    // Look for exact frame match first
     const exactMatch = planarTracker.trajectory.find(entry => entry.frame === frame);
     if (exactMatch) {
-      console.log(`[TRACKING ADDON] Found exact match for frame ${frame}`);
+      console.log(`[FIXED-GRID] Found exact match for frame ${frame}`);
       // Update corners and center to exact frame position
       planarTracker.center = { x: exactMatch.center.x, y: exactMatch.center.y };
       exactMatch.corners.forEach((corner, index) => {
         planarTracker.corners[index].x = corner.x;
         planarTracker.corners[index].y = corner.y;
       });
-      console.log(`[TRACKING ADDON] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      console.log(`[FIXED-GRID] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
       return;
     }
 
@@ -428,15 +766,17 @@ export class PlanarTrackerManager {
         mostRecentFrame = entry.frame;
         mostRecentEntry = entry;
       }
-    }    if (mostRecentEntry) {
-      console.log(`[TRACKING ADDON] Using most recent frame ${mostRecentFrame} for frame ${frame}`);
+    }
+
+    if (mostRecentEntry) {
+      console.log(`[FIXED-GRID] Using most recent frame ${mostRecentFrame} for frame ${frame}`);
       // Use most recent previous frame position
       planarTracker.center = { x: mostRecentEntry.center.x, y: mostRecentEntry.center.y };
       mostRecentEntry.corners.forEach((corner, index) => {
         planarTracker.corners[index].x = corner.x;
         planarTracker.corners[index].y = corner.y;
       });
-      console.log(`[TRACKING ADDON] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      console.log(`[FIXED-GRID] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
       return;
     }
 
@@ -451,12 +791,14 @@ export class PlanarTrackerManager {
     }
 
     if (nearestFutureEntry) {
+      console.log(`[FIXED-GRID] Using nearest future frame ${nearestFutureFrame} for frame ${frame}`);
       // Use nearest future frame position
       planarTracker.center = { x: nearestFutureEntry.center.x, y: nearestFutureEntry.center.y };
       nearestFutureEntry.corners.forEach((corner, index) => {
         planarTracker.corners[index].x = corner.x;
         planarTracker.corners[index].y = corner.y;
       });
+      console.log(`[FIXED-GRID] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
     }
     // If no trajectory data at all, keep current positions (fallback)
   }
@@ -467,5 +809,22 @@ export class PlanarTrackerManager {
   syncAllPlanarTrackersToFrame(planarTrackers: PlanarTracker[], frame: number): void {
     planarTrackers.forEach(tracker => {
       this.syncPlanarTrackerToFrame(tracker, frame);
-    });  }
+    });  } /**
+   * Add trajectory entry without homography transformation
+   */
+  private addTrajectoryEntry(planarTracker: PlanarTracker, frameCount: number): void {
+    // Update center point
+    const centerX = planarTracker.corners.reduce((sum, c) => sum + c.x, 0) / 4;
+    const centerY = planarTracker.corners.reduce((sum, c) => sum + c.y, 0) / 4;
+    planarTracker.center = { x: centerX, y: centerY };
+
+    // Add to trajectory
+    planarTracker.trajectory.push({
+      center: { x: centerX, y: centerY },
+      corners: planarTracker.corners.map(c => ({ x: c.x, y: c.y })),
+      frame: frameCount
+    });
+
+    console.log(`[FIXED-GRID] Added trajectory entry for frame ${frameCount} without transformation`);
+  }
 }

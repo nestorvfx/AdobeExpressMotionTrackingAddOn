@@ -1,794 +1,326 @@
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 0 trackers: 0
-PlanarTrackerManager.ts:285 [TRACKING ADDON] Manual corner 2 update: (553.1, 546.7)
-PlanarTrackerManager.ts:286 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (362.3, 310.2)', '[1]: (506.3, 310.2)', '[2]: (553.1, 546.7)', '[3]: (362.3, 454.2)']
-PlanarTrackerManager.ts:294 [TRACKING ADDON] Updated trajectory reference to manual adjustment
-PlanarTrackerManager.ts:285 [TRACKING ADDON] Manual corner 3 update: (393.1, 546.7)
-PlanarTrackerManager.ts:286 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (362.3, 310.2)', '[1]: (506.3, 310.2)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:294 [TRACKING ADDON] Updated trajectory reference to manual adjustment
-PlanarTrackerManager.ts:285 [TRACKING ADDON] Manual corner 1 update: (571.4, 267.9)
-PlanarTrackerManager.ts:286 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (362.3, 310.2)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:294 [TRACKING ADDON] Updated trajectory reference to manual adjustment
-PlanarTrackerManager.ts:285 [TRACKING ADDON] Manual corner 0 update: (384.0, 263.3)
-PlanarTrackerManager.ts:286 [TRACKING ADDON] All corners after manual adjustment: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:294 [TRACKING ADDON] Updated trajectory reference to manual adjustment
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 1 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using absolute (orig->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (391.7, 346.2) -> (391.7, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (420.5, 346.2) -> (420.5, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (449.2, 346.2) -> (449.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (478.1, 346.2) -> (478.1, 346.2)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.000, 0.000, -0.000]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.000, 1.000, -0.000]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners) [AFTER MANUAL ADJUSTMENT]
-PlanarTrackerManager.ts:217 [TRACKING ADDON] Cleared manual adjustment flag
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (384.0, 263.3) -> (384.0, 263.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (571.4, 267.9) -> (571.4, 267.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (553.1, 546.7) -> (553.1, 546.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (393.1, 546.7) -> (393.1, 546.7)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (475.4, 406.2)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 2 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (391.7, 346.2) -> (392.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (420.5, 346.2) -> (421.0, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (449.2, 346.2) -> (449.8, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (478.1, 346.2) -> (478.6, 346.2)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.999, 0.006, -0.443]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.002, 1.006, -0.749]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (384.0, 263.3) -> (384.4, 263.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (571.4, 267.9) -> (572.1, 267.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (553.1, 546.7) -> (553.6, 546.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (393.1, 546.7) -> (393.9, 546.4)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (384.4, 263.2)', '[1]: (572.1, 267.7)', '[2]: (553.6, 546.5)', '[3]: (393.9, 546.4)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (476.0, 406.0)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 3 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (392.2, 346.2) -> (392.7, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (421.0, 346.2) -> (421.5, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (449.8, 346.2) -> (450.3, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (478.6, 346.2) -> (479.2, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.005, -0.004, -0.262]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.003, 0.997, -0.178]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (384.4, 263.2)', '[1]: (572.1, 267.7)', '[2]: (553.6, 546.5)', '[3]: (393.9, 546.4)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (384.4, 263.2)', '[1]: (572.1, 267.7)', '[2]: (553.6, 546.5)', '[3]: (393.9, 546.4)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (384.4, 263.2) -> (384.9, 263.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (572.1, 267.7) -> (572.5, 267.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (553.6, 546.5) -> (554.4, 546.6)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (393.9, 546.4) -> (394.3, 546.7)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (384.9, 263.3)', '[1]: (572.5, 267.9)', '[2]: (554.4, 546.6)', '[3]: (394.3, 546.7)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (476.5, 406.1)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 4 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (392.7, 346.2) -> (393.3, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (421.5, 346.1) -> (422.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (450.3, 346.2) -> (450.9, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (479.2, 346.1) -> (479.7, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.004, 0.002, -0.398]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.001, 1.007, -1.638]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (384.9, 263.3)', '[1]: (572.5, 267.9)', '[2]: (554.4, 546.6)', '[3]: (394.3, 546.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (384.9, 263.3)', '[1]: (572.5, 267.9)', '[2]: (554.4, 546.6)', '[3]: (394.3, 546.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (384.9, 263.3) -> (385.6, 263.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (572.5, 267.9) -> (573.1, 267.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (554.4, 546.6) -> (554.5, 546.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (394.3, 546.7) -> (394.9, 546.5)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (385.6, 263.1)', '[1]: (573.1, 267.9)', '[2]: (554.5, 546.4)', '[3]: (394.9, 546.5)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (477.0, 406.0)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 5 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (393.3, 346.2) -> (394.4, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (422.2, 346.2) -> (423.2, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (450.9, 346.2) -> (452.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (479.7, 346.1) -> (480.9, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.019, 0.003, -4.008]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.007, 1.011, -3.863]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (385.6, 263.1)', '[1]: (573.1, 267.9)', '[2]: (554.5, 546.4)', '[3]: (394.9, 546.5)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (385.6, 263.1)', '[1]: (573.1, 267.9)', '[2]: (554.5, 546.4)', '[3]: (394.9, 546.5)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (385.6, 263.1) -> (386.6, 262.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (573.1, 267.9) -> (574.1, 268.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (554.5, 546.4) -> (555.7, 545.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (394.9, 546.5) -> (396.2, 546.5)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (386.6, 262.9)', '[1]: (574.1, 268.1)', '[2]: (555.7, 545.9)', '[3]: (396.2, 546.5)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (478.1, 405.9)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 6 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (394.4, 346.1) -> (395.0, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (423.2, 346.0) -> (423.9, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (452.2, 346.2) -> (452.8, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (480.9, 346.1) -> (481.6, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.992, -0.005, 2.950]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.002, 0.989, 2.500]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (386.6, 262.9)', '[1]: (574.1, 268.1)', '[2]: (555.7, 545.9)', '[3]: (396.2, 546.5)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (386.6, 262.9)', '[1]: (574.1, 268.1)', '[2]: (555.7, 545.9)', '[3]: (396.2, 546.5)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (386.6, 262.9) -> (387.2, 263.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (574.1, 268.1) -> (575.0, 268.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (555.7, 545.9) -> (556.8, 546.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (396.2, 546.5) -> (396.6, 546.7)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (387.2, 263.1)', '[1]: (575.0, 268.1)', '[2]: (556.8, 546.3)', '[3]: (396.6, 546.7)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (478.9, 406.1)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 7 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (395.0, 346.1) -> (395.7, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (423.9, 346.0) -> (424.6, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (452.8, 346.2) -> (453.4, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (481.6, 346.1) -> (482.2, 346.0)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.006, -0.003, -0.414]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.003, 0.999, -0.433]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (387.2, 263.1)', '[1]: (575.0, 268.1)', '[2]: (556.8, 546.3)', '[3]: (396.6, 546.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (387.2, 263.1)', '[1]: (575.0, 268.1)', '[2]: (556.8, 546.3)', '[3]: (396.6, 546.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (387.2, 263.1) -> (387.8, 263.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (575.0, 268.1) -> (575.5, 268.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (556.8, 546.3) -> (557.5, 546.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (396.6, 546.7) -> (397.1, 547.0)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (387.8, 263.1)', '[1]: (575.5, 268.3)', '[2]: (557.5, 546.3)', '[3]: (397.1, 547.0)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (479.5, 406.2)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 8 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (395.7, 346.1) -> (396.4, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (424.6, 346.0) -> (425.3, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (453.4, 346.2) -> (454.1, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (482.2, 346.0) -> (483.0, 346.0)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.014, 0.002, -2.523]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.005, 1.010, -2.871]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (387.8, 263.1)', '[1]: (575.5, 268.3)', '[2]: (557.5, 546.3)', '[3]: (397.1, 547.0)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (387.8, 263.1)', '[1]: (575.5, 268.3)', '[2]: (557.5, 546.3)', '[3]: (397.1, 547.0)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (387.8, 263.1) -> (388.5, 262.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (575.5, 268.3) -> (576.0, 268.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (557.5, 546.3) -> (557.8, 545.8)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (397.1, 547.0) -> (397.7, 546.8)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (388.5, 262.9)', '[1]: (576.0, 268.4)', '[2]: (557.8, 545.8)', '[3]: (397.7, 546.8)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (480.0, 406.0)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 9 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (396.4, 346.1) -> (396.8, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (425.3, 346.0) -> (425.8, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (454.1, 346.2) -> (454.6, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (483.0, 346.0) -> (483.5, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.993, -0.006, 2.816]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.001, 0.987, 2.713]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (388.5, 262.9)', '[1]: (576.0, 268.4)', '[2]: (557.8, 545.8)', '[3]: (397.7, 546.8)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (388.5, 262.9)', '[1]: (576.0, 268.4)', '[2]: (557.8, 545.8)', '[3]: (397.7, 546.8)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (388.5, 262.9) -> (389.0, 263.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (576.0, 268.4) -> (576.5, 268.6)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (557.8, 545.8) -> (559.0, 546.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (397.7, 546.8) -> (398.3, 547.2)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (389.0, 263.2)', '[1]: (576.5, 268.6)', '[2]: (559.0, 546.2)', '[3]: (398.3, 547.2)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (480.7, 406.3)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 10 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (396.8, 346.1) -> (398.2, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (425.8, 346.0) -> (427.3, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (454.6, 346.1) -> (456.2, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (483.5, 346.1) -> (485.0, 346.0)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.047, 0.012, -11.413]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.015, 1.039, -10.757]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (389.0, 263.2)', '[1]: (576.5, 268.6)', '[2]: (559.0, 546.2)', '[3]: (398.3, 547.2)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (389.0, 263.2)', '[1]: (576.5, 268.6)', '[2]: (559.0, 546.2)', '[3]: (398.3, 547.2)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (389.0, 263.2) -> (390.1, 262.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (576.5, 268.6) -> (578.0, 268.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (559.0, 546.2) -> (559.5, 544.8)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (398.3, 547.2) -> (399.7, 546.7)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (390.1, 262.5)', '[1]: (578.0, 268.7)', '[2]: (559.5, 544.8)', '[3]: (399.7, 546.7)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (481.8, 405.7)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 11 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (398.2, 346.0) -> (398.7, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (427.3, 346.0) -> (427.8, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (456.2, 346.1) -> (456.6, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (485.0, 346.0) -> (485.7, 345.9)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.985, 0.002, 3.064]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.008, 0.994, 3.100]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (390.1, 262.5)', '[1]: (578.0, 268.7)', '[2]: (559.5, 544.8)', '[3]: (399.7, 546.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (390.1, 262.5)', '[1]: (578.0, 268.7)', '[2]: (559.5, 544.8)', '[3]: (399.7, 546.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (390.1, 262.5) -> (390.6, 262.6)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (578.0, 268.7) -> (579.2, 268.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (559.5, 544.8) -> (560.4, 544.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (399.7, 546.7) -> (400.1, 546.4)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (390.6, 262.6)', '[1]: (579.2, 268.3)', '[2]: (560.4, 544.9)', '[3]: (400.1, 546.4)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (482.6, 405.6)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 12 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (398.7, 346.0) -> (399.4, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (427.8, 346.0) -> (428.6, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (456.6, 346.1) -> (457.4, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (485.7, 345.9) -> (486.4, 345.8)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.997, 0.000, 1.299]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.002, 1.000, 0.329]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (390.6, 262.6)', '[1]: (579.2, 268.3)', '[2]: (560.4, 544.9)', '[3]: (400.1, 546.4)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (390.6, 262.6)', '[1]: (579.2, 268.3)', '[2]: (560.4, 544.9)', '[3]: (400.1, 546.4)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (390.6, 262.6) -> (391.4, 262.6)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (579.2, 268.3) -> (580.1, 268.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (560.4, 544.9) -> (561.2, 545.0)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (400.1, 546.4) -> (400.9, 546.5)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (391.4, 262.6)', '[1]: (580.1, 268.2)', '[2]: (561.2, 545.0)', '[3]: (400.9, 546.5)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (483.4, 405.6)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 13 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (399.4, 346.0) -> (400.1, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (428.6, 346.0) -> (429.4, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (457.4, 346.1) -> (458.3, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (486.4, 345.8) -> (487.2, 345.9)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.021, 0.004, -4.734]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.007, 1.016, -4.673]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (391.4, 262.6)', '[1]: (580.1, 268.2)', '[2]: (561.2, 545.0)', '[3]: (400.9, 546.5)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (391.4, 262.6)', '[1]: (580.1, 268.2)', '[2]: (561.2, 545.0)', '[3]: (400.9, 546.5)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (391.4, 262.6) -> (392.1, 262.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (580.1, 268.2) -> (580.8, 268.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (561.2, 545.0) -> (561.5, 544.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (400.9, 546.5) -> (401.6, 546.3)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (392.1, 262.3)', '[1]: (580.8, 268.4)', '[2]: (561.5, 544.4)', '[3]: (401.6, 546.3)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (484.0, 405.3)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 14 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (400.1, 346.0) -> (400.8, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (429.4, 345.9) -> (430.1, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (458.3, 346.1) -> (459.0, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (487.2, 345.9) -> (487.9, 345.8)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.012, -0.009, -0.275]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.008, 0.994, -0.757]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (392.1, 262.3)', '[1]: (580.8, 268.4)', '[2]: (561.5, 544.4)', '[3]: (401.6, 546.3)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (392.1, 262.3)', '[1]: (580.8, 268.4)', '[2]: (561.5, 544.4)', '[3]: (401.6, 546.3)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (392.1, 262.3) -> (392.9, 262.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (580.8, 268.4) -> (580.9, 268.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (561.5, 544.4) -> (562.4, 544.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (401.6, 546.3) -> (402.1, 547.0)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (392.9, 262.4)', '[1]: (580.9, 268.9)', '[2]: (562.4, 544.5)', '[3]: (402.1, 547.0)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (484.6, 405.7)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 15 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (400.8, 346.0) -> (402.4, 345.8)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (430.1, 345.9) -> (431.7, 345.8)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (459.0, 346.1) -> (460.5, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (487.9, 345.8) -> (489.5, 345.8)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.989, 0.003, 3.288]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.005, 0.997, 1.779]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (392.9, 262.4)', '[1]: (580.9, 268.9)', '[2]: (562.4, 544.5)', '[3]: (402.1, 547.0)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (392.9, 262.4)', '[1]: (580.9, 268.9)', '[2]: (562.4, 544.5)', '[3]: (402.1, 547.0)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (392.9, 262.4) -> (394.4, 262.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (580.9, 268.9) -> (582.8, 268.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (562.4, 544.5) -> (564.1, 544.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (402.1, 547.0) -> (403.8, 546.3)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (394.4, 262.4)', '[1]: (582.8, 268.7)', '[2]: (564.1, 544.4)', '[3]: (403.8, 546.3)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (486.3, 405.5)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 16 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (402.4, 345.8) -> (403.1, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (431.7, 345.8) -> (432.5, 345.8)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (460.5, 346.1) -> (461.2, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (489.5, 345.8) -> (490.3, 345.8)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.994, -0.010, 3.747]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.001, 0.982, 3.264]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (394.4, 262.4)', '[1]: (582.8, 268.7)', '[2]: (564.1, 544.4)', '[3]: (403.8, 546.3)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (394.4, 262.4)', '[1]: (582.8, 268.7)', '[2]: (564.1, 544.4)', '[3]: (403.8, 546.3)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (394.4, 262.4) -> (395.1, 262.8)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (582.8, 268.7) -> (583.2, 269.0)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (564.1, 544.4) -> (565.6, 544.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (403.8, 546.3) -> (404.6, 547.0)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (395.1, 262.8)', '[1]: (583.2, 269.0)', '[2]: (565.6, 544.9)', '[3]: (404.6, 547.0)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (487.1, 405.9)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 17 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (403.1, 345.9) -> (403.8, 345.8)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (432.5, 345.8) -> (433.4, 345.7)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (461.2, 346.1) -> (462.0, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (490.3, 345.8) -> (491.1, 345.7)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.028, -0.002, -5.169]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.012, 1.013, -5.323]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (395.1, 262.8)', '[1]: (583.2, 269.0)', '[2]: (565.6, 544.9)', '[3]: (404.6, 547.0)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (395.1, 262.8)', '[1]: (583.2, 269.0)', '[2]: (565.6, 544.9)', '[3]: (404.6, 547.0)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (395.1, 262.8) -> (395.9, 262.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (583.2, 269.0) -> (583.6, 269.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (565.6, 544.9) -> (566.0, 544.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (404.6, 547.0) -> (405.1, 547.3)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (395.9, 262.5)', '[1]: (583.6, 269.5)', '[2]: (566.0, 544.5)', '[3]: (405.1, 547.3)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (487.7, 405.9)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 18 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (403.8, 345.8) -> (404.7, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (433.4, 345.7) -> (434.1, 345.8)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (462.0, 346.1) -> (462.9, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (491.1, 345.7) -> (492.0, 345.7)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.989, 0.003, 2.374]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.006, 0.998, 1.781]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (395.9, 262.5)', '[1]: (583.6, 269.5)', '[2]: (566.0, 544.5)', '[3]: (405.1, 547.3)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (395.9, 262.5)', '[1]: (583.6, 269.5)', '[2]: (566.0, 544.5)', '[3]: (405.1, 547.3)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (395.9, 262.5) -> (396.7, 262.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (583.6, 269.5) -> (584.9, 269.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (566.0, 544.5) -> (567.0, 544.6)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (405.1, 547.3) -> (406.0, 547.0)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (396.7, 262.5)', '[1]: (584.9, 269.1)', '[2]: (567.0, 544.6)', '[3]: (406.0, 547.0)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (488.7, 405.8)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 19 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (404.7, 345.9) -> (405.6, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (434.1, 345.8) -> (435.0, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (462.9, 346.1) -> (463.7, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (492.0, 345.7) -> (492.8, 345.8)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.005, -0.031, 5.387]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.012, 0.962, 4.551]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, -0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (396.7, 262.5)', '[1]: (584.9, 269.1)', '[2]: (567.0, 544.6)', '[3]: (406.0, 547.0)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (396.7, 262.5)', '[1]: (584.9, 269.1)', '[2]: (567.0, 544.6)', '[3]: (406.0, 547.0)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (396.7, 262.5) -> (397.8, 263.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (584.9, 269.1) -> (584.6, 270.5)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (567.0, 544.6) -> (568.9, 545.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (406.0, 547.0) -> (406.1, 549.0)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (397.8, 263.3)', '[1]: (584.6, 270.5)', '[2]: (568.9, 545.7)', '[3]: (406.1, 549.0)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (489.3, 407.2)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 20 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (405.6, 345.9) -> (407.2, 345.8)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (435.0, 345.9) -> (436.7, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (463.7, 346.1) -> (465.4, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (492.8, 345.8) -> (494.7, 345.8)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [1.015, 0.011, -4.054]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [0.002, 1.021, -4.495]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (397.8, 263.3)', '[1]: (584.6, 270.5)', '[2]: (568.9, 545.7)', '[3]: (406.1, 549.0)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (397.8, 263.3)', '[1]: (584.6, 270.5)', '[2]: (568.9, 545.7)', '[3]: (406.1, 549.0)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (397.8, 263.3) -> (399.4, 262.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (584.6, 270.5) -> (587.0, 270.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (568.9, 545.7) -> (570.2, 545.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (406.1, 549.0) -> (407.7, 548.5)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (399.4, 262.9)', '[1]: (587.0, 270.3)', '[2]: (570.2, 545.1)', '[3]: (407.7, 548.5)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (491.1, 406.7)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 21 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (408.1, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (437.7, 345.9)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (466.4, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (495.7, 345.7)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.995, 0.000, 2.085]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.003, 0.998, 1.028]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (399.4, 262.9)', '[1]: (587.0, 270.3)', '[2]: (570.2, 545.1)', '[3]: (407.7, 548.5)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (399.4, 262.9)', '[1]: (587.0, 270.3)', '[2]: (570.2, 545.1)', '[3]: (407.7, 548.5)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (399.4, 262.9) -> (400.4, 263.0)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (587.0, 270.3) -> (588.2, 270.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (570.2, 545.1) -> (571.2, 545.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (407.7, 548.5) -> (408.6, 548.4)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (400.4, 263.0)', '[1]: (588.2, 270.1)', '[2]: (571.2, 545.2)', '[3]: (408.6, 548.4)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (492.1, 406.7)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 0
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_0_0: Using nearest future frame 1 for frame 0: (391.7, 346.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_0_0 frame 0: (408.1, 345.9) -> (391.7, 346.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_0_1: Using nearest future frame 1 for frame 0: (420.5, 346.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_0_1 frame 0: (437.7, 345.9) -> (420.5, 346.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_0_2: Using nearest future frame 1 for frame 0: (449.2, 346.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_0_2 frame 0: (466.4, 346.1) -> (449.2, 346.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_0_3: Using nearest future frame 1 for frame 0: (478.1, 346.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_0_3 frame 0: (495.7, 345.7) -> (478.1, 346.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_1_0: Using nearest future frame 1 for frame 0: (391.6, 382.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_1_0 frame 0: (406.7, 381.8) -> (391.6, 382.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_1_1: Using nearest future frame 1 for frame 0: (420.5, 382.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_1_1 frame 0: (437.6, 382.0) -> (420.5, 382.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_1_2: Using nearest future frame 1 for frame 0: (449.3, 382.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_1_2 frame 0: (466.7, 381.9) -> (449.3, 382.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_1_3: Using nearest future frame 1 for frame 0: (478.0, 382.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_1_3 frame 0: (495.5, 381.9) -> (478.0, 382.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_2_0: Using nearest future frame 1 for frame 0: (391.6, 418.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_2_0 frame 0: (407.6, 417.8) -> (391.6, 418.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_2_1: Using nearest future frame 1 for frame 0: (420.4, 418.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_2_1 frame 0: (437.5, 418.0) -> (420.4, 418.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_2_2: Using nearest future frame 1 for frame 0: (449.3, 418.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_2_2 frame 0: (466.6, 417.9) -> (449.3, 418.2)
-TrajectoryManager.ts:62 [TRACKING ADDON] Feature point planar_1750294099780_kv6av7qqo_feature_2_3: Using nearest future frame 1 for frame 0: (478.0, 418.2)
-TrajectoryManager.ts:80 [TRACKING ADDON] Feature point sync: planar_1750294099780_kv6av7qqo_feature_2_3 frame 0: (495.5, 417.8) -> (478.0, 418.2)
-TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 12 tracking points to frame 0
-PlanarTrackerManager.ts:337 [TRACKING ADDON] Syncing planar tracker planar_1750294099780_kv6av7qqo to frame 0
-TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 0
-TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 0
-TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 0
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 1 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (391.7, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (420.5, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (449.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (478.1, 346.2)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.892, 0.021, 7.878]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.047, 0.980, 14.704]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (384.0, 263.3)', '[1]: (571.4, 267.9)', '[2]: (553.1, 546.7)', '[3]: (393.1, 546.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (384.0, 263.3) -> (369.0, 263.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (571.4, 267.9) -> (555.5, 265.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (553.1, 546.7) -> (536.0, 548.0)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (393.1, 546.7) -> (379.1, 544.8)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (369.0, 263.9)', '[1]: (555.5, 265.7)', '[2]: (536.0, 548.0)', '[3]: (379.1, 544.8)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (459.9, 405.6)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 2 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (392.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (421.0, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (449.8, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (478.6, 346.2)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.891, 0.027, 7.491]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.049, 0.986, 14.011]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (369.0, 263.9)', '[1]: (555.5, 265.7)', '[2]: (536.0, 548.0)', '[3]: (379.1, 544.8)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (369.0, 263.9)', '[1]: (555.5, 265.7)', '[2]: (536.0, 548.0)', '[3]: (379.1, 544.8)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (369.0, 263.9) -> (354.9, 264.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (555.5, 265.7) -> (540.0, 263.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (536.0, 548.0) -> (519.4, 548.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (379.1, 544.8) -> (366.4, 542.2)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (354.9, 264.7)', '[1]: (540.0, 263.4)', '[2]: (519.4, 548.7)', '[3]: (366.4, 542.2)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (445.2, 404.7)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 3 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (392.7, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (421.5, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (450.3, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (479.2, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.896, 0.023, 7.225]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.046, 0.984, 13.824]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (354.9, 264.7)', '[1]: (540.0, 263.4)', '[2]: (519.4, 548.7)', '[3]: (366.4, 542.2)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (354.9, 264.7)', '[1]: (540.0, 263.4)', '[2]: (519.4, 548.7)', '[3]: (366.4, 542.2)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (354.9, 264.7) -> (341.7, 265.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (540.0, 263.4) -> (524.7, 261.6)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (519.4, 548.7) -> (503.6, 549.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (366.4, 542.2) -> (354.6, 539.7)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (341.7, 265.7)', '[1]: (524.7, 261.6)', '[2]: (503.6, 549.1)', '[3]: (354.6, 539.7)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (431.2, 404.0)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 4 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (393.3, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (422.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (450.9, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (479.7, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.900, 0.026, 6.892]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.045, 0.990, 12.292]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (341.7, 265.7)', '[1]: (524.7, 261.6)', '[2]: (503.6, 549.1)', '[3]: (354.6, 539.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (341.7, 265.7)', '[1]: (524.7, 261.6)', '[2]: (503.6, 549.1)', '[3]: (354.6, 539.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (341.7, 265.7) -> (329.7, 266.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (524.7, 261.6) -> (509.9, 259.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (503.6, 549.1) -> (488.2, 549.0)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (354.6, 539.7) -> (344.0, 537.0)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (329.7, 266.7)', '[1]: (509.9, 259.9)', '[2]: (488.2, 549.0)', '[3]: (344.0, 537.0)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (418.0, 403.2)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 5 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (394.4, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (423.2, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (452.2, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (480.9, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.918, 0.029, 3.017]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.039, 1.002, 8.585]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (329.7, 266.7)', '[1]: (509.9, 259.9)', '[2]: (488.2, 549.0)', '[3]: (344.0, 537.0)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (329.7, 266.7)', '[1]: (509.9, 259.9)', '[2]: (488.2, 549.0)', '[3]: (344.0, 537.0)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (329.7, 266.7) -> (318.8, 267.6)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (509.9, 259.9) -> (496.2, 258.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (488.2, 549.0) -> (474.5, 548.3)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (344.0, 537.0) -> (334.9, 534.3)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (318.8, 267.6)', '[1]: (496.2, 258.4)', '[2]: (474.5, 548.3)', '[3]: (334.9, 534.3)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (406.1, 402.2)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 6 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (395.0, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (423.9, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (452.8, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (481.6, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.910, 0.024, 5.904]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.041, 0.991, 10.993]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (318.8, 267.6)', '[1]: (496.2, 258.4)', '[2]: (474.5, 548.3)', '[3]: (334.9, 534.3)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (318.8, 267.6)', '[1]: (496.2, 258.4)', '[2]: (474.5, 548.3)', '[3]: (334.9, 534.3)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (318.8, 267.6) -> (308.9, 268.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (496.2, 258.4) -> (483.1, 257.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (474.5, 548.3) -> (461.8, 547.8)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (334.9, 534.3) -> (326.6, 531.7)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (308.9, 268.7)', '[1]: (483.1, 257.1)', '[2]: (461.8, 547.8)', '[3]: (326.6, 531.7)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (395.1, 401.3)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 7 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (395.7, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (424.6, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (453.4, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (482.2, 346.0)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.917, 0.020, 5.514]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.038, 0.989, 10.590]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (308.9, 268.7)', '[1]: (483.1, 257.1)', '[2]: (461.8, 547.8)', '[3]: (326.6, 531.7)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (308.9, 268.7)', '[1]: (483.1, 257.1)', '[2]: (461.8, 547.8)', '[3]: (326.6, 531.7)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (308.9, 268.7) -> (299.8, 269.9)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (483.1, 257.1) -> (470.7, 256.1)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (461.8, 547.8) -> (449.9, 547.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (326.6, 531.7) -> (318.8, 529.3)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (299.8, 269.9)', '[1]: (470.7, 256.1)', '[2]: (449.9, 547.2)', '[3]: (318.8, 529.3)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (384.8, 400.7)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 8 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (396.4, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (425.3, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (454.1, 346.2)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (483.0, 346.0)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.930, 0.022, 3.081]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.033, 0.999, 7.844]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (299.8, 269.9)', '[1]: (470.7, 256.1)', '[2]: (449.9, 547.2)', '[3]: (318.8, 529.3)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (299.8, 269.9)', '[1]: (470.7, 256.1)', '[2]: (449.9, 547.2)', '[3]: (318.8, 529.3)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (299.8, 269.9) -> (291.5, 271.0)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (470.7, 256.1) -> (459.1, 255.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (449.9, 547.2) -> (438.8, 546.2)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (318.8, 529.3) -> (311.8, 527.0)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (291.5, 271.0)', '[1]: (459.1, 255.2)', '[2]: (438.8, 546.2)', '[3]: (311.8, 527.0)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (375.3, 399.9)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
-TrackerOrchestrator.ts:466 [TRACKING ADDON] Processing planar tracking, frame: 9 trackers: 1
-TrackerOrchestrator.ts:470 [TRACKING ADDON] Planar tracker planar_1750294099780_kv6av7qqo has 12 active features
-PlanarTrackerManager.ts:132 [TRACKING ADDON] Computing homography with 12 points
-PlanarTrackerManager.ts:133 [TRACKING ADDON] Feature point movements:
-PlanarTrackerManager.ts:135 [TRACKING ADDON] Using incremental (prev->curr) tracking
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 0: (407.2, 345.8) -> (396.8, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 1: (436.7, 345.9) -> (425.8, 346.0)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 2: (465.4, 346.1) -> (454.6, 346.1)
-PlanarTrackerManager.ts:137 [TRACKING ADDON]   Point 3: (494.7, 345.8) -> (483.5, 346.1)
-PlanarTrackerManager.ts:140 [TRACKING ADDON]   ... and 8 more points
-PlanarTrackerManager.ts:168 [TRACKING ADDON] Homography matrix:
-PlanarTrackerManager.ts:169 [TRACKING ADDON]   [0.923, 0.017, 5.828]
-PlanarTrackerManager.ts:170 [TRACKING ADDON]   [-0.034, 0.986, 10.449]
-PlanarTrackerManager.ts:171 [TRACKING ADDON]   [-0.000, 0.000, 1.000]
-PlanarTrackerManager.ts:172 [TRACKING ADDON] Confidence: 1 Inliers: 12 / 12
-PlanarTrackerManager.ts:212 [TRACKING ADDON] Using INCREMENTAL tracking (current->new corners)
-PlanarTrackerManager.ts:230 [TRACKING ADDON] Source corners: (4) ['[0]: (291.5, 271.0)', '[1]: (459.1, 255.2)', '[2]: (438.8, 546.2)', '[3]: (311.8, 527.0)']
-PlanarTrackerManager.ts:231 [TRACKING ADDON] Current corners before update: (4) ['[0]: (291.5, 271.0)', '[1]: (459.1, 255.2)', '[2]: (438.8, 546.2)', '[3]: (311.8, 527.0)']
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 0: (291.5, 271.0) -> (284.0, 272.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 1: (459.1, 255.2) -> (447.9, 254.7)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 2: (438.8, 546.2) -> (428.6, 545.4)
-PlanarTrackerManager.ts:243 [TRACKING ADDON] Corner 3: (311.8, 527.0) -> (305.4, 524.9)
-PlanarTrackerManager.ts:253 [TRACKING ADDON] Updated corners: (4) ['[0]: (284.0, 272.4)', '[1]: (447.9, 254.7)', '[2]: (428.6, 545.4)', '[3]: (305.4, 524.9)']
-PlanarTrackerManager.ts:254 [TRACKING ADDON] New center: (366.5, 399.4)
-TrackerOrchestrator.ts:477 [TRACKING ADDON] Planar tracker updated successfully, confidence: 1
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 0 trackers: 0
+TrackerOrchestrator.ts:429 [FIXED-GRID] Created planar tracker planar_1750354344009_lqjmocd2w with 26 feature points
+TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 2 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
+TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 3 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
+TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 0 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
+TrackerOrchestrator.ts:451 [FIXED-GRID] Updated corner 1 for tracker planar_1750354344009_lqjmocd2w, marked for regeneration
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 1 trackers: 1
+TrackerOrchestrator.ts:473 [FIXED-GRID] Regenerating feature points for tracker planar_1750354344009_lqjmocd2w
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 2 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 3 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 4 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 5 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 6 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 7 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 8 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 9 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 10 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 11 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 12 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 13 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 14 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 15 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 16 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 17 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 18 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 19 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 20 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 21 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 22 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 23 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 24 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 25 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 26 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 27 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 28 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 29 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 30 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 31 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 32 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 33 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 34 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 35 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 36 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 37 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 38 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 39 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 40 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 41 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 42 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 43 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 44 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 45 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 46 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 47 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 48 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 49 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 50 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 51 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 52 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 53 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 54 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 17
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 17
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 17
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 17
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 17
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 17
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 18
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 18
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 18
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 18
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 18
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 18
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 20
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 20
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 20
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 20
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 20
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 20
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 22
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 22
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 22
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 22
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 22
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 22
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 23
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 23
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 23
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 23
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 23
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 23
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 25
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 25
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 25
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 25
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 25
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 25
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 23
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 23
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 23
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 23
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 23
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 23
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 22
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 22
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 22
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 22
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 22
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 22
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 20
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 20
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 20
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 20
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 20
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 20
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 18
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 18
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 18
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 18
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 18
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 18
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 17
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 17
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 17
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 17
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 17
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 17
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 15
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 15
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 15
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 15
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 15
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 15
+TrackerOrchestrator.ts:283 [TRACKING ADDON] Syncing points and planar trackers to frame 13
+TrackerOrchestrator.ts:287 [TRACKING ADDON] Synced 26 tracking points to frame 13
+PlanarTrackerManager.ts:550 [FIXED-GRID] Syncing planar tracker planar_1750354344009_lqjmocd2w to frame 13
+TrackerOrchestrator.ts:291 [TRACKING ADDON] Synced 1 planar trackers to frame 13
+TrackerOrchestrator.ts:294 [TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame 13
+TrackerOrchestrator.ts:295 [TRACKING ADDON] Completed scrubbing sync to frame 13
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 14 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 15 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 16 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 17 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 18 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 19 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
+TrackerOrchestrator.ts:469 [FIXED-GRID] Processing planar tracking, frame: 20 trackers: 1
+TrackerOrchestrator.ts:491 [FIXED-GRID] Planar tracker planar_1750354344009_lqjmocd2w has 26 active features
+PlanarTrackerManager.ts:243 [FIXED-GRID] Successfully updated tracker with confidence: 1.000
+TrackerOrchestrator.ts:498 [FIXED-GRID] Planar tracker updated successfully, confidence: 1.000
