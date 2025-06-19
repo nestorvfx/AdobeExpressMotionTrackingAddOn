@@ -327,10 +327,24 @@ export class TrackerOrchestrator {
     this.stateManager.setCurrentFrame(frameNumber);
   }  /**
    * Sync points to frame positions (for scrubbing only)
-   */
-  syncPointsToFrameForScrubbing(frame: number): void {
-    const points = this.stateManager.getPoints();
-    this.trajectoryManager.syncAllPointsToFrame(points, frame);
+   */  syncPointsToFrameForScrubbing(frame: number): void {
+    console.log(`[TRACKING ADDON] Syncing points and planar trackers to frame ${frame}`);
+    
+    // Sync ALL tracking points (including feature points) to their trajectory positions
+    const allPoints = this.stateManager.getPoints();
+    this.trajectoryManager.syncAllPointsToFrame(allPoints, frame);
+    console.log(`[TRACKING ADDON] Synced ${allPoints.length} tracking points to frame ${frame}`);
+    
+    // Sync planar tracker corners and centers to their trajectory positions for this frame
+    const planarTrackers = this.stateManager.getPlanarTrackers();
+    this.planarTrackerManager.syncAllPlanarTrackersToFrame(planarTrackers, frame);
+    console.log(`[TRACKING ADDON] Synced ${planarTrackers.length} planar trackers to frame ${frame}`);
+    
+    // Reset optical flow buffers so tracking starts fresh from this scrubbed position
+    this.frameProcessor.resetFrameBuffers();
+    console.log(`[TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame ${frame}`);
+    
+    console.log(`[TRACKING ADDON] Completed scrubbing sync to frame ${frame}`);
   }
   /**
    * Handle video seek

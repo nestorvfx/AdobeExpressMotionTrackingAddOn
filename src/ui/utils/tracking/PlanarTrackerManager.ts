@@ -10,7 +10,6 @@ export class PlanarTrackerManager {
   setOpenCV(cv: any): void {
     this.cv = cv;
   }
-
   /**
    * Create a new planar tracker at the specified position
    */
@@ -363,8 +362,7 @@ export class PlanarTrackerManager {
       // Mark that this tracker has been manually adjusted
       // We'll use this flag to ensure proper incremental tracking on the next frame
       (planarTracker as any).hasManualAdjustment = true;
-    }
-  }
+    }  }
 
   /**
    * Check if a point is inside the planar tracker region
@@ -386,7 +384,6 @@ export class PlanarTrackerManager {
     
     return inside;
   }
-
   /**
    * Get corner index if point is near a corner handle
    */
@@ -400,4 +397,75 @@ export class PlanarTrackerManager {
     }
     return -1;
   }
+  /**
+   * Sync planar tracker to its trajectory position for a given frame
+   * This is used during timeline scrubbing to ensure trackers appear at their correct positions
+   */
+  syncPlanarTrackerToFrame(planarTracker: PlanarTracker, frame: number): void {
+    console.log(`[TRACKING ADDON] Syncing planar tracker ${planarTracker.id} to frame ${frame}`);
+    if (planarTracker.trajectory.length === 0) {
+      console.log(`[TRACKING ADDON] No trajectory data available for ${planarTracker.id}`);
+      return; // No trajectory data available
+    }    // Look for exact frame match first
+    const exactMatch = planarTracker.trajectory.find(entry => entry.frame === frame);
+    if (exactMatch) {
+      console.log(`[TRACKING ADDON] Found exact match for frame ${frame}`);
+      // Update corners and center to exact frame position
+      planarTracker.center = { x: exactMatch.center.x, y: exactMatch.center.y };
+      exactMatch.corners.forEach((corner, index) => {
+        planarTracker.corners[index].x = corner.x;
+        planarTracker.corners[index].y = corner.y;
+      });
+      console.log(`[TRACKING ADDON] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      return;
+    }
+
+    // If no exact match, find the most recent previous frame
+    let mostRecentFrame = -1;
+    let mostRecentEntry = null;
+    for (const entry of planarTracker.trajectory) {
+      if (entry.frame < frame && entry.frame > mostRecentFrame) {
+        mostRecentFrame = entry.frame;
+        mostRecentEntry = entry;
+      }
+    }    if (mostRecentEntry) {
+      console.log(`[TRACKING ADDON] Using most recent frame ${mostRecentFrame} for frame ${frame}`);
+      // Use most recent previous frame position
+      planarTracker.center = { x: mostRecentEntry.center.x, y: mostRecentEntry.center.y };
+      mostRecentEntry.corners.forEach((corner, index) => {
+        planarTracker.corners[index].x = corner.x;
+        planarTracker.corners[index].y = corner.y;
+      });
+      console.log(`[TRACKING ADDON] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      return;
+    }
+
+    // If no previous frame, find the nearest future frame
+    let nearestFutureFrame = Number.MAX_SAFE_INTEGER;
+    let nearestFutureEntry = null;
+    for (const entry of planarTracker.trajectory) {
+      if (entry.frame > frame && entry.frame < nearestFutureFrame) {
+        nearestFutureFrame = entry.frame;
+        nearestFutureEntry = entry;
+      }
+    }
+
+    if (nearestFutureEntry) {
+      // Use nearest future frame position
+      planarTracker.center = { x: nearestFutureEntry.center.x, y: nearestFutureEntry.center.y };
+      nearestFutureEntry.corners.forEach((corner, index) => {
+        planarTracker.corners[index].x = corner.x;
+        planarTracker.corners[index].y = corner.y;
+      });
+    }
+    // If no trajectory data at all, keep current positions (fallback)
+  }
+
+  /**
+   * Sync all planar trackers to their trajectory positions for a given frame
+   */
+  syncAllPlanarTrackersToFrame(planarTrackers: PlanarTracker[], frame: number): void {
+    planarTrackers.forEach(tracker => {
+      this.syncPlanarTrackerToFrame(tracker, frame);
+    });  }
 }
