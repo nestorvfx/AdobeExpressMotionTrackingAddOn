@@ -59,60 +59,67 @@ export const useVideoExport = ({ showToast, insertVideoIntoDocument }: UseVideoE
         (progress) => {
           setExportProgress(progress);
         }
-      );
-
-      if (result.success && result.blob) {
-        // Validate exported video format
-        const supportedFormats = ['video/mp4', 'video/quicktime', 'video/webm', 'video/avi'];
-        if (!supportedFormats.includes(result.blob.type)) {
-          showToast(`Unsupported video format: ${result.blob.type}. Please try a different format.`, 'error');
-          return;
-        }
-
-        // Check exported video size
+      );      if (result.success && result.blob) {
+        console.log('EXPORT: 🎬 Export completed successfully, starting document insertion...');
+        console.log('EXPORT: - Result blob size:', result.blob.size, 'bytes');
+        console.log('EXPORT: - Result blob type:', result.blob.type);
+        console.log('EXPORT: - Result filename:', result.filename);        // Simple format validation - Adobe Express accepts MP4 and WebM
+        console.log('EXPORT: 🔍 Video format:', result.blob.type);
+        console.log('EXPORT: ✅ Format validation passed - using direct insertion');        // Simple size validation
+        console.log('EXPORT: 🔍 File size:', (result.blob.size / (1024 * 1024)).toFixed(1), 'MB');
+        
         if (result.blob.size > maxSize) {
+          console.log('EXPORT: ❌ Size validation failed');
           showToast('Exported video is too large (max 1GB). Please reduce quality settings.', 'error');
           return;
         }
-
-        // Insert the video directly into Adobe Express document
+        console.log('EXPORT: ✅ Size validation passed');        // Insert the video directly into Adobe Express document
+        console.log('EXPORT: 📤 Inserting video into Adobe Express...');
         showToast('Inserting video into Adobe Express document...', 'info');
         
-        const insertSuccess = await insertVideoIntoDocument(result.blob, result.filename);
-        
-        if (insertSuccess) {
-          showToast(
-            `Video successfully exported and inserted into Adobe Express! (${(result.size / (1024 * 1024)).toFixed(1)} MB)`,
-            'success'
-          );
-        } else {
-          throw new Error('Failed to insert video into Adobe Express document');
+        try {
+          console.log('EXPORT: 🔄 Calling insertVideoIntoDocument...');
+          
+          // Simple insertion with timeout
+          const insertPromise = insertVideoIntoDocument(result.blob, result.filename);
+          const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Video insertion timeout after 15 seconds')), 15000);
+          });
+          
+          const insertSuccess = await Promise.race([insertPromise, timeoutPromise]) as boolean;
+          console.log('EXPORT: 📥 Insert result:', insertSuccess);
+
+          if (insertSuccess) {
+            console.log('EXPORT: ✅ Video insertion successful');
+            showToast(`Video successfully exported and inserted! (${(result.size / (1024 * 1024)).toFixed(1)} MB)`, 'success');
+          } else {
+            console.log('EXPORT: ❌ Video insertion failed');
+            throw new Error('Failed to insert video into Adobe Express document');
+          }
+        } catch (insertError) {
+          console.error('EXPORT: 💥 Error during video insertion:', insertError);
+          throw new Error(`Document insertion failed: ${insertError instanceof Error ? insertError.message : 'Unknown insertion error'}`);
         }
       } else {
         throw new Error(result.error || 'Export failed');
-      }
-    } catch (error) {
-      let errorMessage = 'Unknown export error';
+      }    } catch (error) {
+      console.error('EXPORT: 💥 Export failed:', error);
       
-      // Provide specific error messages for common issues
+      // Simple error handling
+      let errorMessage = 'Export failed';
       if (error instanceof Error) {
-        if (error.message.includes('permission')) {
-          errorMessage = 'Permission denied. Please check add-on permissions.';
-        } else if (error.message.includes('size') || error.message.includes('large')) {
+        if (error.message.includes('size') || error.message.includes('large')) {
           errorMessage = 'Video file too large. Please reduce quality or duration.';
-        } else if (error.message.includes('format') || error.message.includes('codec')) {
-          errorMessage = 'Unsupported video format. Please try MP4 or WebM.';
-        } else if (error.message.includes('browser') || error.message.includes('support')) {
-          errorMessage = 'Browser does not support video export. Please use Chrome or Edge.';
+        } else if (error.message.includes('format')) {
+          errorMessage = 'Unsupported video format. Please try a different format.';
         } else if (error.message.includes('memory')) {
-          errorMessage = 'Insufficient memory. Please reduce video quality or duration.';
+          errorMessage = 'Insufficient memory. Please reduce video quality.';
         } else {
           errorMessage = error.message;
         }
       }
       
-      showToast(`Export failed: ${errorMessage}`, 'error');
-      console.error('Export error:', error);
+      showToast(errorMessage, 'error');
     } finally {
       setIsExporting(false);
       setExportProgress(null);

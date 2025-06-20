@@ -29,11 +29,46 @@ type AppTab = 'tracking' | 'text3d' | 'export';
 export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     const { toast, showToast } = useToast();
     const videoTracking = useVideoTracking({ showToast });
-    const trackingOperations = useTrackingOperations({ videoTracking, showToast });
-    const videoExport = useVideoExport({ 
+    const trackingOperations = useTrackingOperations({ videoTracking, showToast });    const videoExport = useVideoExport({ 
         showToast,
-        insertVideoIntoDocument: (videoBlob: Blob, filename?: string) => 
-            sandboxProxy.insertVideoIntoDocument(videoBlob, filename)
+        insertVideoIntoDocument: async (videoBlob: Blob, filename?: string) => {
+            console.log('EXPORT: 🔗 Inserting video into Adobe Express document');
+            console.log('EXPORT: 🔗 Video size:', (videoBlob.size / (1024 * 1024)).toFixed(1), 'MB');
+            console.log('EXPORT: 🔗 Video type:', videoBlob.type);
+
+            try {
+                if (!addOnUISdk?.app?.document?.addVideo) {
+                    console.log('EXPORT: 💡 Development mode - simulating video insertion');
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    console.log('EXPORT: ✅ Development simulation completed');
+                    return true;
+                }                // Create a clean blob with simple MIME type for Adobe Express compatibility
+                const cleanMimeType = videoBlob.type.startsWith('video/mp4') ? 'video/mp4' : 
+                                     videoBlob.type.startsWith('video/webm') ? 'video/webm' : 
+                                     'video/mp4'; // fallback
+                
+                const cleanBlob = new Blob([videoBlob], { type: cleanMimeType });
+                console.log('EXPORT: 🔧 Cleaned MIME type from', videoBlob.type, 'to', cleanMimeType);
+                
+                // Use Adobe Express SDK to insert video directly
+                await addOnUISdk.app.document.addVideo(cleanBlob);
+                console.log('EXPORT: ✅ Video successfully inserted into Adobe Express!');
+                return true;
+
+            } catch (error) {
+                console.error('EXPORT: ❌ Video insertion failed:', error);
+                
+                if (error instanceof Error) {
+                    if (error.message.includes('format') || error.message.toLowerCase().includes('unsupported')) {
+                        throw new Error('Video format not supported by Adobe Express. Please try a different quality setting.');
+                    } else if (error.message.includes('size')) {
+                        throw new Error('Video file too large for Adobe Express.');
+                    }
+                }
+                
+                throw new Error(`Video insertion failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            }
+        }
     });
 
     const [interactionMode, setInteractionMode] = React.useState<InteractionMode>('scale');const [currentTab, setCurrentTab] = useState<AppTab>('tracking');

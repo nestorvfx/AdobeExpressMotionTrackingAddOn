@@ -117,7 +117,6 @@ export class CapabilityDetector {
       return false;
     }
   }
-
   /**
    * Gets the best available codec for the given format
    */
@@ -130,18 +129,18 @@ export class CapabilityDetector {
       return preferredCodec;
     }
 
-    // Fallback based on format
+    // Fallback based on format - prioritize WebM compatibility
     switch (format) {
-      case 'mp4':
-        // Prefer H.264 variants for MP4
-        const h264Codecs = supportedCodecs.filter(codec => codec.startsWith('avc1'));
-        return h264Codecs[0] || supportedCodecs[0] || 'avc1.42E01F';
-      
       case 'webm':
-        // Prefer VP9, fallback to VP8
+        // Prefer VP9 for best quality, fallback to VP8
         if (supportedCodecs.includes('vp09.00.50.08')) return 'vp09.00.50.08';
         if (supportedCodecs.includes('vp8')) return 'vp8';
         return supportedCodecs[0] || 'vp09.00.50.08';
+      
+      case 'mp4':
+        // Prefer H.264 variants for MP4 compatibility
+        const h264Codecs = supportedCodecs.filter(codec => codec.startsWith('avc1'));
+        return h264Codecs[0] || supportedCodecs[0] || 'avc1.42E01F';
       
       case 'mov':
         // Same as MP4, prefer H.264

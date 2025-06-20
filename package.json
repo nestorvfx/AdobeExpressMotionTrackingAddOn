@@ -15,6 +15,7 @@
         "panel"
     ],
     "dependencies": {
+        "@fyreware/moov-faststart": "^1.0.9",
         "@spectrum-web-components/checkbox": "^1.7.0",
         "@spectrum-web-components/divider": "^1.7.0",
         "@spectrum-web-components/field-label": "^1.7.0",

@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
 
 const isEnvProduction = process.env.NODE_ENV === "production";
 
@@ -37,6 +38,9 @@ module.exports = {
         }),
         new CopyWebpackPlugin({
             patterns: [{ from: "src/*.json", to: "[name][ext]" }]
+        }),
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer']
         })
     ],
     module: {
@@ -74,6 +78,9 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js", ".css"]
+        extensions: [".tsx", ".ts", ".js", ".css"],
+        fallback: {
+            "buffer": require.resolve("buffer")
+        }
     }
 };

@@ -1,7 +1,7 @@
 // Video export types and interfaces
 export interface ExportSettings {
-  // Output format
-  format: 'mp4' | 'webm' | 'mov';
+  // Output format - WebM prioritized for Adobe Express compatibility and MediaRecorder native support
+  format: 'webm' | 'mp4' | 'mov';
   codec: string;
     // Quality settings
   bitrate: number;
@@ -77,22 +77,22 @@ export const QUALITY_PRESETS: Record<ExportSettings['quality'], Partial<ExportSe
   },
 };
 
-// Format configurations
+// Format configurations - WebM prioritized as it works best with MediaRecorder and Adobe Express
 export const FORMAT_CONFIGS = {
-  mp4: {
-    codec: 'avc1.42E01F', // H.264 baseline
-    container: 'mp4',
-    mimeType: 'video/mp4',
-    extension: '.mp4',
-  },
   webm: {
-    codec: 'vp09.00.50.08', // VP9
+    codec: 'vp09.00.50.08', // VP9 - excellent compression and quality
     container: 'webm',
     mimeType: 'video/webm',
     extension: '.webm',
   },
+  mp4: {
+    codec: 'avc1.42E01F', // H.264 baseline - fallback option
+    container: 'mp4',
+    mimeType: 'video/mp4',
+    extension: '.mp4',
+  },
   mov: {
-    codec: 'avc1.42E01F', // H.264 in MOV
+    codec: 'avc1.42E01F', // H.264 in MOV - rare use case
     container: 'mov',
     mimeType: 'video/quicktime',
     extension: '.mov',

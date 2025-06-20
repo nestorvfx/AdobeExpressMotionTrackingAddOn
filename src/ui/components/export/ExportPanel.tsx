@@ -28,8 +28,8 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({
   isExporting,
   exportProgress,
 }) => {  const [settings, setSettings] = useState<ExportSettings>({
-    format: 'mp4',
-    codec: 'avc1.42E01F',
+    format: 'webm', // WebM is now default for better Adobe Express compatibility
+    codec: 'vp09.00.50.08',
     bitrate: 8000000, // Will be overridden by "best" quality
     quality: 'best', // Default to best quality (matches input)
     width: videoWidth,
@@ -207,16 +207,14 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({
               <option value="high">High (3 Mbps)</option>
               <option value="medium">Medium (1.5 Mbps)</option>
             </select>
-          </div>
-
-          <div className="setting-group">
+          </div>          <div className="setting-group">
             <label>Format</label>
             <select 
               value={settings.format}
               onChange={(e) => handleSettingChange('format', e.target.value as ExportSettings['format'])}
             >
-              <option value="mp4">MP4 (Recommended)</option>
-              <option value="webm">WebM</option>
+              <option value="webm">WebM (Recommended for Adobe Express)</option>
+              <option value="mp4">MP4 (Fallback)</option>
             </select>
           </div>
         </div>        {/* Content Settings - Always include text if present */}

@@ -1,23 +1,18 @@
 import { TrackingPoint, PlanarTracker } from '../tracking/TrackingTypes';
 import { Text3DElement } from '../text3d/Text3DTypes';
-import { ExportSettings, ExportProgress, ExportResult, QUALITY_PRESETS, FORMAT_CONFIGS, VideoMetadata } from './ExportTypes';
-import { CapabilityDetector } from './CapabilityDetector';
+import { ExportSettings, ExportProgress, ExportResult, QUALITY_PRESETS } from './ExportTypes';
 import { OverlayRenderer } from './OverlayRenderer';
 
 /**
- * Main video export engine supporting WebCodecs and FFmpeg.wasm
+ * Simple video export engine optimized for Adobe Express compatibility
  */
 export class VideoExportEngine {
-  private capabilities: CapabilityDetector;
   private progressCallback?: (progress: ExportProgress) => void;
   private abortController: AbortController | null = null;
 
-  constructor() {
-    this.capabilities = CapabilityDetector.getInstance();
-  }
-
   /**
    * Exports video with tracking overlays and 3D text
+   * Uses the most compatible approach for Adobe Express
    */
   async exportVideo(
     videoBlob: Blob,
@@ -31,143 +26,52 @@ export class VideoExportEngine {
     this.abortController = new AbortController();
 
     try {
-      // Detect capabilities and choose strategy
-      const strategy = await this.capabilities.getRecommendedStrategy();
-      
       this.reportProgress({
         stage: 'initializing',
         progress: 0,
         currentFrame: 0,
         totalFrames: 0,
         timeRemaining: 0,
-        message: 'Initializing export...',
-      });      // Apply quality preset
-      const finalSettings = await this.applyQualityPreset(settings, videoBlob);
-
-      // Choose export method based on capabilities
-      switch (strategy) {
-        case 'webcodecs':
-          return await this.exportWithWebCodecs(videoBlob, finalSettings, trackingPoints, planarTrackers, text3DElements);
-        
-        case 'ffmpeg':
-          return await this.exportWithFFmpeg(videoBlob, finalSettings, trackingPoints, planarTrackers, text3DElements);
-        
-        case 'canvas':
-          return await this.exportWithCanvas(videoBlob, finalSettings, trackingPoints, planarTrackers, text3DElements);
-        
-        default:
-          throw new Error('No suitable export method available');
-      }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown export error';
-      
-      this.reportProgress({
-        stage: 'error',
-        progress: 0,
-        currentFrame: 0,
-        totalFrames: 0,
-        timeRemaining: 0,
-        message: 'Export failed',
-        error: errorMessage,
+        message: 'Starting video export...',
       });
 
-      return {
+      // Apply quality preset
+      const finalSettings = this.applyQualityPreset(settings, videoBlob);
+
+      // Export with MediaRecorder - simple and Adobe Express compatible
+      return await this.exportWithMediaRecorder(videoBlob, finalSettings, trackingPoints, planarTrackers, text3DElements);
+    } catch (error) {
+      console.error('Export failed:', error);      return {
         success: false,
+        error: error instanceof Error ? error.message : 'Unknown export error',
         filename: '',
         size: 0,
         duration: 0,
-        error: errorMessage,
       };
     }
   }
 
   /**
-   * Cancels ongoing export operation
+   * Cancel ongoing export
    */
   cancelExport() {
     if (this.abortController) {
       this.abortController.abort();
     }
   }
-  private async applyQualityPreset(settings: ExportSettings, videoBlob?: Blob): Promise<ExportSettings> {
+
+  /**
+   * Apply quality preset to settings
+   */
+  private applyQualityPreset(settings: ExportSettings, videoBlob?: Blob): ExportSettings {
     const preset = QUALITY_PRESETS[settings.quality];
-    const finalSettings = { ...settings, ...preset };
-    
-    // For "best" quality, try to match input video properties
-    if (settings.quality === 'best' && videoBlob) {
-      try {
-        const videoMetadata = await this.extractVideoMetadata(videoBlob);
-        if (videoMetadata) {
-          // Use input video's bitrate if available, otherwise use high default
-          const estimatedBitrate = this.estimateBitrate(videoMetadata);
-          if (estimatedBitrate > 0) {
-            finalSettings.bitrate = estimatedBitrate;
-          }
-          
-          // Match input framerate exactly
-          finalSettings.framerate = videoMetadata.framerate;
-          
-          // Use conservative keyframe interval for best quality
-          finalSettings.keyframeInterval = Math.max(5, Math.floor(videoMetadata.framerate / 2));
-        }
-      } catch (error) {
-        console.warn('Could not extract video metadata for best quality, using defaults:', error);
-      }
-    }
-    
-    return finalSettings;
+    return { ...settings, ...preset };
   }
 
-  private async extractVideoMetadata(videoBlob: Blob): Promise<VideoMetadata | null> {
-    return new Promise((resolve) => {
-      const video = document.createElement('video');
-      const url = URL.createObjectURL(videoBlob);
-      
-      video.onloadedmetadata = () => {        const metadata: VideoMetadata = {
-          width: video.videoWidth,
-          height: video.videoHeight,
-          duration: video.duration,
-          framerate: 30, // Default, will try to detect actual framerate
-          codec: '',
-          hasAudio: true, // Assume audio present, will be refined in future versions
-          fileSize: videoBlob.size,
-        };
-        
-        // Try to estimate framerate from video properties
-        if (video.duration > 0) {
-          // This is an approximation, real framerate detection would need more complex analysis
-          metadata.framerate = 30; // Most common, could be enhanced with more sophisticated detection
-        }
-        
-        URL.revokeObjectURL(url);
-        resolve(metadata);
-      };
-      
-      video.onerror = () => {
-        URL.revokeObjectURL(url);
-        resolve(null);
-      };
-      
-      video.src = url;
-    });
-  }
-
-  private estimateBitrate(metadata: VideoMetadata): number {
-    if (!metadata.duration || metadata.duration <= 0) {
-      return 8000000; // 8 Mbps default
-    }
-    
-    // Estimate bitrate from file size and duration
-    const estimatedBitrate = (metadata.fileSize * 8) / metadata.duration;
-    
-    // Clamp to reasonable ranges (0.5 Mbps to 50 Mbps)
-    const minBitrate = 500000;
-    const maxBitrate = 50000000;
-    
-    return Math.max(minBitrate, Math.min(maxBitrate, estimatedBitrate));
-  }
-
-  private async exportWithWebCodecs(
+  /**
+   * Export using MediaRecorder with Adobe Express optimized settings
+   */
+  private async exportWithMediaRecorder(
     videoBlob: Blob,
     settings: ExportSettings,
     trackingPoints: TrackingPoint[],
@@ -175,111 +79,148 @@ export class VideoExportEngine {
     text3DElements: Text3DElement[]
   ): Promise<ExportResult> {
     const startTime = Date.now();
-    
-    // Create video element for frame extraction
+
+    // Create video element
     const video = document.createElement('video');
     video.src = URL.createObjectURL(videoBlob);
     video.muted = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
     
-    await new Promise((resolve, reject) => {
+    await new Promise(resolve => {
       video.onloadedmetadata = resolve;
-      video.onerror = reject;
     });
 
     const totalFrames = Math.floor(video.duration * settings.framerate);
-    const outputChunks: Uint8Array[] = [];
-    let processedFrames = 0;
-
+    
+    // Create canvas for compositing
+    const canvas = document.createElement('canvas');
+    canvas.width = settings.width;
+    canvas.height = settings.height;
+    const ctx = canvas.getContext('2d')!;
+    
     // Initialize overlay renderer
-    const renderer = new OverlayRenderer(settings.width, settings.height, true);
+    const renderer = new OverlayRenderer(settings.width, settings.height, false);
 
-    // Set up WebCodecs encoder
-    const encoder = new VideoEncoder({
-      output: (chunk) => {
-        const data = new Uint8Array(chunk.byteLength);
-        chunk.copyTo(data);
-        outputChunks.push(data);
-      },
-      error: (error) => {
-        throw new Error(`Encoding error: ${error.message}`);
+    // Set up MediaRecorder with Adobe Express compatible settings
+    const stream = canvas.captureStream(settings.framerate);
+    
+    // Use the most compatible codec for Adobe Express
+    let mimeType = 'video/mp4';
+    let fileExtension = 'mp4';
+    
+    // Try to find the best supported codec
+    const codecOptions = [
+      'video/mp4; codecs="avc1.42E01E,mp4a.40.2"', // H.264 + AAC (most compatible)
+      'video/mp4; codecs="avc1.42E01E"',            // H.264 only
+      'video/mp4',                                   // Generic MP4
+      'video/webm; codecs="vp9,opus"',              // WebM fallback
+      'video/webm'                                   // Generic WebM
+    ];
+
+    for (const codec of codecOptions) {
+      if (MediaRecorder.isTypeSupported(codec)) {
+        mimeType = codec;
+        fileExtension = codec.startsWith('video/mp4') ? 'mp4' : 'webm';
+        break;
       }
+    }
+
+    console.log('Using codec:', mimeType);
+
+    const chunks: Blob[] = [];
+    const mediaRecorder = new MediaRecorder(stream, {
+      mimeType,
+      videoBitsPerSecond: settings.bitrate,
     });
 
-    // Configure encoder
-    const formatConfig = FORMAT_CONFIGS[settings.format];
-    const codec = await this.capabilities.getBestCodec(settings.format, await this.capabilities.detectCapabilities().then(c => c.supportedCodecs));    await encoder.configure({
-      codec,
-      width: settings.width,
-      height: settings.height,
-      bitrate: settings.bitrate,
-      framerate: settings.framerate,
-      hardwareAcceleration: 'prefer-hardware',
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        chunks.push(event.data);
+      }
+    };
+
+    const recordingPromise = new Promise<Blob>((resolve, reject) => {
+      mediaRecorder.onstop = () => {
+        const finalBlob = new Blob(chunks, { type: mimeType });
+        resolve(finalBlob);
+      };
+      
+      mediaRecorder.onerror = (event) => {
+        reject(new Error('MediaRecorder error: ' + event));
+      };
+
+      // Handle abort
+      this.abortController?.signal.addEventListener('abort', () => {
+        mediaRecorder.stop();
+        reject(new Error('Export cancelled'));
+      });
     });
 
-    this.reportProgress({
+    // Start recording
+    mediaRecorder.start();
+
+    // Render frames
+    let currentFrame = 0;
+    const frameTime = 1 / settings.framerate;
+      this.reportProgress({
       stage: 'processing',
       progress: 0,
       currentFrame: 0,
       totalFrames,
       timeRemaining: 0,
-      message: 'Processing video frames...',
+      message: 'Rendering video frames...',
     });
 
-    // Process each frame
-    for (let frameNumber = 0; frameNumber < totalFrames; frameNumber++) {
+    for (let time = 0; time < video.duration; time += frameTime) {
       if (this.abortController?.signal.aborted) {
         throw new Error('Export cancelled');
       }
 
-      // Seek to frame
-      const timeSeconds = frameNumber / settings.framerate;
-      video.currentTime = timeSeconds;
-      
+      // Seek to current time
+      video.currentTime = time;
       await new Promise(resolve => {
         video.onseeked = resolve;
+        if (video.readyState >= 2) resolve(undefined); // Already seeked
       });
 
-      // Create video frame from current video position
-      const videoFrame = new VideoFrame(video, {
-        timestamp: frameNumber * (1000000 / settings.framerate)
-      });
+      // Clear canvas
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Render overlays
-      const overlayFrame = renderer.renderFrame(
-        videoFrame,
-        frameNumber,
-        settings,
-        trackingPoints,
-        planarTrackers,
-        text3DElements
-      ) as VideoFrame;
+      // Draw video frame
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);      // Render 3D text overlays
+      if (text3DElements.length > 0) {
+        // Use the OverlayRenderer's renderFrame method to get the frame
+        const renderedFrame = renderer.renderFrame(video, currentFrame, settings, trackingPoints, planarTrackers, text3DElements);
+        
+        // Draw the rendered frame back to our canvas
+        if (renderedFrame instanceof HTMLCanvasElement) {
+          ctx.drawImage(renderedFrame, 0, 0, canvas.width, canvas.height);
+        }
+      }
 
-      // Encode frame
-      encoder.encode(overlayFrame, { keyFrame: frameNumber % settings.keyframeInterval === 0 });
-
-      // Cleanup
-      videoFrame.close();
-      overlayFrame.close();
-
-      processedFrames++;
-
+      currentFrame++;
+      
       // Update progress
-      const progress = (processedFrames / totalFrames) * 100;
+      const progress = (currentFrame / totalFrames) * 100;
       const elapsed = Date.now() - startTime;
-      const estimatedTotal = elapsed / (processedFrames / totalFrames);
-      const timeRemaining = Math.max(0, (estimatedTotal - elapsed) / 1000);
-
-      this.reportProgress({
-        stage: 'encoding',
+      const estimated = elapsed / progress * 100;
+      const remaining = Math.max(0, estimated - elapsed);
+        this.reportProgress({
+        stage: 'processing',
         progress,
-        currentFrame: frameNumber,
+        currentFrame,
         totalFrames,
-        timeRemaining,
-        message: `Encoding frame ${frameNumber + 1} of ${totalFrames}...`,
+        timeRemaining: remaining,
+        message: `Rendering frame ${currentFrame} of ${totalFrames}...`,
       });
+
+      // Allow browser to update
+      await new Promise(resolve => setTimeout(resolve, 0));
     }
 
-    // Finalize encoding
+    // Stop recording and finalize
     this.reportProgress({
       stage: 'finalizing',
       progress: 95,
@@ -289,25 +230,14 @@ export class VideoExportEngine {
       message: 'Finalizing video...',
     });
 
-    await encoder.flush();
-    encoder.close();
-    renderer.dispose();
+    mediaRecorder.stop();
+    const resultBlob = await recordingPromise;
 
-    // Create final blob
-    const totalSize = outputChunks.reduce((sum, chunk) => sum + chunk.length, 0);
-    const finalData = new Uint8Array(totalSize);
-    let offset = 0;
-    
-    for (const chunk of outputChunks) {
-      finalData.set(chunk, offset);
-      offset += chunk.length;
-    }
-
-    const outputBlob = new Blob([finalData], { type: formatConfig.mimeType });
-    const filename = `motion-tracked-video_${Date.now()}${formatConfig.extension}`;
-
-    // Cleanup
+    // Clean up
     URL.revokeObjectURL(video.src);
+    
+    const duration = Date.now() - startTime;
+    const filename = `motion-tracking-export.${fileExtension}`;
 
     this.reportProgress({
       stage: 'complete',
@@ -316,41 +246,18 @@ export class VideoExportEngine {
       totalFrames,
       timeRemaining: 0,
       message: 'Export complete!',
-    });
-
-    return {
+    });    return {
       success: true,
-      blob: outputBlob,
+      blob: resultBlob,
       filename,
-      size: outputBlob.size,
-      duration: video.duration,
+      size: resultBlob.size,
+      duration: Math.round(duration / 1000),
     };
   }
 
-  private async exportWithFFmpeg(
-    videoBlob: Blob,
-    settings: ExportSettings,
-    trackingPoints: TrackingPoint[],
-    planarTrackers: PlanarTracker[],
-    text3DElements: Text3DElement[]
-  ): Promise<ExportResult> {
-    // FFmpeg.wasm implementation would go here
-    // This is a fallback for browsers without WebCodecs support
-    throw new Error('FFmpeg export not yet implemented - use WebCodecs compatible browser');
-  }
-
-  private async exportWithCanvas(
-    videoBlob: Blob,
-    settings: ExportSettings,
-    trackingPoints: TrackingPoint[],
-    planarTrackers: PlanarTracker[],
-    text3DElements: Text3DElement[]
-  ): Promise<ExportResult> {
-    // Canvas + MediaRecorder implementation would go here
-    // This is a basic fallback for maximum compatibility
-    throw new Error('Canvas export not yet implemented - use WebCodecs compatible browser');
-  }
-
+  /**
+   * Report progress to callback
+   */
   private reportProgress(progress: ExportProgress) {
     if (this.progressCallback) {
       this.progressCallback(progress);
