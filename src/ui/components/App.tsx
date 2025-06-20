@@ -6,10 +6,12 @@ import { TrackingControls } from './TrackingControls';
 import { TrackingPanel } from './TrackingPointsPanel';
 import { InteractionModeSelector } from './InteractionModeSelector';
 import { TrackingModeSelector } from './TrackingModeSelector';
+import { ExportPanel } from './export/ExportPanel';
 import { Toast } from './Toast';
 import { useToast } from '../hooks/useToast';
 import { useVideoTracking } from '../hooks/useVideoTracking';
 import { useTrackingOperations } from '../hooks/useTrackingOperations';
+import { useVideoExport } from '../hooks/useVideoExport';
 import { DocumentSandboxApi } from '../../models/DocumentSandboxApi';
 import { InteractionMode } from '../utils/tracking/TrackingTypes';
 import { Text3DElement } from '../utils/text3d/Text3DTypes';
@@ -27,7 +29,14 @@ type AppTab = 'tracking' | 'text3d' | 'export';
 export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     const { toast, showToast } = useToast();
     const videoTracking = useVideoTracking({ showToast });
-    const trackingOperations = useTrackingOperations({ videoTracking, showToast });    const [interactionMode, setInteractionMode] = React.useState<InteractionMode>('scale');    const [currentTab, setCurrentTab] = useState<AppTab>('tracking');
+    const trackingOperations = useTrackingOperations({ videoTracking, showToast });
+    const videoExport = useVideoExport({ 
+        showToast,
+        insertVideoIntoDocument: (videoBlob: Blob, filename?: string) => 
+            sandboxProxy.insertVideoIntoDocument(videoBlob, filename)
+    });
+
+    const [interactionMode, setInteractionMode] = React.useState<InteractionMode>('scale');const [currentTab, setCurrentTab] = useState<AppTab>('tracking');
     const [text3DElements, setText3DElements] = useState<Text3DElement[]>([]);
     
     // Text3D state management
@@ -580,14 +589,33 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                             +
                         </button>
                     </div>
-                );
-
-            case 'export':
+                );            case 'export':
                 return (
-                    <div className="export-tab">
-                        <h2>Export (Coming Soon)</h2>
-                        <p>Export functionality will be implemented here.</p>
-                        <p>Current texts: {text3DElements.length}</p>
+                    <div className="export-tab">                        <ExportPanel
+                            videoSrc={videoTracking.videoSrc || ''}
+                            videoWidth={videoTracking.videoWidth}
+                            videoHeight={videoTracking.videoHeight}
+                            videoDuration={videoTracking.duration}
+                            videoFramerate={videoTracking.fps}
+                            hasTracking={false} // Tracking visualizations removed from export
+                            hasText3D={text3DElements.length > 0}
+                            onExport={async (settings) => {
+                                if (!videoTracking.videoFile) {
+                                    showToast('No video file available for export', 'error');
+                                    return;
+                                }
+                                
+                                await videoExport.exportVideo(
+                                    videoTracking.videoFile,
+                                    settings,
+                                    videoTracking.trackingPoints,
+                                    videoTracking.planarTrackers,
+                                    text3DElements
+                                );
+                            }}
+                            isExporting={videoExport.isExporting}
+                            exportProgress={videoExport.exportProgress || undefined}
+                        />
                     </div>
                 );
 
@@ -612,11 +640,10 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                         disabled={videoTracking.trackingPoints.length === 0 && videoTracking.planarTrackers.length === 0}
                     >
                         3D Text
-                    </button>
-                    <button
+                    </button>                    <button
                         className={`tab-button ${currentTab === 'export' ? 'active' : ''}`}
                         onClick={() => handleTabSwitch('export')}
-                        disabled={text3DElements.length === 0}
+                        disabled={text3DElements.length === 0 && videoTracking.trackingPoints.length === 0 && videoTracking.planarTrackers.length === 0}
                     >
                         Export
                     </button>

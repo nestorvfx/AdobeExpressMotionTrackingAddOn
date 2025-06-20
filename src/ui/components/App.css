@@ -668,3 +668,18 @@
 .fixed-add-text-btn.inactive:focus {
     transform: none;
 }
+
+/* Export Tab Styling */
+.export-tab {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: visible; /* No inner scrolling */
+}
+
+/* Ensure export panel doesn't create inner containers */
+.export-tab .export-panel {
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}

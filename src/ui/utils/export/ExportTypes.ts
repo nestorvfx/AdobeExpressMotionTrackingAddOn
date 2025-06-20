@@ -1,0 +1,109 @@
+// Video export types and interfaces
+export interface ExportSettings {
+  // Output format
+  format: 'mp4' | 'webm' | 'mov';
+  codec: string;
+    // Quality settings
+  bitrate: number;
+  quality: 'low' | 'medium' | 'high' | 'ultra' | 'best';
+  
+  // Resolution settings
+  width: number;
+  height: number;
+  maintainAspectRatio: boolean;
+  
+  // Frame rate
+  framerate: number;
+  
+  // Content settings - simplified, no tracking visualizations or text effects
+  includeTexts: boolean;
+  
+  // Advanced settings
+  keyframeInterval: number;
+  audioIncluded: boolean;
+}
+
+export interface ExportProgress {
+  stage: 'initializing' | 'decoding' | 'processing' | 'encoding' | 'finalizing' | 'complete' | 'error';
+  progress: number; // 0-100
+  currentFrame: number;
+  totalFrames: number;
+  timeRemaining: number; // seconds
+  message: string;
+  error?: string;
+}
+
+export interface ExportResult {
+  success: boolean;
+  blob?: Blob;
+  filename: string;
+  size: number; // bytes
+  duration: number; // seconds
+  error?: string;
+}
+
+export interface VideoMetadata {
+  width: number;
+  height: number;
+  duration: number;
+  framerate: number;
+  codec: string;
+  hasAudio: boolean;
+  fileSize: number;
+}
+
+// Quality presets
+export const QUALITY_PRESETS: Record<ExportSettings['quality'], Partial<ExportSettings>> = {
+  low: {
+    bitrate: 500000, // 500 kbps
+    keyframeInterval: 60,
+  },
+  medium: {
+    bitrate: 1500000, // 1.5 Mbps
+    keyframeInterval: 30,
+  },
+  high: {
+    bitrate: 3000000, // 3 Mbps
+    keyframeInterval: 30,
+  },
+  ultra: {
+    bitrate: 6000000, // 6 Mbps
+    keyframeInterval: 15,
+  },
+  best: {
+    // Will be dynamically set to match input video quality
+    bitrate: 8000000, // High default, will be overridden
+    keyframeInterval: 10,
+  },
+};
+
+// Format configurations
+export const FORMAT_CONFIGS = {
+  mp4: {
+    codec: 'avc1.42E01F', // H.264 baseline
+    container: 'mp4',
+    mimeType: 'video/mp4',
+    extension: '.mp4',
+  },
+  webm: {
+    codec: 'vp09.00.50.08', // VP9
+    container: 'webm',
+    mimeType: 'video/webm',
+    extension: '.webm',
+  },
+  mov: {
+    codec: 'avc1.42E01F', // H.264 in MOV
+    container: 'mov',
+    mimeType: 'video/quicktime',
+    extension: '.mov',
+  },
+};
+
+// Browser capability detection
+export interface BrowserCapabilities {
+  webCodecsSupported: boolean;
+  webAssemblySupported: boolean;
+  offscreenCanvasSupported: boolean;
+  supportedCodecs: string[];
+  hardwareAcceleration: boolean;
+}

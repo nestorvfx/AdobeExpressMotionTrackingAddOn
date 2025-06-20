@@ -15,6 +15,8 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {  // 
   const [isPlaying, setIsPlaying] = useState(false);
   const [fps, setFps] = useState(30); // Will be updated from video metadata
   const [isVideoInitialized, setIsVideoInitialized] = useState(false); // Track if video has been initially loaded
+  const [videoWidth, setVideoWidth] = useState(0);
+  const [videoHeight, setVideoHeight] = useState(0);
 
   // Tracking state
   const [trackingPoints, setTrackingPoints] = useState<TrackingPoint[]>([]);
@@ -43,6 +45,8 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {  // 
     setFps(actualFps);
     setDuration(videoDuration);
     setTotalFrames(Math.floor(videoDuration * actualFps));
+    setVideoWidth(width);
+    setVideoHeight(height);
     
     // Only reset the frame to 0 on initial video load, not when switching tabs
     if (!isVideoInitialized) {
@@ -337,7 +341,6 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {  // 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
-
   return {
     // Video state
     videoSrc,
@@ -350,6 +353,8 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {  // 
     totalFrames,
     isPlaying,
     fps,
+    videoWidth,
+    videoHeight,
     
     // Tracking state
     trackingPoints,

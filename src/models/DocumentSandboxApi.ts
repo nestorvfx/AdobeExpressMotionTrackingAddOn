@@ -50,12 +50,18 @@ export interface DocumentSandboxApi {
      * @param data Data to save
      * @returns Promise indicating success of the operation
      */
-    saveTrackingData(key: string, data: any): Promise<boolean>;
-
-    /**
+    saveTrackingData(key: string, data: any): Promise<boolean>;    /**
      * Retrieves tracking data from the document storage
      * @param key Storage key
      * @returns Promise with the retrieved data or null if not found
      */
     getTrackingData(key: string): Promise<any>;
+
+    /**
+     * Inserts a video blob directly into the Adobe Express document
+     * @param videoBlob The processed video blob to insert
+     * @param filename Optional filename for the video
+     * @returns Promise indicating success of the operation
+     */
+    insertVideoIntoDocument(videoBlob: Blob, filename?: string): Promise<boolean>;
 }
