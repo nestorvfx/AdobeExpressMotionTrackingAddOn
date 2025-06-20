@@ -1,6 +1,10 @@
 import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { TrackingPoint, PlanarTracker, TrackingMode, InteractionMode } from '../utils/tracking/TrackingTypes';
+import { Text3DElement } from '../utils/text3d/Text3DTypes';
+import { Text3DRenderer } from '../utils/text3d/Text3DRenderer';
 import './VideoPlayer.css';
+
+type VideoPlayerMode = 'tracking' | 'text3d';
 
 interface VideoPlayerProps {
     src: string;
@@ -24,6 +28,16 @@ interface VideoPlayerProps {
     }>;
     // Mode control
     interactionMode?: InteractionMode;
+    // Text3D mode props
+    renderMode?: VideoPlayerMode;
+    text3DElements?: Text3DElement[];
+    onTextSelect?: (textId: string | null) => void;
+    onTrackerSelect?: (trackerId: string | null, isPoint: boolean) => void;
+    selectedTextId?: string | null;    selectedTrackerId?: string | null;
+    hoveredTextId?: string | null;
+    hoveredTrackerId?: string | null;
+    onTextHover?: (textId: string | null) => void;
+    onTrackerHover?: (trackerId: string | null) => void;
 }
 
 export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
@@ -42,11 +56,21 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     getPointColor,
     getPlanarTrackerColor = (index) => `hsl(${(index * 60) % 360}, 70%, 50%)`,
     getTrajectoryPaths,
-    interactionMode = 'scale'
-}, ref) => {
-    const videoRef = useRef<HTMLVideoElement>(null);
+    interactionMode = 'scale',
+    // Text3D mode props
+    renderMode = 'tracking',
+    text3DElements = [],
+    onTextSelect,
+    onTrackerSelect,    selectedTextId,
+    selectedTrackerId,
+    hoveredTextId,
+    hoveredTrackerId,
+    onTextHover,
+    onTrackerHover
+}, ref) => {    const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);    const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
+    const containerRef = useRef<HTMLDivElement>(null);
+    const text3DRendererRef = useRef<Text3DRenderer | null>(null);const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
     const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });
     const [videoFps, setVideoFps] = useState(30); // Will be detected from video
     
@@ -83,10 +107,15 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
     const [hoveredPlanarInfo, setHoveredPlanarInfo] = useState<{
         trackerId: string;
         cornerIndex: number;
-    } | null>(null);
-
-    // Expose video ref to parent
+    } | null>(null);    // Expose video ref to parent
     useImperativeHandle(ref, () => videoRef.current!, []);
+
+    // Initialize Text3D renderer when in text3d mode
+    useEffect(() => {
+        if (renderMode === 'text3d' && canvasRef.current && !text3DRendererRef.current) {
+            text3DRendererRef.current = new Text3DRenderer(canvasRef.current);
+        }
+    }, [renderMode]);
 
     // Handle video metadata loaded
     useEffect(() => {
@@ -212,9 +241,52 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 ...prev,
                 currentMovePos: { x: videoX, y: videoY }
             }));
-            
+              return;
+        }
+
+        // Convert mouse position to video coordinates for text3d mode
+        const videoX = (mouseX / displaySize.width) * videoSize.width;
+        const videoY = (mouseY / displaySize.height) * videoSize.height;
+
+        // Handle text3d mode hover detection
+        if (renderMode === 'text3d') {
+            // Check for text hover
+            let hoveredText: string | null = null;
+            if (text3DRendererRef.current) {
+                for (const text of text3DElements) {
+                    if (text3DRendererRef.current.hitTestText(
+                        text,
+                        { x: videoX, y: videoY },
+                        trackingPoints,
+                        planarTrackers,
+                        currentFrame
+                    )) {
+                        hoveredText = text.id;
+                        break;
+                    }
+                }
+            }
+
+            // Check for tracker hover
+            let hoveredTracker: string | null = null;
+            const tracker = getTrackerAtPosition(videoX, videoY);
+            if (tracker) {
+                hoveredTracker = tracker.id;
+            }            // Notify parent about hover changes
+            if (hoveredText !== hoveredTextId) {
+                onTextHover?.(hoveredText);
+            }
+            if (hoveredTracker !== hoveredTrackerId) {
+                onTrackerHover?.(hoveredTracker);
+            }
+
+            // Update cursor
+            const cursor = hoveredText || hoveredTracker ? 'pointer' : 'default';
+            canvas.style.cursor = cursor;
             return;
-        }        // Check if hovering over a tracking point
+        }
+
+        // Original tracking mode hover logic
         let newHoveredPointId: string | null = null;
         for (const point of trackingPoints) {
             // Check if this point is a feature point for any planar tracker
@@ -372,9 +444,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 currentMovePos: undefined
             });
         }
-    };
-
-    // Handle mouse down to start scaling, moving, or prepare to add point
+    };    // Handle mouse down to start scaling, moving, or prepare to add point
     const handleCanvasMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas || !videoSize.width || !videoSize.height) return;
@@ -385,7 +455,40 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
 
         // Convert click coordinates to video coordinates
         const videoX = (clickX / displaySize.width) * videoSize.width;
-        const videoY = (clickY / displaySize.height) * videoSize.height;        // Check if clicking on an existing tracking point
+        const videoY = (clickY / displaySize.height) * videoSize.height;
+
+        // Handle text3d mode interactions
+        if (renderMode === 'text3d') {
+            // Test if any text was clicked
+            if (text3DRendererRef.current) {
+                for (const text of text3DElements) {
+                    if (text3DRendererRef.current.hitTestText(
+                        text,
+                        { x: videoX, y: videoY },
+                        trackingPoints,
+                        planarTrackers,
+                        currentFrame
+                    )) {
+                        onTextSelect?.(text.id);
+                        onTrackerSelect?.(null, false); // Deselect tracker when text is selected
+                        return;
+                    }
+                }
+            }
+
+            // Test if any tracker was clicked
+            const clickedTracker = getTrackerAtPosition(videoX, videoY);
+            if (clickedTracker) {
+                onTrackerSelect?.(clickedTracker.id, clickedTracker.type === 'point');
+                onTextSelect?.(null); // Deselect text when tracker is selected
+                return;
+            }
+
+            // If nothing was clicked, deselect everything
+            onTrackerSelect?.(null, false);
+            onTextSelect?.(null);
+            return;
+        }// Check if clicking on an existing tracking point
         for (const point of trackingPoints) {
             // Check if this point is a feature point for any planar tracker
             const isFeaturePoint = planarTrackers.some(tracker => 
@@ -497,9 +600,78 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 startY: 0,
                 mouseDownPos: { x: clickX, y: clickY },
                 pendingAddPoint: null,
-                pendingAddPlanar: { x: videoX, y: videoY }
-            });
+                pendingAddPlanar: { x: videoX, y: videoY }            });
         }
+    };
+
+    // Helper function to get tracker at position (for text3d mode)
+    const getTrackerAtPosition = (x: number, y: number) => {
+        // Check planar trackers first
+        for (const tracker of planarTrackers) {
+            if (!tracker.isActive) continue;
+            
+            // Get current frame corners
+            let corners = [...tracker.corners];
+            if (tracker.trajectory && tracker.trajectory.length > 0) {
+                const frameEntry = tracker.trajectory.find(t => t.frame === currentFrame);
+                if (frameEntry && frameEntry.corners.length === 4) {
+                    corners = frameEntry.corners.map((c, i) => ({
+                        ...tracker.corners[i],
+                        x: c.x,
+                        y: c.y
+                    }));
+                } else {
+                    const validEntries = tracker.trajectory.filter(t => t.frame <= currentFrame);
+                    if (validEntries.length > 0) {
+                        const closestEntry = validEntries[validEntries.length - 1];
+                        if (closestEntry.corners.length === 4) {
+                            corners = closestEntry.corners.map((c, i) => ({
+                                ...tracker.corners[i],
+                                x: c.x,
+                                y: c.y
+                            }));
+                        }
+                    }
+                }
+            }
+            
+            // Check if point is inside polygon
+            if (isPointInPolygon(x, y, corners)) {
+                return { id: tracker.id, type: 'planar' as const };
+            }
+        }
+
+        // Check point trackers
+        for (const point of trackingPoints) {
+            if (!point.isActive) continue;
+            
+            // Skip feature points from planar trackers
+            const isFeaturePoint = planarTrackers.some(tracker => 
+                tracker.featurePoints?.some(fp => fp.id === point.id)
+            );
+            if (isFeaturePoint) continue;
+            
+            const pos = point.framePositions?.get(currentFrame) || { x: point.x, y: point.y };
+            const distance = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
+            
+            if (distance <= 12) { // 12px hit radius
+                return { id: point.id, type: 'point' as const };
+            }
+        }
+
+        return null;
+    };
+
+    // Helper function for point-in-polygon test
+    const isPointInPolygon = (x: number, y: number, polygon: { x: number; y: number }[]) => {
+        let inside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+            if (((polygon[i].y > y) !== (polygon[j].y > y)) &&
+                (x < (polygon[j].x - polygon[i].x) * (y - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x)) {
+                inside = !inside;
+            }
+        }
+        return inside;
     };    // Draw tracking points and paths - frame-aware rendering
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -507,8 +679,32 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
         if (!canvas || !displaySize.width || !displaySize.height) return;
 
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);// Get current tracking points - visual positions are already synced to frame during scrubbing
+        if (!ctx) return;
+
+        // Set canvas dimensions based on render mode
+        if (renderMode === 'text3d') {
+            // For text3d mode, canvas should match video dimensions for proper Text3DRenderer coordinate system
+            canvas.width = videoSize.width;
+            canvas.height = videoSize.height;
+        } else {
+            // For tracking mode, canvas matches display size
+            canvas.width = displaySize.width;
+            canvas.height = displaySize.height;
+        }
+
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Render based on mode
+        if (renderMode === 'tracking') {
+            renderTrackingMode(ctx);
+        } else if (renderMode === 'text3d') {
+            renderText3DMode(ctx);
+        }
+    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId, hoveredPlanarInfo, currentFrame, getTrajectoryPaths, videoFps, planarTrackers, getPlanarTrackerColor, trackingMode, renderMode, text3DElements, selectedTextId, selectedTrackerId, hoveredTextId, hoveredTrackerId]);
+
+    // Render tracking mode overlays
+    const renderTrackingMode = (ctx: CanvasRenderingContext2D) => {// Get current tracking points - visual positions are already synced to frame during scrubbing
         const framePoints = trackingPoints;
         const trajectoryPaths = getTrajectoryPaths ? getTrajectoryPaths(currentFrame, 5) : [];        // Draw trajectory paths first (background) - show full ±5 frames paths
         trajectoryPaths.forEach((pathData, pathIndex) => {
@@ -755,8 +951,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                     ctx.fillText(cornerLabel, displayCorner.x, displayCorner.y - 10);
                 }
             });
-            
-            // Show tracking quality indicator
+              // Show tracking quality indicator
             if (tracker.isActive && tracker.confidence < 0.8) {
                 const centerX = displayCorners.reduce((sum, c) => sum + c.x, 0) / 4;
                 const centerY = displayCorners.reduce((sum, c) => sum + c.y, 0) / 4;
@@ -772,7 +967,191 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 ctx.fillText(confidenceText, centerX, centerY);
             }
         });
-    }, [trackingPoints, displaySize, videoSize, getPointColor, dragState, hoveredPointId, hoveredPlanarInfo, currentFrame, getTrajectoryPaths, videoFps, planarTrackers, getPlanarTrackerColor, trackingMode]);
+    };    // Render text3d mode overlays (matching original Text3DEditor appearance)
+    const renderText3DMode = (ctx: CanvasRenderingContext2D) => {
+        // Render tracking points with original Text3DEditor styling
+        trackingPoints.forEach((point, index) => {
+            // Skip feature points from planar trackers
+            const isFeaturePoint = planarTrackers.some(tracker => 
+                tracker.featurePoints?.some(fp => fp.id === point.id)
+            );
+            if (isFeaturePoint || !point.isActive) return;
+            
+            const isHovered = hoveredTrackerId === point.id;
+            const isSelected = selectedTrackerId === point.id;
+              // Get position for current frame or fallback to current position
+            const pos = point.framePositions?.get(currentFrame) || { x: point.x, y: point.y };
+            // Use video coordinates directly (no scaling needed in text3d mode)
+            const displayX = pos.x;
+            const displayY = pos.y;
+            const color = `hsl(${(index * 60) % 360}, 70%, 50%)`;
+            
+            // Draw hover/selection glow effect (subtle like original)
+            if (isHovered || isSelected) {
+                ctx.fillStyle = color;
+                ctx.globalAlpha = isSelected ? 0.3 : 0.2;
+                ctx.beginPath();
+                ctx.arc(displayX, displayY, isSelected ? 20 : 18, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+                
+                // Add outer glow ring for hover effect
+                if (isHovered) {
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 3;
+                    ctx.globalAlpha = 0.6;
+                    ctx.beginPath();
+                    ctx.arc(displayX, displayY, 22, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.globalAlpha = 1.0;
+                }
+            }
+            
+            // Draw point with original styling (smaller, more subtle)
+            const pointSize = isSelected ? 9 : isHovered ? 8 : 6;
+            ctx.fillStyle = color;
+            ctx.strokeStyle = isSelected ? '#ffffff' : isHovered ? '#ffffff' : '#ffffff';
+            ctx.lineWidth = isSelected ? 3 : isHovered ? 2.5 : 2;
+            ctx.globalAlpha = isSelected ? 1.0 : isHovered ? 0.95 : 0.8;
+            ctx.beginPath();
+            ctx.arc(displayX, displayY, pointSize, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+              // Draw search radius (subtle like original) - use video coordinates
+            ctx.strokeStyle = color;
+            ctx.lineWidth = isSelected ? 2 : isHovered ? 1.5 : 1;
+            ctx.globalAlpha = isSelected ? 0.5 : isHovered ? 0.4 : 0.25;
+            ctx.beginPath();
+            ctx.arc(displayX, displayY, point.searchRadius, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.globalAlpha = 1.0;
+        });        // Render planar trackers with original Text3DEditor styling
+        planarTrackers.forEach((tracker, index) => {
+            if (!tracker.isActive) return;
+            
+            const isHovered = hoveredTrackerId === tracker.id;
+            const isSelected = selectedTrackerId === tracker.id;
+            const color = `hsl(${(index * 60) % 360}, 70%, 50%)`;
+            
+            // Get current frame position from trajectory or use current position
+            let corners = [...tracker.corners];
+            let center = { ...tracker.center };
+            
+            if (tracker.trajectory && tracker.trajectory.length > 0) {
+                const exactFrameEntry = tracker.trajectory.find(t => t.frame === currentFrame);
+                if (exactFrameEntry && exactFrameEntry.corners.length === 4) {
+                    corners = exactFrameEntry.corners.map((c, i) => ({
+                        ...tracker.corners[i],
+                        x: c.x,
+                        y: c.y
+                    }));
+                    center = exactFrameEntry.center;
+                } else {
+                    const sortedEntries = tracker.trajectory
+                        .filter(t => t.frame <= currentFrame)
+                        .sort((a, b) => b.frame - a.frame);
+                    
+                    if (sortedEntries.length > 0) {
+                        const closestEntry = sortedEntries[0];
+                        if (closestEntry.corners.length === 4) {
+                            corners = closestEntry.corners.map((c, i) => ({
+                                ...tracker.corners[i],
+                                x: c.x,
+                                y: c.y
+                            }));
+                            center = closestEntry.center;
+                        }
+                    }
+                }
+            }            // Use video coordinates directly (no scaling)
+            const displayCorners = corners.map(corner => ({
+                x: corner.x,
+                y: corner.y
+            }));
+
+            // Draw hover/selection fill (subtle like original)
+            if (isHovered || isSelected) {
+                ctx.fillStyle = color;
+                ctx.globalAlpha = isSelected ? 0.2 : 0.12;
+                ctx.beginPath();
+                displayCorners.forEach((corner, i) => {
+                    if (i === 0) {
+                        ctx.moveTo(corner.x, corner.y);
+                    } else {
+                        ctx.lineTo(corner.x, corner.y);
+                    }
+                });
+                ctx.closePath();
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+                
+                // Add outer glow effect for hover (like original)
+                if (isHovered) {
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 6;
+                    ctx.globalAlpha = 0.3;
+                    ctx.beginPath();
+                    displayCorners.forEach((corner, i) => {
+                        if (i === 0) {
+                            ctx.moveTo(corner.x, corner.y);
+                        } else {
+                            ctx.lineTo(corner.x, corner.y);
+                        }
+                    });
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.globalAlpha = 1.0;
+                }
+            }
+              // Draw tracker outline (original Text3DEditor sizing - thinner)
+            ctx.strokeStyle = color;
+            ctx.lineWidth = isSelected ? 3 : isHovered ? 2.5 : 1.5;
+            ctx.globalAlpha = isSelected ? 1.0 : isHovered ? 0.95 : 0.7;
+            ctx.beginPath();
+            
+            displayCorners.forEach((corner, i) => {
+                if (i === 0) {
+                    ctx.moveTo(corner.x, corner.y);
+                } else {
+                    ctx.lineTo(corner.x, corner.y);
+                }
+            });
+            ctx.closePath();
+            ctx.stroke();
+              // Draw corner handles (original Text3DEditor sizing - smaller)
+            const handleSize = isSelected ? 4 : isHovered ? 3.5 : 2.5;
+            ctx.globalAlpha = 1.0;
+            displayCorners.forEach(corner => {
+                ctx.fillStyle = color;
+                ctx.strokeStyle = isSelected ? '#ffffff' : isHovered ? '#ffffff' : 'white';
+                ctx.lineWidth = isSelected ? 2 : isHovered ? 1.5 : 1;
+                ctx.fillRect(corner.x - handleSize, corner.y - handleSize, handleSize * 2, handleSize * 2);
+                ctx.strokeRect(corner.x - handleSize, corner.y - handleSize, handleSize * 2, handleSize * 2);
+            });
+              // Draw center point (original Text3DEditor sizing - smaller)
+            const centerDisplayX = center.x;
+            const centerDisplayY = center.y;
+            const centerSize = isSelected ? 4 : isHovered ? 3.5 : 2.5;
+            ctx.fillStyle = color;
+            ctx.strokeStyle = isSelected ? '#ffffff' : isHovered ? '#ffffff' : 'white';
+            ctx.lineWidth = isSelected ? 2 : isHovered ? 1.5 : 1;
+            ctx.beginPath();
+            ctx.arc(centerDisplayX, centerDisplayY, centerSize, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        });
+
+        // Render 3D text elements using Text3DRenderer
+        if (text3DRendererRef.current) {
+            text3DRendererRef.current.renderAllTexts(
+                text3DElements,
+                trackingPoints,
+                planarTrackers,
+                currentFrame,
+                hoveredTextId
+            );
+        }
+    };
 
     return (
         <div 
@@ -794,24 +1173,26 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(({
                 }}
                 muted
                 preload="metadata"
-            />
-            <canvas
+            />            <canvas
                 ref={canvasRef}
                 className="video-overlay"
-                width={displaySize.width}
-                height={displaySize.height}                style={{
+                width={renderMode === 'text3d' ? videoSize.width : displaySize.width}
+                height={renderMode === 'text3d' ? videoSize.height : displaySize.height}
+                style={{
                     width: displaySize.width,
                     height: displaySize.height,
                     cursor: (() => {
-                        // Points: always show appropriate cursor
+                        if (renderMode === 'text3d') {
+                            // Text3D mode cursors are handled in mouse move handler
+                            return 'default';
+                        }
+                        // Tracking mode cursors
                         if (hoveredPointId) {
                             return interactionMode === 'scale' ? 'ew-resize' : 'move';
                         }
-                        // Planar corners: only show move cursor in move mode
                         if (hoveredPlanarInfo && interactionMode === 'move') {
                             return 'move';
                         }
-                        // Default cursor
                         return 'crosshair';
                     })()
                 }}

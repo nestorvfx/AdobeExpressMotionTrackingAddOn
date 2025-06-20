@@ -6,8 +6,7 @@ export interface UseVideoTrackingProps {
   showToast: (message: string, type: 'info' | 'success' | 'error') => void;
 }
 
-export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
-  // Video state
+export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {  // Video state
   const [videoSrc, setVideoSrc] = useState<string>('');
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [duration, setDuration] = useState(0);
@@ -15,6 +14,7 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
   const [totalFrames, setTotalFrames] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [fps, setFps] = useState(30); // Will be updated from video metadata
+  const [isVideoInitialized, setIsVideoInitialized] = useState(false); // Track if video has been initially loaded
 
   // Tracking state
   const [trackingPoints, setTrackingPoints] = useState<TrackingPoint[]>([]);
@@ -32,23 +32,28 @@ export const useVideoTracking = ({ showToast }: UseVideoTrackingProps) => {
   useEffect(() => {
     trackerRef.current = new LucasKanadeTracker();
   }, []);
-
   const handleVideoUpload = (file: File) => {
     setVideoFile(file);
     const url = URL.createObjectURL(file);
     setVideoSrc(url);
+    setIsVideoInitialized(false); // Reset initialization flag for new video
     showToast('Video uploaded successfully', 'success');
-  };
-  const handleVideoLoaded = async (videoDuration: number, width: number, height: number, detectedFps?: number) => {
+  };  const handleVideoLoaded = async (videoDuration: number, width: number, height: number, detectedFps?: number) => {
     const actualFps = detectedFps || 30;
     setFps(actualFps);
-    setDuration(videoDuration);    setTotalFrames(Math.floor(videoDuration * actualFps));
-    setCurrentFrame(0);
+    setDuration(videoDuration);
+    setTotalFrames(Math.floor(videoDuration * actualFps));
+    
+    // Only reset the frame to 0 on initial video load, not when switching tabs
+    if (!isVideoInitialized) {
+      setCurrentFrame(0);
+      setIsVideoInitialized(true);
+    }
     
     if (trackerRef.current) {
       await trackerRef.current.initialize();
     }
-  };  const handlePlayPause = () => {
+  };const handlePlayPause = () => {
     if (isPlaying) {
       // When pausing, capture the current frame at this exact moment
       // to prevent drift from video element settling

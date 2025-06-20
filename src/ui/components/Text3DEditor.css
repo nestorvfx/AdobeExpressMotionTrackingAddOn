@@ -457,7 +457,7 @@
 }
 
 .fixed-add-text-btn.active:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
 }
 
