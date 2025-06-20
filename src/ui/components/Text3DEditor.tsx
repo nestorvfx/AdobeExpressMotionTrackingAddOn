@@ -40,7 +40,8 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
   onSeek,
   onStepForward,
   onStepBackward
-}) => {  const localVideoRef = useRef<HTMLVideoElement>(null);
+}) => {
+  const localVideoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   // Use shared manager if provided, otherwise create local one
@@ -56,7 +57,10 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
   const [selectedText, setSelectedText] = useState<Text3DElement | null>(null);
   const [selectedTracker, setSelectedTracker] = useState<string | null>(null);
   const [hoveredTrackerId, setHoveredTrackerId] = useState<string | null>(null);
-  const [hoveredTextId, setHoveredTextId] = useState<string | null>(null);  // Initialize renderers when canvas is ready
+  const [hoveredTextId, setHoveredTextId] = useState<string | null>(null);  // Simple render flag to prevent duplicate renders in same frame
+  const renderScheduledRef = useRef<boolean>(false);
+
+  // Initialize renderers when canvas is ready
   useEffect(() => {
     if (canvasRef.current) {
       text3DRendererRef.current = new Text3DRenderer(canvasRef.current);
@@ -67,49 +71,34 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
   useEffect(() => {
     if (sharedText3DManager) {
       text3DManagerRef.current = sharedText3DManager;
-    }
-  }, [sharedText3DManager]);
-  // Update texts list when manager changes or when component mounts/unmounts
+    }  }, [sharedText3DManager]);
+    // Update texts list when manager changes or when component mounts/unmounts
   useEffect(() => {
     const updateTexts = () => {
       const allTexts = text3DManagerRef.current.getAllTexts();
       setTexts(allTexts);
-      console.log(`[TEXT3D_DEBUG] Updated text list: ${allTexts.length} texts loaded`);
     };
     
     updateTexts();
-    
-    // Also refresh when this component becomes active
-    const interval = setInterval(updateTexts, 100); // Check every 100ms for updates
-    
-    return () => clearInterval(interval);
+    // No more interval - only update when explicitly needed
   }, [sharedText3DManager]);
 
   // Sync selected text
   useEffect(() => {
     setSelectedText(text3DManagerRef.current.getSelectedText());
   }, [texts]);
-
-  // Handle video load and canvas setup
+  // Handle video load and canvas setup - simplified, no seek handlers
   useEffect(() => {
     if (videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
 
       const handleVideoLoad = () => {
+        console.log(`[TEXT3D_VIDEO] Video loaded - size: ${video.videoWidth}x${video.videoHeight}`);
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         
-        // Set initial video time to current frame
-        if (video.duration && totalFrames > 0) {
-          const time = (currentFrame / totalFrames) * video.duration;
-          video.currentTime = Math.min(time, video.duration);
-        }
-        
-        renderFrame();
-      };
-
-      const handleSeeked = () => {
+        // Don't sync video time here - let frame change effect handle it
         renderFrame();
       };
 
@@ -117,68 +106,61 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
         handleVideoLoad();
       } else {
         video.addEventListener('loadedmetadata', handleVideoLoad);
-        video.addEventListener('seeked', handleSeeked);
 
         return () => {
           video.removeEventListener('loadedmetadata', handleVideoLoad);
-          video.removeEventListener('seeked', handleSeeked);
         };
       }
     }
-  }, [videoSrc]);
-  // Sync video to current frame and force re-render
+  }, [videoSrc]);// Video frame sync is handled by the main frame change effect above// Handle video playback - no animation loops needed
   useEffect(() => {
-    const updateVideoFrame = () => {
-      if (videoRef.current && !isPlaying) {
-        const video = videoRef.current;
-        if (video.duration && totalFrames > 0) {
-          const time = (currentFrame / totalFrames) * video.duration;
-          video.currentTime = Math.min(time, video.duration);
-          
-          // Wait for video to seek to correct position before rendering
-          const handleSeeked = () => {
-            renderFrame();
-            video.removeEventListener('seeked', handleSeeked);
-          };
-          video.addEventListener('seeked', handleSeeked);
-        }
-      }
-      
-      // Also render immediately for responsiveness
-      renderFrame();
-    };
-
-    updateVideoFrame();
-  }, [currentFrame, totalFrames]);  // Handle video playback
-  useEffect(() => {
+    console.log(`[TEXT3D_PLAYBACK] Video playback state changed - isPlaying: ${isPlaying}`);
     if (videoRef.current) {
       const video = videoRef.current;
       
-      console.log(`[TEXT3D_DEBUG] Video playback state changed: isPlaying=${isPlaying}, video.paused=${video.paused}`);
-      
       if (isPlaying && video.paused) {
-        console.log(`[TEXT3D_DEBUG] Starting video playback`);
         video.play().catch(console.error);
       } else if (!isPlaying && !video.paused) {
-        console.log(`[TEXT3D_DEBUG] Pausing video playback`);
         video.pause();
       }
     }
-  }, [isPlaying]);
-
-  // Render frame when dependencies change (but not during playback)
+  }, [isPlaying]);  // Render when current frame changes - this is the key effect for frame-accurate rendering
   useEffect(() => {
+    console.log(`[TEXT3D_FRAME_CHANGE] Frame changed to: ${currentFrame}, isPlaying: ${isPlaying}`);
+    
+    // Sync video to current frame when not playing
+    if (videoRef.current && !isPlaying) {
+      const video = videoRef.current;
+      if (video.duration && totalFrames > 0) {
+        const time = (currentFrame / totalFrames) * video.duration;
+        video.currentTime = Math.min(time, video.duration);
+      }
+    }
+    
+    // Get fresh text data and render
+    const freshTexts = text3DManagerRef.current.getAllTexts();
+    console.log(`[TEXT3D_FRAME_CHANGE] Using fresh texts: ${freshTexts.length}`);
+    renderFrameWithTexts(freshTexts);
+  }, [currentFrame, trackingPoints, planarTrackers, totalFrames]);
+
+  // Render when text items change (only when not playing to avoid interference)
+  useEffect(() => {
+    console.log(`[TEXT3D_TEXTS_CHANGE] Texts changed - count: ${texts.length}, selectedText: ${!!selectedText}, isPlaying: ${isPlaying}`);
     if (!isPlaying) {
+      console.log(`[TEXT3D_TEXTS_CHANGE] Rendering due to text changes`);
       renderFrame();
     }
-  }, [texts, selectedText, trackingPoints, planarTrackers]);
+  }, [texts, selectedText, isPlaying]);  // Simple render function - uses state texts
   const renderFrame = () => {
+    renderFrameWithTexts(texts);
+  };
+
+  // Render function that accepts texts as parameter for fresh data
+  const renderFrameWithTexts = (textsToRender: Text3DElement[]) => {
+    console.log(`[TEXT3D_RENDER] Rendering frame ${currentFrame} - isPlaying: ${isPlaying}, texts: ${textsToRender.length}`);
+    
     if (!canvasRef.current || !videoRef.current || !text3DRendererRef.current) {
-      console.log(`[TEXT3D_DEBUG] renderFrame called but missing references:`, {
-        canvas: !!canvasRef.current,
-        video: !!videoRef.current,
-        renderer: !!text3DRendererRef.current
-      });
+      console.error(`[TEXT3D_RENDER] Missing references - canvas: ${!!canvasRef.current}, video: ${!!videoRef.current}, renderer: ${!!text3DRendererRef.current}`);
       return;
     }
 
@@ -189,50 +171,24 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Debug: Log canvas and video info
-    console.log(`[TEXT3D_DEBUG] ==================== RENDER FRAME ====================`);
-    console.log(`[TEXT3D_DEBUG] Canvas: ${canvas.width}x${canvas.height}, Video: ${video.videoWidth}x${video.videoHeight}, readyState: ${video.readyState}`);
-    console.log(`[TEXT3D_DEBUG] Current Frame: ${currentFrame}, Total Frames: ${totalFrames}`);
-
     // Draw video frame
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // Render tracking points (optional debug)
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);// Render tracking points (optional debug)
     renderTrackingPoints(ctx);
 
     // Render planar trackers (optional debug)
-    renderPlanarTrackers(ctx);
-
-    // Debug: Log text rendering
-    console.log(`[TEXT3D_DEBUG] About to render ${texts.length} texts`);
-    texts.forEach((text, index) => {
-      console.log(`[TEXT3D_DEBUG] Text ${index + 1}:`, {
-        id: text.id,
-        content: text.content,
-        visible: text.isVisible,
-        selected: text.isSelected,
-        position: text.transform.position,
-        scale: text.transform.scale,
-        color: text.style.color,
-        fontSize: text.style.fontSize,
-        attachedTo: text.attachedToPointId ? `Point: ${text.attachedToPointId}` : `Planar: ${text.attachedToTrackerId}`
-      });
-    });    // Render all 3D texts
+    renderPlanarTrackers(ctx);    // Render all 3D texts using fresh tracker data from props
+    // This ensures we get the most current positions during playback
     text3DRendererRef.current.renderAllTexts(
-      texts,
+      textsToRender,
       trackingPoints,
       planarTrackers,
       currentFrame,
       hoveredTextId
     );
 
-    console.log(`[TEXT3D_DEBUG] Text rendering completed`);
-
     // Note: Gizmos removed - using properties panel for transforms
-    
-    console.log(`[TEXT3D_DEBUG] ==================== END RENDER FRAME ====================`);
-  };
-  const renderTrackingPoints = (ctx: CanvasRenderingContext2D) => {
+  };const renderTrackingPoints = (ctx: CanvasRenderingContext2D) => {
+    // Use fresh tracker data passed from props to avoid stale closures
     trackingPoints.forEach((point, index) => {
       // Skip feature points from planar trackers
       const isFeaturePoint = planarTrackers.some(tracker => 
@@ -480,11 +436,10 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
 
     // Test if any tracker was clicked
     const clickedTracker = getTrackerAtPosition(canvasX, canvasY);
-    if (clickedTracker) {
-      setSelectedTracker(clickedTracker.id);
-      setSelectedText(null); // Deselect text when tracker is selected
+    if (clickedTracker) {      setSelectedTracker(clickedTracker.id);      setSelectedText(null); // Deselect text when tracker is selected
       text3DManagerRef.current.deselectAll();
       setTexts([...text3DManagerRef.current.getAllTexts()]);
+      renderFrame();
       return;
     }
 
@@ -493,6 +448,7 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
     setSelectedText(null);
     text3DManagerRef.current.deselectAll();
     setTexts([...text3DManagerRef.current.getAllTexts()]);
+    renderFrame();
   };
 
   const handleCanvasMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -607,55 +563,55 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
       }
     }
     return inside;
-  };
-
-  const selectText = (textId: string) => {
+  };  const selectText = (textId: string) => {
     text3DManagerRef.current.selectText(textId);
-    setTexts([...text3DManagerRef.current.getAllTexts()]);
+    const updatedTexts = text3DManagerRef.current.getAllTexts();
+    setTexts(updatedTexts);
+    setSelectedText(text3DManagerRef.current.getSelectedText());
+    renderFrame();
   };
-
   const addTextToTracker = (trackerId: string, isPoint: boolean = false) => {
-    console.log(`[TEXT3D_DEBUG] ==================== ADDING TEXT TO TRACKER ====================`);
-    console.log(`[TEXT3D_DEBUG] Tracker ID: ${trackerId}, Is Point: ${isPoint}, Current Frame: ${currentFrame}`);
+    console.log(`[TEXT3D_ADD] ==================== ADDING TEXT TO TRACKER ====================`);
+    console.log(`[TEXT3D_ADD] Tracker ID: ${trackerId}, Is Point: ${isPoint}, Current Frame: ${currentFrame}`);
     
     const pointId = isPoint ? trackerId : undefined;
     const actualTrackerId = isPoint ? trackingPoints.find(p => p.id === trackerId)?.id || trackerId : trackerId;
     
-    console.log(`[TEXT3D_DEBUG] Point ID: ${pointId}, Actual Tracker ID: ${actualTrackerId}`);
+    console.log(`[TEXT3D_ADD] Point ID: ${pointId}, Actual Tracker ID: ${actualTrackerId}`);
     
     // Verify tracker exists
     if (isPoint) {
       const point = trackingPoints.find(p => p.id === trackerId);
       if (point) {
-        console.log(`[TEXT3D_DEBUG] Found point tracker - Position: (${point.x}, ${point.y}), Active: ${point.isActive}`);
+        console.log(`[TEXT3D_ADD] Found point tracker - Position: (${point.x}, ${point.y}), Active: ${point.isActive}`);
         const framePos = point.framePositions?.get(currentFrame);
         if (framePos) {
-          console.log(`[TEXT3D_DEBUG] Point has frame position for frame ${currentFrame}: (${framePos.x}, ${framePos.y})`);
+          console.log(`[TEXT3D_ADD] Point has frame position for frame ${currentFrame}: (${framePos.x}, ${framePos.y})`);
         } else {
-          console.log(`[TEXT3D_DEBUG] Point has no frame position for frame ${currentFrame}, using current position`);
+          console.log(`[TEXT3D_ADD] Point has no frame position for frame ${currentFrame}, using current position`);
         }
       } else {
-        console.log(`[TEXT3D_DEBUG] ERROR: Point tracker not found!`);
+        console.error(`[TEXT3D_ADD] ERROR: Point tracker not found!`);
         return;
       }
     } else {
       const tracker = planarTrackers.find(t => t.id === trackerId);
       if (tracker) {
-        console.log(`[TEXT3D_DEBUG] Found planar tracker - Center: (${tracker.center.x}, ${tracker.center.y}), Active: ${tracker.isActive}`);
-        console.log(`[TEXT3D_DEBUG] Planar tracker corners:`, tracker.corners.map(c => `(${c.x}, ${c.y})`));
+        console.log(`[TEXT3D_ADD] Found planar tracker - Center: (${tracker.center.x}, ${tracker.center.y}), Active: ${tracker.isActive}`);
+        console.log(`[TEXT3D_ADD] Planar tracker corners:`, tracker.corners.map(c => `(${c.x}, ${c.y})`));
         if (tracker.trajectory && tracker.trajectory.length > 0) {
-          console.log(`[TEXT3D_DEBUG] Planar tracker has ${tracker.trajectory.length} trajectory entries`);
+          console.log(`[TEXT3D_ADD] Planar tracker has ${tracker.trajectory.length} trajectory entries`);
           const frameEntry = tracker.trajectory.find(t => t.frame === currentFrame);
           if (frameEntry) {
-            console.log(`[TEXT3D_DEBUG] Found trajectory entry for frame ${currentFrame}: center (${frameEntry.center.x}, ${frameEntry.center.y})`);
+            console.log(`[TEXT3D_ADD] Found trajectory entry for frame ${currentFrame}: center (${frameEntry.center.x}, ${frameEntry.center.y})`);
           } else {
-            console.log(`[TEXT3D_DEBUG] No trajectory entry for frame ${currentFrame}`);
+            console.log(`[TEXT3D_ADD] No trajectory entry for frame ${currentFrame}`);
           }
         } else {
-          console.log(`[TEXT3D_DEBUG] Planar tracker has no trajectory data`);
+          console.log(`[TEXT3D_ADD] Planar tracker has no trajectory data`);
         }
       } else {
-        console.log(`[TEXT3D_DEBUG] ERROR: Planar tracker not found!`);
+        console.error(`[TEXT3D_ADD] ERROR: Planar tracker not found!`);
         return;
       }
     }
@@ -663,7 +619,7 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
     const newText = text3DManagerRef.current.createText(actualTrackerId, pointId);
     newText.createdFrame = currentFrame;
     
-    console.log(`[TEXT3D_DEBUG] Created text element:`, {
+    console.log(`[TEXT3D_ADD] Created text element:`, {
       id: newText.id,
       content: newText.content,
       position: newText.transform.position,
@@ -672,36 +628,36 @@ export const Text3DEditor: React.FC<Text3DEditorProps> = ({
       fontSize: newText.style.fontSize,
       isVisible: newText.isVisible,
       createdFrame: newText.createdFrame
-    });
-    
-    setTexts([...text3DManagerRef.current.getAllTexts()]);
+    });setTexts([...text3DManagerRef.current.getAllTexts()]);
     selectText(newText.id);
-    
-    console.log(`[TEXT3D_DEBUG] Total texts after creation: ${text3DManagerRef.current.getAllTexts().length}`);
-    console.log(`[TEXT3D_DEBUG] ==================== END ADDING TEXT ====================`);
+    renderFrame();
+      console.log(`[TEXT3D_ADD] Total texts after creation: ${text3DManagerRef.current.getAllTexts().length}`);
+    console.log(`[TEXT3D_ADD] ==================== END ADDING TEXT ====================`);
     
     if (onTextCreate) {
       onTextCreate(newText);
     }
   };
-
   const updateSelectedText = (updates: Partial<Text3DElement>) => {
     if (!selectedText) return;
-    
-    text3DManagerRef.current.updateText(selectedText.id, updates);
-    setTexts([...text3DManagerRef.current.getAllTexts()]);
+      text3DManagerRef.current.updateText(selectedText.id, updates);
+    const updatedTexts = text3DManagerRef.current.getAllTexts();
+    setTexts(updatedTexts);
+    setSelectedText(text3DManagerRef.current.getSelectedText());
+    renderFrame();
     
     const updated = text3DManagerRef.current.getTextById(selectedText.id);
     if (updated && onTextUpdate) {
       onTextUpdate(updated);
     }
   };
-
   const deleteSelectedText = () => {
     if (!selectedText) return;
     
-    text3DManagerRef.current.deleteText(selectedText.id);
-    setTexts([...text3DManagerRef.current.getAllTexts()]);
+    text3DManagerRef.current.deleteText(selectedText.id);    const updatedTexts = text3DManagerRef.current.getAllTexts();
+    setTexts(updatedTexts);
+    setSelectedText(null);
+    renderFrame();
     
     if (onTextDelete) {
       onTextDelete(selectedText.id);
