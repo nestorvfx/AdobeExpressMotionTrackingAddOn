@@ -215,15 +215,13 @@ export class OverlayRenderer {
       );
 
       return screenPos;
-    }
-
-    // If attached to a planar tracker, follow that tracker with homography transformation
+    }    // If attached to a planar tracker, follow that tracker with homography transformation
     if (textElement.attachedToTrackerId) {
       const tracker = planarTrackers.find(t => t.id === textElement.attachedToTrackerId);
       if (!tracker) return null;
 
-      // Get tracker center position
-      const trackerCenter = tracker.center;
+      // Get tracker center position for this specific frame (same as preview)
+      const trackerCenter = this.getPlanarTrackerPositionForFrame(tracker, frameNumber);
 
       // Apply 3D transformation (same as preview)
       let transformedPosition = {
@@ -264,6 +262,41 @@ export class OverlayRenderer {
 
     // Fallback to current position (exact same as preview)
     return { x: point.x, y: point.y };
+  }
+
+  /**
+   * Get planar tracker center position for a specific frame (same logic as preview)
+   */
+  private getPlanarTrackerPositionForFrame(tracker: PlanarTracker, frameNumber: number): { x: number; y: number } {
+    // Check if tracker has trajectory data
+    if (tracker.trajectory && tracker.trajectory.length > 0) {
+      // Find exact frame match first (same as preview)
+      const exactFrameEntry = tracker.trajectory.find(t => t.frame === frameNumber);
+      if (exactFrameEntry) {
+        return exactFrameEntry.center;
+      }
+
+      // If no exact match, find the most recent previous frame (same as preview)
+      const sortedEntries = tracker.trajectory
+        .filter(t => t.frame <= frameNumber)
+        .sort((a, b) => b.frame - a.frame);
+      
+      if (sortedEntries.length > 0) {
+        return sortedEntries[0].center;
+      }
+
+      // If no previous frame, find the nearest future frame (same as preview)
+      const futureEntries = tracker.trajectory
+        .filter(t => t.frame > frameNumber)
+        .sort((a, b) => a.frame - b.frame);
+      
+      if (futureEntries.length > 0) {
+        return futureEntries[0].center;
+      }
+    }
+
+    // Fallback to current center position (same as preview)
+    return tracker.center;
   }
 
   /**
