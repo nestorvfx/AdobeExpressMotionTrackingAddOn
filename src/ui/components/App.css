@@ -6,6 +6,56 @@
     font-family: 'Adobe Clean', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #2c2c2c;
     overflow-x: hidden;
+    overflow-y: auto;
+    /* Multi-layered scrollbar fix */
+    scrollbar-gutter: stable; /* Modern browsers */
+    box-sizing: border-box;
+    /* Ensure proper width calculation */
+    max-width: 320px;
+    /* Prevent horizontal expansion */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    /* JavaScript-calculated width compensation */
+    width: var(--app-width, 320px);
+}
+
+/* CSS-only scrollbar width detection */
+:root {
+    --scrollbar-width: 17px; /* Default assumption */
+}
+
+/* Detect if scrollbars are overlay (macOS style) */
+@media (hover: hover) and (pointer: fine) {
+    :root {
+        --scrollbar-width: 17px; /* Windows/Linux style */
+    }
+}
+
+/* Detect macOS overlay scrollbars */
+@supports (-webkit-appearance: none) {
+    @media (max-resolution: 1dppx) {
+        :root {
+            --scrollbar-width: 0px; /* Overlay scrollbars */
+        }
+    }
+}
+
+/* Alternative approach using container strategy */
+.app-container {
+    width: 320px;
+    height: 100vh;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.app-container .app {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-right: 17px; /* Reserve space for scrollbar */
+    margin-right: -17px; /* Hide the reserved space */
+    box-sizing: border-box;
 }
 
 /* Main Content */
@@ -395,6 +445,24 @@
     background: #94a3b8;
 }
 
+/* Global scrollbar styles for consistency */
+.app::-webkit-scrollbar {
+    width: 8px;
+}
+
+.app::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.app::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.app::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
 /* Tab Navigation */
 .tab-navigation {
     display: flex;
@@ -682,4 +750,60 @@
     overflow: visible;
     height: auto;
     max-height: none;
+}
+
+/* Comprehensive Horizontal Scrollbar Prevention */
+/* Apply to all child elements to prevent any overflow */
+.app * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Specific fixes for common overflow causes */
+.app img,
+.app video,
+.app canvas {
+    max-width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+/* Text elements should break properly */
+.app p,
+.app span,
+.app div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Prevent any fixed-width elements from causing overflow */
+.app [style*="width"] {
+    max-width: 100% !important;
+}
+
+/* Debug mode - uncomment to see which elements are causing overflow */
+/*
+.app * {
+    outline: 1px solid red !important;
+}
+*/
+
+/* Container query approach for better scrollbar handling */
+@container (max-width: 320px) {
+    .app {
+        padding-right: 0;
+    }
+}
+
+/* Ensure proper scrolling behavior */
+.app {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Force GPU acceleration for smoother scrolling */
+.app {
+    transform: translateZ(0);
+    will-change: scroll-position;
 }

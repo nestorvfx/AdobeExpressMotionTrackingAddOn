@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { VideoPlayer } from './VideoPlayer';
 import { Timeline } from './Timeline';
 import { VideoUpload } from './VideoUpload';
@@ -16,6 +16,7 @@ import { DocumentSandboxApi } from '../../models/DocumentSandboxApi';
 import { InteractionMode } from '../utils/tracking/TrackingTypes';
 import { Text3DElement } from '../utils/text3d/Text3DTypes';
 import { Text3DManagerImpl } from '../utils/text3d/Text3DManager';
+import { initScrollbarManagement } from '../utils/scrollbarUtils';
 import './App.css';
 import './Text3DEditor.css';
 
@@ -29,7 +30,14 @@ type AppTab = 'tracking' | 'text3d' | 'export';
 export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     const { toast, showToast } = useToast();
     const videoTracking = useVideoTracking({ showToast });
-    const trackingOperations = useTrackingOperations({ videoTracking, showToast });    const videoExport = useVideoExport({ 
+    const trackingOperations = useTrackingOperations({ videoTracking, showToast });
+    
+    // Initialize scrollbar management on component mount
+    useEffect(() => {
+        initScrollbarManagement();
+    }, []);
+    
+    const videoExport = useVideoExport({ 
         showToast,
         insertVideoIntoDocument: async (videoBlob: Blob, filename?: string) => {
             console.log('EXPORT: 🔗 Inserting video into Adobe Express document');
