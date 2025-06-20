@@ -5,7 +5,7 @@ export interface ExportSettings {
   codec: string;
     // Quality settings
   bitrate: number;
-  quality: 'low' | 'medium' | 'high' | 'ultra' | 'best';
+  quality: 'low' | 'medium' | 'high';
   
   // Resolution settings
   width: number;
@@ -55,25 +55,16 @@ export interface VideoMetadata {
 // Quality presets
 export const QUALITY_PRESETS: Record<ExportSettings['quality'], Partial<ExportSettings>> = {
   low: {
-    bitrate: 500000, // 500 kbps
+    bitrate: 1000000, // 1 Mbps
     keyframeInterval: 60,
   },
   medium: {
-    bitrate: 1500000, // 1.5 Mbps
-    keyframeInterval: 30,
-  },
-  high: {
     bitrate: 3000000, // 3 Mbps
     keyframeInterval: 30,
   },
-  ultra: {
-    bitrate: 6000000, // 6 Mbps
+  high: {
+    bitrate: 8000000, // 8 Mbps
     keyframeInterval: 15,
-  },
-  best: {
-    // Will be dynamically set to match input video quality
-    bitrate: 8000000, // High default, will be overridden
-    keyframeInterval: 10,
   },
 };
 

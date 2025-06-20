@@ -28,17 +28,17 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({
   isExporting,
   exportProgress,
 }) => {  const [settings, setSettings] = useState<ExportSettings>({
-    format: 'webm', // WebM is now default for better Adobe Express compatibility
-    codec: 'vp09.00.50.08',
-    bitrate: 8000000, // Will be overridden by "best" quality
-    quality: 'best', // Default to best quality (matches input)
+    format: 'mp4', // MP4 for Adobe Express compatibility
+    codec: 'avc1.42E01E', // H.264 baseline
+    bitrate: 8000000, // Will be overridden by quality setting
+    quality: 'medium', // Default to medium quality
     width: videoWidth,
     height: videoHeight,
     maintainAspectRatio: true,
     framerate: videoFramerate,
     includeTexts: hasText3D,
     keyframeInterval: 10,
-    audioIncluded: false, // Will be supported in future versions
+    audioIncluded: false,
   });
 
   const [browserCapabilities, setBrowserCapabilities] = useState<any>(null);
@@ -163,12 +163,7 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({
       {isExporting && exportProgress && (
         <div className="export-progress-overlay">
           <div className="progress-modal">
-            <h3>Exporting Video</h3>
-            <div className="progress-info">
-              <div className="stage-info">
-                <span className="stage">{exportProgress.stage}</span>
-                <span className="message">{exportProgress.message}</span>
-              </div>
+            <h3>Exporting Video</h3>            <div className="progress-info">
               <div className="progress-bar">
                 <div 
                   className="progress-fill" 
@@ -177,15 +172,7 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({
               </div>
               <div className="progress-details">
                 <span>{Math.round(exportProgress.progress)}%</span>
-                {exportProgress.timeRemaining > 0 && (
-                  <span>{Math.round(exportProgress.timeRemaining)}s remaining</span>
-                )}
               </div>
-              {exportProgress.totalFrames > 0 && (
-                <div className="frame-progress">
-                  Frame {exportProgress.currentFrame} of {exportProgress.totalFrames}
-                </div>
-              )}
             </div>
             {exportProgress.error && (
               <div className="error-message">
@@ -196,33 +183,17 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({
         </div>
       )}      {/* Main Export Panel - Simplified */}
       <div className="export-content-flat">
-        {/* Quality & Format Settings - Essential Only */}        {/* Quality & Format Settings - Essential Only */}
-        <div className="settings-section">          
+        {/* Quality & Format Settings - Essential Only */}        {/* Quality & Format Settings - Essential Only */}        <div className="settings-section">          
           <div className="setting-group">
-            <label>Quality Preset</label>            <select 
+            <label>Quality</label>            <select 
               value={settings.quality}
               onChange={(e) => handleSettingChange('quality', e.target.value as ExportSettings['quality'])}
             >
-              <option value="best">Best (Same as input)</option>
-              <option value="high">High (3 Mbps)</option>
-              <option value="medium">Medium (1.5 Mbps)</option>
+              <option value="high">High Quality</option>
+              <option value="medium">Medium Quality</option>
+              <option value="low">Low Quality</option>
             </select>
-          </div>          <div className="setting-group">
-            <label>Format</label>
-            <select 
-              value={settings.format}
-              onChange={(e) => handleSettingChange('format', e.target.value as ExportSettings['format'])}
-            >
-              <option value="webm">WebM (Recommended for Adobe Express)</option>
-              <option value="mp4">MP4 (Fallback)</option>
-            </select>
-          </div>
-        </div>        {/* Content Settings - Always include text if present */}
-        {hasText3D && (
-          <div className="text-info">
-            ✓ 3D text elements will be included with original styling
-          </div>
-        )}
+          </div>        </div>
 
         {/* Export Actions */}
         <div className="export-actions">
@@ -231,7 +202,7 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({
             onClick={handleExport}
             disabled={isExporting || !hasText3D || !videoSrc}
           >
-            {isExporting ? 'Exporting...' : 'Export to Adobe Express'}
+            {isExporting ? 'Exporting...' : 'Export'}
           </button>
           
           {!hasText3D && (

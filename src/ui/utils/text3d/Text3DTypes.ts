@@ -86,11 +86,10 @@ export interface Text3DRenderContext {
 
 // Default values
 export const DEFAULT_TEXT_STYLE: TextStyle = {
-  fontFamily: 'Arial',
-  fontSize: 38, // Reduced from 64 (40% smaller)
+  fontFamily: 'Arial',  fontSize: 38, // Reduced from 64 (40% smaller)
   fontWeight: 'bold',
   fontStyle: 'normal',
-  color: '#ff0000',
+  color: '#ffffff',
   textAlign: 'center',
   textBaseline: 'middle'
 };

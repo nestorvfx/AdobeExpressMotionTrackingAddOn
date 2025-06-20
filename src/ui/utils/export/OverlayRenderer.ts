@@ -1,6 +1,7 @@
 import { TrackingPoint, PlanarTracker } from '../tracking/TrackingTypes';
-import { Text3DElement } from '../text3d/Text3DTypes';
+import { Text3DElement, Vector3 } from '../text3d/Text3DTypes';
 import { ExportSettings } from './ExportTypes';
+import { Math3D } from '../text3d/Math3D';
 
 /**
  * Renders only 3D text overlays onto video frames (no tracking visualizations)
@@ -51,10 +52,8 @@ export class OverlayRenderer {
       return this.canvas;
     }
   }
-
   /**
-   * Renders 3D text elements with all user-defined styling and tracking motion
-   * Preserves exactly what the user created in the text tab - no modifications
+   * Renders 3D text elements using the same algorithm as the preview
    */
   private renderText3DElements(
     frameNumber: number,
@@ -62,59 +61,129 @@ export class OverlayRenderer {
     text3DElements: Text3DElement[],
     trackingPoints: TrackingPoint[],
     planarTrackers: PlanarTracker[]
-  ) {
-    text3DElements.forEach(textElement => {
-      // Skip if text hasn't been created yet
-      if (textElement.createdFrame > frameNumber) return;
+  ) {    text3DElements.forEach(textElement => {
+      // Text should appear throughout the entire video once created
+      // (matches preview behavior where text follows tracker across all frames)
+      if (!textElement.isVisible) return;
 
-      // Get attachment position (this is where the text follows the tracker)
-      const position = this.getTextPosition(textElement, frameNumber, trackingPoints, planarTrackers);
-      if (!position) return;
+      // Get attachment position using the same algorithm as preview
+      const screenPos = this.getTextPosition(textElement, frameNumber, trackingPoints, planarTrackers);
+      if (!screenPos) return;
 
-      // Apply text styling - preserve ALL user settings exactly as they were created
-      this.ctx.save();
-      
-      // Set font - preserve user's original font settings
-      const fontSize = textElement.style.fontSize || 24;
-      const fontFamily = textElement.style.fontFamily || 'Arial';
-      const fontWeight = textElement.style.fontWeight || 'normal';
-      const fontStyle = textElement.style.fontStyle || 'normal';
-      
-      this.ctx.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
-      this.ctx.textAlign = textElement.style.textAlign || 'center';
-      this.ctx.textBaseline = textElement.style.textBaseline || 'middle';
-
-      // Calculate final position with user's transform
-      const finalX = position.x + textElement.transform.position.x;
-      const finalY = position.y + textElement.transform.position.y;
-
-      // Apply rotation if the user set it
-      if (textElement.transform.rotation.z !== 0) {
-        this.ctx.translate(finalX, finalY);
-        this.ctx.rotate((textElement.transform.rotation.z * Math.PI) / 180);
-        this.ctx.translate(-finalX, -finalY);
-      }
-
-      // Apply scale if the user set it
-      const scaleX = textElement.transform.scale.x;
-      const scaleY = textElement.transform.scale.y;
-      if (scaleX !== 1 || scaleY !== 1) {
-        this.ctx.scale(scaleX, scaleY);
-      }
-
-      // Render the text exactly as the user created it
-      // Use the user's original color and styling
-      this.ctx.fillStyle = textElement.style.color || 'white';
-      
-      // Draw the main text
-      this.ctx.fillText(textElement.content, finalX, finalY);
-
-      this.ctx.restore();
+      // Render using the same sophisticated approach as preview
+      this.renderTextAtPosition(textElement, screenPos, textElement.transform.position.z);
     });
   }
 
   /**
-   * Gets the position where the text should be rendered based on its tracking attachment
+   * Render text at a specific screen position (same as preview renderer)
+   */
+  private renderTextAtPosition(
+    text: Text3DElement,
+    screenPos: { x: number; y: number },
+    depth: number
+  ): void {
+    // Check if position is within canvas bounds
+    const inBounds = screenPos.x >= 0 && screenPos.x <= this.canvas.width && 
+                     screenPos.y >= 0 && screenPos.y <= this.canvas.height;
+    
+    if (!inBounds) return;
+    
+    this.ctx.save();
+
+    // Apply text styling (same as preview)
+    this.applyTextStyle(text, depth);
+
+    // Apply 2D transformations (same as preview)
+    this.ctx.translate(screenPos.x, screenPos.y);
+    
+    // Apply Z-rotation
+    if (text.transform.rotation.z !== 0) {
+      this.ctx.rotate((text.transform.rotation.z * Math.PI) / 180);
+    }
+
+    // Apply 2D scale
+    this.ctx.scale(text.transform.scale.x, text.transform.scale.y);
+
+    // Apply Z-depth perspective scaling (same as preview)
+    const cameraZ = 500;
+    const distance = cameraZ - depth;
+    const perspectiveScale = distance > 0 ? cameraZ / distance : 1.0;
+    this.ctx.scale(perspectiveScale, perspectiveScale);
+
+    // Apply 3D rotation effects (same as preview)
+    const rotationEffect = this.calculate3DRotationEffect(text.transform.rotation);
+    this.ctx.scale(rotationEffect.scaleX, rotationEffect.scaleY);
+
+    // Calculate opacity for this depth (same as preview)
+    const depthOpacity = this.calculateDepthOpacity(depth);
+
+    // Render the actual text with stroke for better visibility (same as preview)
+    this.ctx.fillStyle = this.applyOpacityToColor(text.style.color, depthOpacity);
+    this.ctx.strokeStyle = '#000000'; // Black stroke for contrast
+    this.ctx.lineWidth = 2;
+    
+    // Draw stroke first (behind fill)
+    this.ctx.strokeText(text.content, 0, 0);
+    
+    // Draw fill on top
+    this.ctx.fillText(text.content, 0, 0);
+
+    this.ctx.restore();
+  }
+
+  /**
+   * Apply text styling including depth-based effects (same as preview)
+   */
+  private applyTextStyle(text: Text3DElement, depth: number): void {
+    const style = text.style;
+    
+    // Build font string (same as preview)
+    const fontString = `${style.fontStyle} ${style.fontWeight} ${style.fontSize}px ${style.fontFamily}`;
+    this.ctx.font = fontString;
+    
+    // Apply text alignment (same as preview)
+    this.ctx.textAlign = style.textAlign || 'center';
+    this.ctx.textBaseline = style.textBaseline || 'middle';
+  }
+
+  /**
+   * Calculate 3D rotation effect (same as preview)
+   */
+  private calculate3DRotationEffect(rotation: { x: number; y: number; z: number }): { scaleX: number; scaleY: number } {
+    // Simplified 3D rotation effect for 2D canvas
+    const xRad = (rotation.x * Math.PI) / 180;
+    const yRad = (rotation.y * Math.PI) / 180;
+    
+    return {
+      scaleX: Math.cos(yRad), // Y rotation affects X scale
+      scaleY: Math.cos(xRad)  // X rotation affects Y scale
+    };
+  }
+
+  /**
+   * Calculate depth-based opacity (same as preview)
+   */
+  private calculateDepthOpacity(depth: number): number {
+    // Objects further away are more transparent
+    const maxDepth = 1000;
+    const minOpacity = 0.3;
+    const opacity = 1.0 - (depth / maxDepth) * (1.0 - minOpacity);
+    return Math.max(minOpacity, Math.min(1.0, opacity));
+  }
+
+  /**
+   * Apply opacity to a color string (same as preview)
+   */
+  private applyOpacityToColor(color: string, opacity: number): string {
+    // Simple opacity application - could be more sophisticated
+    if (color.includes('rgb')) {
+      return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
+    }
+    return color; // Fallback for hex colors
+  }
+  /**
+   * Gets the position where the text should be rendered using the same algorithm as the preview
    */
   private getTextPosition(
     textElement: Text3DElement,
@@ -122,34 +191,79 @@ export class OverlayRenderer {
     trackingPoints: TrackingPoint[],
     planarTrackers: PlanarTracker[]
   ): { x: number; y: number } | null {
-    // If attached to a point tracker, follow that point
+    // If attached to a point tracker, follow that point with proper frame interpolation
     if (textElement.attachedToPointId) {
       const point = trackingPoints.find(p => p.id === textElement.attachedToPointId);
       if (!point) return null;
 
-      const pos = point.framePositions?.get(frameNumber) || { x: point.x, y: point.y };
-      return pos;
+      // Get point position for this specific frame (same as preview)
+      const pointPos = this.getPointPositionForFrame(point, frameNumber);
+      if (!pointPos) return null;
+
+      // Calculate 3D world position
+      const worldPosition: Vector3 = {
+        x: pointPos.x + textElement.transform.position.x,
+        y: pointPos.y + textElement.transform.position.y,
+        z: textElement.transform.position.z
+      };
+
+      // Project to 2D screen coordinates (same as preview)
+      const screenPos = Math3D.projectToScreen(
+        worldPosition,
+        this.canvas.width,
+        this.canvas.height
+      );
+
+      return screenPos;
     }
 
-    // If attached to a planar tracker, follow that tracker's center
+    // If attached to a planar tracker, follow that tracker with homography transformation
     if (textElement.attachedToTrackerId) {
       const tracker = planarTrackers.find(t => t.id === textElement.attachedToTrackerId);
       if (!tracker) return null;
 
-      // Get center position for current frame
-      let center = tracker.center;
-      if (tracker.trajectory && tracker.trajectory.length > 0) {
-        const frameEntry = tracker.trajectory.find(t => t.frame === frameNumber);
-        if (frameEntry) {
-          center = frameEntry.center;
-        }
+      // Get tracker center position
+      const trackerCenter = tracker.center;
+
+      // Apply 3D transformation (same as preview)
+      let transformedPosition = {
+        x: trackerCenter.x + textElement.transform.position.x,
+        y: trackerCenter.y + textElement.transform.position.y,
+        z: textElement.transform.position.z
+      };
+
+      // Apply homography transformation if available (same as preview)
+      if (tracker.homographyMatrix) {
+        transformedPosition = Math3D.applyPlanarHomography(
+          transformedPosition,
+          tracker.homographyMatrix
+        );
       }
 
-      return center;
+      // Project to 2D screen coordinates
+      const screenPos = Math3D.projectToScreen(
+        transformedPosition,
+        this.canvas.width,
+        this.canvas.height
+      );
+
+      return screenPos;
     }
 
     // If not attached to any tracker, return static position
     return { x: textElement.transform.position.x, y: textElement.transform.position.y };
+  }  /**
+   * Get point position for a specific frame (exact same logic as preview)
+   */
+  private getPointPositionForFrame(point: TrackingPoint, frameNumber: number): { x: number; y: number } | null {
+    // Use framePositions map for frame-specific position (exact same as preview)
+    const framePos = point.framePositions.get(frameNumber);
+    if (framePos) {
+      return framePos;
+    }
+
+    // Fallback to current position (exact same as preview)
+    return { x: point.x, y: point.y };
   }
 
   /**

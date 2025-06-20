@@ -147,11 +147,8 @@
             window.addEventListener('opencv-loaded', function() {
                 const statusBar = document.getElementById('opencv-status');
                 if (statusBar) {
-                    statusBar.textContent = 'OpenCV.js loaded successfully!';
-                    statusBar.classList.add('success');
-                    setTimeout(() => {
-                        statusBar.style.display = 'none';
-                    }, 3000);
+                    // Hide the status bar immediately without showing success message
+                    statusBar.style.display = 'none';
                 }
             });
             

@@ -25,14 +25,13 @@ export class VideoExportEngine {
     this.progressCallback = onProgress;
     this.abortController = new AbortController();
 
-    try {
-      this.reportProgress({
+    try {      this.reportProgress({
         stage: 'initializing',
         progress: 0,
         currentFrame: 0,
         totalFrames: 0,
         timeRemaining: 0,
-        message: 'Starting video export...',
+        message: '',
       });
 
       // Apply quality preset
@@ -162,72 +161,63 @@ export class VideoExportEngine {
 
     // Render frames
     let currentFrame = 0;
-    const frameTime = 1 / settings.framerate;
-      this.reportProgress({
-      stage: 'processing',
-      progress: 0,
-      currentFrame: 0,
-      totalFrames,
-      timeRemaining: 0,
-      message: 'Rendering video frames...',
-    });
-
-    for (let time = 0; time < video.duration; time += frameTime) {
+    const frameTime = 1 / settings.framerate;      this.reportProgress({
+        stage: 'processing',
+        progress: 0,
+        currentFrame: 0,
+        totalFrames,
+        timeRemaining: 0,
+        message: '',
+      });for (let time = 0; time < video.duration; time += frameTime) {
       if (this.abortController?.signal.aborted) {
         throw new Error('Export cancelled');
-      }
-
-      // Seek to current time
+      }      // Seek to current time
       video.currentTime = time;
       await new Promise(resolve => {
         video.onseeked = resolve;
         if (video.readyState >= 2) resolve(undefined); // Already seeked
       });
 
+      // Calculate current frame number (match preview calculation exactly)
+      const frameNumber = Math.round(video.currentTime * settings.framerate);
+
       // Clear canvas
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw video frame
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);      // Render 3D text overlays
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);      // Render 3D text overlays using OverlayRenderer
       if (text3DElements.length > 0) {
-        // Use the OverlayRenderer's renderFrame method to get the frame
-        const renderedFrame = renderer.renderFrame(video, currentFrame, settings, trackingPoints, planarTrackers, text3DElements);
-        
-        // Draw the rendered frame back to our canvas
-        if (renderedFrame instanceof HTMLCanvasElement) {
-          ctx.drawImage(renderedFrame, 0, 0, canvas.width, canvas.height);
+        const overlaidFrame = renderer.renderFrame(video, frameNumber, settings, trackingPoints, planarTrackers, text3DElements);
+        if (overlaidFrame instanceof HTMLCanvasElement) {
+          // Replace our canvas content with the overlaid frame
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(overlaidFrame, 0, 0, canvas.width, canvas.height);
         }
       }
 
-      currentFrame++;
-      
-      // Update progress
+      currentFrame++;      // Update progress - simplified
       const progress = (currentFrame / totalFrames) * 100;
-      const elapsed = Date.now() - startTime;
-      const estimated = elapsed / progress * 100;
-      const remaining = Math.max(0, estimated - elapsed);
-        this.reportProgress({
+      
+      this.reportProgress({
         stage: 'processing',
         progress,
         currentFrame,
         totalFrames,
-        timeRemaining: remaining,
-        message: `Rendering frame ${currentFrame} of ${totalFrames}...`,
+        timeRemaining: 0,
+        message: '',
       });
 
       // Allow browser to update
       await new Promise(resolve => setTimeout(resolve, 0));
-    }
-
-    // Stop recording and finalize
+    }    // Stop recording and finalize
     this.reportProgress({
       stage: 'finalizing',
       progress: 95,
       currentFrame: totalFrames,
       totalFrames,
       timeRemaining: 0,
-      message: 'Finalizing video...',
+      message: '',
     });
 
     mediaRecorder.stop();
@@ -237,16 +227,14 @@ export class VideoExportEngine {
     URL.revokeObjectURL(video.src);
     
     const duration = Date.now() - startTime;
-    const filename = `motion-tracking-export.${fileExtension}`;
-
-    this.reportProgress({
+    const filename = `motion-tracking-export.${fileExtension}`;    this.reportProgress({
       stage: 'complete',
       progress: 100,
       currentFrame: totalFrames,
       totalFrames,
       timeRemaining: 0,
-      message: 'Export complete!',
-    });    return {
+      message: '',
+    });return {
       success: true,
       blob: resultBlob,
       filename,
