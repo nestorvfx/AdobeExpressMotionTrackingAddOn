@@ -14,6 +14,7 @@ import { useTrackingOperations } from '../hooks/useTrackingOperations';
 import { DocumentSandboxApi } from '../../models/DocumentSandboxApi';
 import { InteractionMode } from '../utils/tracking/TrackingTypes';
 import { Text3DElement } from '../utils/text3d/Text3DTypes';
+import { Text3DManagerImpl } from '../utils/text3d/Text3DManager';
 import './App.css';
 import './Text3DEditor.css';
 
@@ -32,6 +33,9 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
     const [interactionMode, setInteractionMode] = React.useState<InteractionMode>('scale');
     const [currentTab, setCurrentTab] = useState<AppTab>('tracking');
     const [text3DElements, setText3DElements] = useState<Text3DElement[]>([]);
+    
+    // Shared Text3D Manager instance that persists across tab switches
+    const text3DManagerRef = React.useRef<Text3DManagerImpl>(new Text3DManagerImpl());
 
     const getPointColor = (index: number) => `hsl(${(index * 60) % 360}, 70%, 50%)`;
 
@@ -39,9 +43,7 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
         if (videoTracking.trackerRef.current) {
             videoTracking.trackerRef.current.updatePointPosition(pointId, x, y);
         }
-    };
-
-    const handleText3DCreate = (text: Text3DElement) => {
+    };    const handleText3DCreate = (text: Text3DElement) => {
         setText3DElements(prev => [...prev, text]);
         showToast(`Created text: ${text.name}`, 'success');
     };
@@ -54,6 +56,11 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
         setText3DElements(prev => prev.filter(t => t.id !== textId));
         showToast('Text deleted', 'info');
     };
+
+    // Sync text3DElements state with manager whenever texts change
+    React.useEffect(() => {
+        setText3DElements(text3DManagerRef.current.getAllTexts());
+    }, [currentTab]); // Re-sync when switching tabs
 
     const renderTabContent = () => {
         if (!videoTracking.videoSrc) {
@@ -169,12 +176,14 @@ export const App: React.FC<AppProps> = ({ addOnUISdk, sandboxProxy }) => {
                 );            case 'text3d':
                 return (
                     <Text3DEditor
+                        videoRef={videoTracking.videoRef}
                         videoSrc={videoTracking.videoSrc}
                         currentFrame={videoTracking.currentFrame}
                         totalFrames={videoTracking.totalFrames}
                         isPlaying={videoTracking.isPlaying}
                         trackingPoints={videoTracking.trackingPoints}
                         planarTrackers={videoTracking.planarTrackers}
+                        text3DManager={text3DManagerRef.current}
                         onTextCreate={handleText3DCreate}
                         onTextUpdate={handleText3DUpdate}
                         onTextDelete={handleText3DDelete}

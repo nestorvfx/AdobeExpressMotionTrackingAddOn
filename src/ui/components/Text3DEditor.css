@@ -7,7 +7,7 @@
   overflow: hidden;
 }
 
-/* Video Section - Fixed at top, non-scrollable */
+/* Video Section - Fixed at top, non-scrollable, closer to tabs */
 .text3d-video-section {
   background: white;
   border-radius: 12px;
@@ -20,7 +20,7 @@
   justify-content: center;
   position: relative;
   flex-shrink: 0;
-  margin-bottom: 8px;
+  margin-bottom: 4px; /* Reduced from 6px to 4px (closer to tabs) */
 }
 
 .text3d-video-container {
@@ -37,19 +37,24 @@
   display: block;
 }
 
-/* Timeline Section - Compact and close to video */
+/* Timeline Section - More compact (20% smaller) and closer to video */
 .text3d-timeline-section {
   background: white;
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 5px 8px; /* Reduced from 6px 10px (20% smaller height) */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
   flex-shrink: 0;
-  margin-bottom: 8px;
+  margin-bottom: 4px; /* Reduced from 6px to 4px (closer to 3D elements) */
 }
 
 .text3d-timeline-section .scrubber-container {
   margin: 0;
+}
+
+/* Make timeline controls more compact for 3D Text tab */
+.text3d-timeline-section .timeline-controls {
+  margin-bottom: 10px !important; /* Reduced from default 16px */
 }
 
 /* Text Controls Section - Scrollable content area */

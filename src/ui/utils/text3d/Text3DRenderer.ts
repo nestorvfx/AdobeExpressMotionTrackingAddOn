@@ -11,55 +11,102 @@ export class Text3DRenderer {
   constructor(canvas: HTMLCanvasElement) {
     this.ctx = canvas.getContext('2d')!;
   }
-
   /**
    * Render all text elements attached to trackers
-   */
-  renderAllTexts(
+   */  renderAllTexts(
     texts: Text3DElement[],
     trackingPoints: TrackingPoint[],
     planarTrackers: PlanarTracker[],
-    currentFrame: number
+    currentFrame: number,
+    hoveredTextId?: string | null
   ): void {
-    console.log(`[TEXT3D_RENDERER] renderAllTexts called with ${texts.length} texts`);
+    console.log(`[TEXT3D_RENDERER] ==================== RENDER ALL TEXTS ====================`);
+    console.log(`[TEXT3D_RENDERER] Called with ${texts.length} texts, ${trackingPoints.length} tracking points, ${planarTrackers.length} planar trackers`);
+    console.log(`[TEXT3D_RENDERER] Current frame: ${currentFrame}`);
+    console.log(`[TEXT3D_RENDERER] Canvas size: ${this.ctx.canvas.width}x${this.ctx.canvas.height}`);
     
-    texts.forEach(text => {
+    texts.forEach((text, index) => {
+      console.log(`[TEXT3D_RENDERER] ==================== TEXT ${index + 1} ====================`);
+      console.log(`[TEXT3D_RENDERER] Text ID: ${text.id}`);
+      console.log(`[TEXT3D_RENDERER] Content: "${text.content}"`);
+      console.log(`[TEXT3D_RENDERER] Visible: ${text.isVisible}`);
+      console.log(`[TEXT3D_RENDERER] Selected: ${text.isSelected}`);
+      console.log(`[TEXT3D_RENDERER] Transform:`, text.transform);
+      console.log(`[TEXT3D_RENDERER] Style:`, text.style);
+      
       if (!text.isVisible) {
         console.log(`[TEXT3D_RENDERER] Skipping invisible text: ${text.id}`);
         return;
       }
 
-      console.log(`[TEXT3D_RENDERER] Rendering text: ${text.content}, attached to: ${text.attachedToTrackerId}`);
+      const isHovered = hoveredTextId === text.id;
 
       if (text.attachedToPointId) {
-        // Render text attached to single point tracker
+        console.log(`[TEXT3D_RENDERER] Text attached to point: ${text.attachedToPointId}`);
         const point = trackingPoints.find(p => p.id === text.attachedToPointId);
         if (point) {
-          console.log(`[TEXT3D_RENDERER] Found point tracker for text`);
-          this.renderTextForPoint(text, point, currentFrame);
+          console.log(`[TEXT3D_RENDERER] Found point tracker:`, {
+            id: point.id,
+            position: { x: point.x, y: point.y },
+            isActive: point.isActive,
+            hasFramePositions: !!point.framePositions,
+            framePositionsSize: point.framePositions?.size || 0
+          });
+          
+          if (point.framePositions) {
+            const framePos = point.framePositions.get(currentFrame);
+            if (framePos) {
+              console.log(`[TEXT3D_RENDERER] Point has position for frame ${currentFrame}:`, framePos);
+            } else {
+              console.log(`[TEXT3D_RENDERER] Point has no position for frame ${currentFrame}, using current position`);
+            }
+          }
+          
+          this.renderTextForPoint(text, point, currentFrame, isHovered);
         } else {
-          console.log(`[TEXT3D_RENDERER] Point tracker not found: ${text.attachedToPointId}`);
+          console.log(`[TEXT3D_RENDERER] ERROR: Point tracker not found: ${text.attachedToPointId}`);
         }
       } else {
-        // Render text attached to planar tracker
+        console.log(`[TEXT3D_RENDERER] Text attached to planar tracker: ${text.attachedToTrackerId}`);
         const tracker = planarTrackers.find(t => t.id === text.attachedToTrackerId);
         if (tracker) {
-          console.log(`[TEXT3D_RENDERER] Found planar tracker for text`);
-          this.renderTextForPlanarTracker(text, tracker, currentFrame);
+          console.log(`[TEXT3D_RENDERER] Found planar tracker:`, {
+            id: tracker.id,
+            center: tracker.center,
+            isActive: tracker.isActive,
+            hasTrajectory: !!tracker.trajectory,
+            trajectoryLength: tracker.trajectory?.length || 0
+          });
+          
+          if (tracker.trajectory) {
+            const frameEntry = tracker.trajectory.find(t => t.frame === currentFrame);
+            if (frameEntry) {
+              console.log(`[TEXT3D_RENDERER] Planar tracker has entry for frame ${currentFrame}:`, {
+                center: frameEntry.center,
+                corners: frameEntry.corners
+              });
+            } else {
+              console.log(`[TEXT3D_RENDERER] Planar tracker has no entry for frame ${currentFrame}, using current center`);
+            }
+          }
+          
+          this.renderTextForPlanarTracker(text, tracker, currentFrame, isHovered);
         } else {
-          console.log(`[TEXT3D_RENDERER] Planar tracker not found: ${text.attachedToTrackerId}`);
+          console.log(`[TEXT3D_RENDERER] ERROR: Planar tracker not found: ${text.attachedToTrackerId}`);
         }
       }
     });
+    
+    console.log(`[TEXT3D_RENDERER] ==================== END RENDER ALL TEXTS ====================`);
   }
-
   /**
    * Render text attached to a single point tracker
    */
   private renderTextForPoint(
     text: Text3DElement,
     point: TrackingPoint,
-    currentFrame: number
+    currentFrame: number,
+    isHovered: boolean = false
   ): void {
     // Get point position (use current position or frame-specific position)
     const pointPos = this.getPointPositionForFrame(point, currentFrame);
@@ -80,7 +127,7 @@ export class Text3DRenderer {
     );
 
     // Render the text
-    this.renderTextAtPosition(text, screenPos, worldPosition.z);
+    this.renderTextAtPosition(text, screenPos, worldPosition.z, isHovered);
   }
 
   /**
@@ -89,7 +136,8 @@ export class Text3DRenderer {
   private renderTextForPlanarTracker(
     text: Text3DElement,
     tracker: PlanarTracker,
-    currentFrame: number
+    currentFrame: number,
+    isHovered: boolean = false
   ): void {
     // Get tracker center position
     const trackerCenter = tracker.center;
@@ -117,18 +165,28 @@ export class Text3DRenderer {
     );
 
     // Render the text
-    this.renderTextAtPosition(text, screenPos, transformedPosition.z);
+    this.renderTextAtPosition(text, screenPos, transformedPosition.z, isHovered);
   }
-
   /**
    * Render text at a specific screen position
-   */
-  private renderTextAtPosition(
+   */  private renderTextAtPosition(
     text: Text3DElement,
     screenPos: Vector2,
-    depth: number
+    depth: number,
+    isHovered: boolean = false
   ): void {
-    console.log(`[TEXT3D_RENDERER] renderTextAtPosition: ${text.content} at (${screenPos.x}, ${screenPos.y})`);
+    console.log(`[TEXT3D_RENDERER] ==================== RENDER TEXT AT POSITION ====================`);
+    console.log(`[TEXT3D_RENDERER] Text: "${text.content}"`);
+    console.log(`[TEXT3D_RENDERER] Screen position: (${screenPos.x}, ${screenPos.y})`);
+    console.log(`[TEXT3D_RENDERER] Depth: ${depth}`);
+    console.log(`[TEXT3D_RENDERER] Canvas context available: ${!!this.ctx}`);
+    console.log(`[TEXT3D_RENDERER] Transform:`, text.transform);
+    console.log(`[TEXT3D_RENDERER] Style:`, text.style);
+    
+    // Check if position is within canvas bounds
+    const canvas = this.ctx.canvas;
+    const inBounds = screenPos.x >= 0 && screenPos.x <= canvas.width && screenPos.y >= 0 && screenPos.y <= canvas.height;
+    console.log(`[TEXT3D_RENDERER] Position in bounds: ${inBounds} (canvas: ${canvas.width}x${canvas.height})`);
     
     this.ctx.save();
 
@@ -137,43 +195,81 @@ export class Text3DRenderer {
 
     // Apply 2D transformations (rotation and scale)
     this.ctx.translate(screenPos.x, screenPos.y);
+    console.log(`[TEXT3D_RENDERER] Applied translation to (${screenPos.x}, ${screenPos.y})`);
     
     // Apply Z-rotation
     if (text.transform.rotation.z !== 0) {
       this.ctx.rotate(Math3D.degreesToRadians(text.transform.rotation.z));
-    }
-
-    // Apply 2D scale
+      console.log(`[TEXT3D_RENDERER] Applied Z rotation: ${text.transform.rotation.z} degrees`);
+    }    // Apply 2D scale
     this.ctx.scale(text.transform.scale.x, text.transform.scale.y);
+    console.log(`[TEXT3D_RENDERER] Applied scale: (${text.transform.scale.x}, ${text.transform.scale.y})`);
 
-    // Apply 3D rotation effects (simplified 2D representation)
+    // Apply Z-depth perspective scaling
+    const cameraZ = 500;
+    const distance = cameraZ - depth;
+    const perspectiveScale = distance > 0 ? cameraZ / distance : 1.0;
+    this.ctx.scale(perspectiveScale, perspectiveScale);
+    console.log(`[TEXT3D_RENDERER] Applied perspective scale: ${perspectiveScale} (depth: ${depth}, distance: ${distance})`);    // Apply 3D rotation effects (simplified 2D representation)
     const rotationEffect = this.calculate3DRotationEffect(text.transform.rotation);
     this.ctx.scale(rotationEffect.scaleX, rotationEffect.scaleY);
+    console.log(`[TEXT3D_RENDERER] Applied 3D rotation effect scale: (${rotationEffect.scaleX}, ${rotationEffect.scaleY})`);
+
+    // Calculate opacity for this depth
+    const depthOpacity = this.calculateDepthOpacity(depth);
 
     // Render text with selection outline if needed
     if (text.isSelected) {
       this.renderSelectionOutline(text);
+      console.log(`[TEXT3D_RENDERER] Rendered selection outline`);
+    }
+
+    // Add hover glow effect
+    if (isHovered) {
+      this.renderHoverGlow(text, depthOpacity);
+      console.log(`[TEXT3D_RENDERER] Rendered hover glow effect`);
     }
 
     // Render the actual text with stroke for better visibility
-    const depthOpacity = this.calculateDepthOpacity(depth);
     this.ctx.fillStyle = this.applyOpacityToColor(text.style.color, depthOpacity);
     this.ctx.strokeStyle = '#000000'; // Black stroke for contrast
     this.ctx.lineWidth = 2;
     
-    console.log(`[TEXT3D_RENDERER] Drawing text "${text.content}" with fillStyle: ${this.ctx.fillStyle}, font: ${this.ctx.font}`);
+    console.log(`[TEXT3D_RENDERER] About to draw text "${text.content}"`);
+    console.log(`[TEXT3D_RENDERER] Fill style: ${this.ctx.fillStyle}`);
+    console.log(`[TEXT3D_RENDERER] Stroke style: ${this.ctx.strokeStyle}`);
+    console.log(`[TEXT3D_RENDERER] Font: ${this.ctx.font}`);
+    console.log(`[TEXT3D_RENDERER] Text align: ${this.ctx.textAlign}`);
+    console.log(`[TEXT3D_RENDERER] Text baseline: ${this.ctx.textBaseline}`);
+    console.log(`[TEXT3D_RENDERER] Line width: ${this.ctx.lineWidth}`);
+    console.log(`[TEXT3D_RENDERER] Depth opacity: ${depthOpacity}`);
+    
+    // Test if the canvas context is working by drawing a test rectangle
+    this.ctx.fillStyle = '#ff0000';
+    this.ctx.fillRect(-10, -10, 20, 20);
+    console.log(`[TEXT3D_RENDERER] Drew test red rectangle at text position`);
+    
+    // Reset fill style for text
+    this.ctx.fillStyle = this.applyOpacityToColor(text.style.color, depthOpacity);
     
     // Draw stroke first (behind fill)
+    console.log(`[TEXT3D_RENDERER] Drawing stroke text...`);
     this.ctx.strokeText(text.content, 0, 0);
+    
     // Draw fill on top
+    console.log(`[TEXT3D_RENDERER] Drawing fill text...`);
     this.ctx.fillText(text.content, 0, 0);
 
     // Add selection outline if selected
     if (text.isSelected) {
       this.ctx.strokeStyle = '#ffff00'; // Yellow outline
       this.ctx.lineWidth = 3;
+      console.log(`[TEXT3D_RENDERER] Drawing selection outline...`);
       this.ctx.strokeText(text.content, 0, 0);
     }
+
+    console.log(`[TEXT3D_RENDERER] Text drawing completed`);
+    console.log(`[TEXT3D_RENDERER] ==================== END RENDER TEXT AT POSITION ====================`);
 
     this.ctx.restore();
   }
@@ -213,15 +309,24 @@ export class Text3DRenderer {
 
   /**
    * Calculate opacity based on depth (further = more transparent)
-   */
-  private calculateDepthOpacity(depth: number): number {
-    // Simple depth fade: closer = more opaque, further = more transparent
-    const minOpacity = 0.3;
-    const maxOpacity = 1.0;
-    const depthRange = 200; // Arbitrary depth range for fading
+   */  private calculateDepthOpacity(depth: number): number {
+    // Opacity based on distance from camera (at Z=500)
+    const cameraZ = 500;
+    const distance = Math.abs(cameraZ - depth);
     
-    const normalizedDepth = Math3D.clamp(Math.abs(depth) / depthRange, 0, 1);
-    return Math3D.lerp(maxOpacity, minOpacity, normalizedDepth);
+    // Keep full opacity for reasonable distances, fade only for extreme distances
+    const fadeStartDistance = 300;
+    const fadeEndDistance = 800;
+    
+    if (distance <= fadeStartDistance) {
+      return 1.0; // Full opacity
+    } else if (distance >= fadeEndDistance) {
+      return 0.3; // Minimum opacity
+    } else {
+      // Linear fade between start and end
+      const fadeProgress = (distance - fadeStartDistance) / (fadeEndDistance - fadeStartDistance);
+      return Math3D.lerp(1.0, 0.3, fadeProgress);
+    }
   }
 
   /**
@@ -269,6 +374,28 @@ export class Text3DRenderer {
     );
     
     this.ctx.setLineDash([]); // Reset line dash
+  }
+
+  /**
+   * Render hover glow effect for text
+   */
+  private renderHoverGlow(text: Text3DElement, depthOpacity: number): void {
+    // Create a glow effect by drawing the text multiple times with increasing size and decreasing opacity
+    const glowColor = '#ffffff'; // White glow
+    const glowLayers = 3;
+    
+    this.ctx.save();
+    
+    for (let i = glowLayers; i > 0; i--) {
+      const glowSize = i * 2;
+      const glowOpacity = (depthOpacity * 0.3) / i; // Fade out each layer
+      
+      this.ctx.strokeStyle = this.applyOpacityToColor(glowColor, glowOpacity);
+      this.ctx.lineWidth = glowSize;
+      this.ctx.strokeText(text.content, 0, 0);
+    }
+    
+    this.ctx.restore();
   }
 
   /**

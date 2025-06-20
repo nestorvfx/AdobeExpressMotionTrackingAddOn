@@ -87,10 +87,10 @@ export interface Text3DRenderContext {
 // Default values
 export const DEFAULT_TEXT_STYLE: TextStyle = {
   fontFamily: 'Arial',
-  fontSize: 64, // Larger font size for better visibility
-  fontWeight: 'bold', // Make it bold for better visibility
+  fontSize: 38, // Reduced from 64 (40% smaller)
+  fontWeight: 'bold',
   fontStyle: 'normal',
-  color: '#ff0000', // Red color for high visibility testing
+  color: '#ff0000',
   textAlign: 'center',
   textBaseline: 'middle'
 };
@@ -98,7 +98,7 @@ export const DEFAULT_TEXT_STYLE: TextStyle = {
 export const DEFAULT_TRANSFORM: Transform3D = {
   position: { x: 0, y: 0, z: 0 },
   rotation: { x: 0, y: 0, z: 0 },
-  scale: { x: 2.0, y: 2.0 } // Larger scale for visibility
+  scale: { x: 1.2, y: 1.2 } // Reduced from 2.0 (40% smaller)
 };
 
 // Gizmo visual configuration

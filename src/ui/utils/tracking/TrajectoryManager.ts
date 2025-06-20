@@ -32,11 +32,7 @@ export class TrajectoryManager {  createTrackingPoint(x: number, y: number, fram
       point.trajectory.shift();
     }
   }  getPositionAtFrame(point: TrackingPoint, frame: number): { x: number; y: number } {
-    const exactPosition = point.framePositions.get(frame);
-    if (exactPosition) {
-      if (point.id.includes('_feature_')) {
-        console.log(`[TRACKING ADDON] Feature point ${point.id}: Found exact position for frame ${frame}: (${exactPosition.x.toFixed(1)}, ${exactPosition.y.toFixed(1)})`);
-      }
+    const exactPosition = point.framePositions.get(frame);    if (exactPosition) {
       return exactPosition;
     }
     
@@ -50,7 +46,7 @@ export class TrajectoryManager {  createTrackingPoint(x: number, y: number, fram
     if (mostRecentFrame >= 0) {
       const position = point.framePositions.get(mostRecentFrame)!;
       if (point.id.includes('_feature_')) {
-        console.log(`[TRACKING ADDON] Feature point ${point.id}: Using most recent frame ${mostRecentFrame} for frame ${frame}: (${position.x.toFixed(1)}, ${position.y.toFixed(1)})`);
+        
       }
       return position;
     }
@@ -65,14 +61,14 @@ export class TrajectoryManager {  createTrackingPoint(x: number, y: number, fram
     if (nearestFutureFrame < Number.MAX_SAFE_INTEGER) {
       const position = point.framePositions.get(nearestFutureFrame)!;
       if (point.id.includes('_feature_')) {
-        console.log(`[TRACKING ADDON] Feature point ${point.id}: Using nearest future frame ${nearestFutureFrame} for frame ${frame}: (${position.x.toFixed(1)}, ${position.y.toFixed(1)})`);
+        
       }
       return position;
     }
     
     // Final fallback to current point position
     if (point.id.includes('_feature_')) {
-      console.log(`[TRACKING ADDON] Feature point ${point.id}: Using fallback current position for frame ${frame}: (${point.x.toFixed(1)}, ${point.y.toFixed(1)})`);
+      
     }
     return { x: point.x, y: point.y };
   }syncPointToFrame(point: TrackingPoint, frame: number): void {
@@ -84,7 +80,7 @@ export class TrajectoryManager {  createTrackingPoint(x: number, y: number, fram
     
     // Add debug logging for feature points to see what's happening
     if (point.id.includes('_feature_')) {
-      console.log(`[TRACKING ADDON] Feature point sync: ${point.id} frame ${frame}: (${oldX.toFixed(1)}, ${oldY.toFixed(1)}) -> (${point.x.toFixed(1)}, ${point.y.toFixed(1)})`);
+      
     }
   }
   updateTrackedPosition(

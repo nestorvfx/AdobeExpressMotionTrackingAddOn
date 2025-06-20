@@ -329,33 +329,33 @@ export class TrackerOrchestrator {
    * Sync points to frame positions (for scrubbing only)
    */
   syncPointsToFrameForScrubbing(frame: number): void {
-    console.log(`[TRACKING ADDON] Syncing points and planar trackers to frame ${frame}`);
+    
     
     // Sync ALL tracking points (including feature points) to their trajectory positions
     const allPoints = this.stateManager.getPoints();
     this.trajectoryManager.syncAllPointsToFrame(allPoints, frame);
-    console.log(`[TRACKING ADDON] Synced ${allPoints.length} tracking points to frame ${frame}`);
+    
     
     // CRITICAL: Update feature points' framePositions map to reflect the synced positions
     // This ensures optical flow tracking uses the correct reference positions
     allPoints.forEach(point => {
       if (point.framePositions) {
         point.framePositions.set(frame, { x: point.x, y: point.y });
-        console.log(`[TRACKING ADDON] Updated framePositions for point ${point.id} at frame ${frame}: (${point.x.toFixed(1)}, ${point.y.toFixed(1)})`);
+        
       }
     });
     
     // Sync planar tracker corners and centers to their trajectory positions for this frame
     const planarTrackers = this.stateManager.getPlanarTrackers();
     this.planarTrackerManager.syncAllPlanarTrackersToFrame(planarTrackers, frame);
-    console.log(`[TRACKING ADDON] Synced ${planarTrackers.length} planar trackers to frame ${frame}`);
+    
     
     // Update the current frame number to match scrubbed position
     this.stateManager.setCurrentFrame(frame);
     
     // Reset optical flow buffers so tracking starts fresh from this scrubbed position
     this.frameProcessor.resetFrameBuffers();
-    console.log(`[TRACKING ADDON] Reset optical flow buffers - tracking will start fresh from frame ${frame}`);
+    
     
     // CRITICAL: Mark all planar trackers as needing fresh optical flow initialization
     planarTrackers.forEach(tracker => {
@@ -363,12 +363,12 @@ export class TrackerOrchestrator {
         if (point.isActive) {
           // Clear any stale optical flow state that might reference old positions
           delete (point as any).opticalFlowState;
-          console.log(`[TRACKING ADDON] Cleared optical flow state for feature point ${point.id}`);
+          
         }
       });
     });
     
-    console.log(`[TRACKING ADDON] Completed scrubbing sync to frame ${frame}`);
+    
   }
   /**
    * Handle video seek
@@ -524,7 +524,7 @@ export class TrackerOrchestrator {
     // Store planar tracker in state manager
     this.stateManager.addPlanarTracker(planarTracker);
     
-    console.log(`[FIXED-GRID] Created planar tracker ${planarTracker.id} with ${featurePoints.length} feature points`);
+    
     return planarTracker.id;
   }
 
@@ -551,7 +551,7 @@ export class TrackerOrchestrator {
     // Update corner position and mark for feature regeneration
     this.planarTrackerManager.updateCornerPosition(planarTracker, cornerIndex, newX, newY);
     
-    console.log(`[FIXED-GRID] Updated corner ${cornerIndex} for tracker ${trackerId}, marked for regeneration`);
+    
     return true;
   }
 
@@ -572,12 +572,12 @@ export class TrackerOrchestrator {
     const planarTrackers = this.stateManager.getActivePlanarTrackers();
     const frameCount = this.stateManager.getFrameCount();
     
-    console.log('[FIXED-GRID] Processing planar tracking, frame:', frameCount, 'trackers:', planarTrackers.length);
+    
     
     planarTrackers.forEach(planarTracker => {
       // Check if we need to regenerate feature points after manual adjustment
       if ((planarTracker as any).needsFeatureRegeneration) {
-        console.log(`[FIXED-GRID] Regenerating feature points for tracker ${planarTracker.id}`);
+        
         
         // Remove old feature points from state manager
         planarTracker.featurePoints.forEach(point => {
@@ -596,14 +596,14 @@ export class TrackerOrchestrator {
           this.stateManager.addPoint(point);
         });
         
-        console.log(`[FIXED-GRID] Regenerated ${newFeaturePoints.length} feature points`);
+        
         return; // Skip tracking this frame, resume next frame
       }
       
       // Get active feature points
       const activeFeatures = planarTracker.featurePoints.filter(p => p.isActive);
       
-      console.log('[FIXED-GRID] Planar tracker', planarTracker.id, 'has', activeFeatures.length, 'active features');
+      
       
       if (activeFeatures.length >= 15) { // Use our minimum threshold
         // Update homography based on tracked features
@@ -614,16 +614,16 @@ export class TrackerOrchestrator {
         if (homographyData && homographyData.confidence > 0.3) {
           planarTracker.isActive = true;
           planarTracker.confidence = homographyData.confidence;
-          console.log('[FIXED-GRID] Planar tracker updated successfully, confidence:', homographyData.confidence.toFixed(3));
+          
         } else {
           // Low confidence - tracker will regenerate points automatically
           planarTracker.confidence = homographyData?.confidence || 0;
-          console.log('[FIXED-GRID] Low confidence tracking, regeneration may occur');
+          
         }
       } else {
         // Not enough feature points - this will trigger regeneration in the manager
         planarTracker.confidence = 0;
-        console.log('[FIXED-GRID] Insufficient features, will trigger regeneration');
+        
       }
     });
   }

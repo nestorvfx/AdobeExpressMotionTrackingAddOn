@@ -94,7 +94,7 @@ export class PlanarTrackerManager {
     const { corners } = planarTracker;
     const featurePoints: TrackingPoint[] = [];
     
-    console.log(`[FIXED-GRID] Generating ${this.GRID_SIZE} feature points for frame ${frameCount}`);
+    
     
     // Generate uniform grid within the quadrilateral
     const gridPoints = this.generateUniformGrid(corners);
@@ -121,7 +121,7 @@ export class PlanarTrackerManager {
       featurePoints.push(featurePoint);
     });
     
-    console.log(`[FIXED-GRID] Generated ${featurePoints.length} feature points`);
+    
     return featurePoints;
   }
 
@@ -258,7 +258,7 @@ export class PlanarTrackerManager {
     frameCount: number
   ): HomographyData | null {
     if (!this.cv) {
-      console.log('[FIXED-GRID] OpenCV not available');
+      
       return null;
     }
 
@@ -267,11 +267,11 @@ export class PlanarTrackerManager {
       f.isActive && f.confidence > this.CONFIDENCE_THRESHOLD
     );
 
-    console.log(`[FIXED-GRID] Processing ${activePoints.length}/${trackedFeatures.length} active points`);
+    
 
     // Check minimum point threshold
     if (activePoints.length < this.MIN_TRACKING_POINTS) {
-      console.log(`[FIXED-GRID] Insufficient points: ${activePoints.length} < ${this.MIN_TRACKING_POINTS}`);
+      
       
       // Regenerate grid if we have too few good points
       this.regenerateFailedPoints(planarTracker, trackedFeatures, frameCount);
@@ -282,7 +282,7 @@ export class PlanarTrackerManager {
       const previousPoints = this.getPreviousFramePositions(activePoints, frameCount);
 
       if (previousPoints.length !== currentPoints.length) {
-        console.log('[FIXED-GRID] Point count mismatch, skipping homography');
+        
         return null;
       }
 
@@ -294,7 +294,7 @@ export class PlanarTrackerManager {
       });
 
       if (pointsAreIdentical) {
-        console.log('[FIXED-GRID] Points are identical (likely after scrubbing), skipping homography this frame');
+        
         // Add current positions to trajectory without homography transformation
         this.addTrajectoryEntry(planarTracker, frameCount);
         return {
@@ -313,7 +313,7 @@ export class PlanarTrackerManager {
       );
 
       if (!homographyData) {
-        console.log('[FIXED-GRID] Homography calculation failed');
+        
         return null;
       }
 
@@ -325,7 +325,7 @@ export class PlanarTrackerManager {
       planarTracker.homographyMatrix = homographyData.matrix;
       planarTracker.confidence = homographyData.confidence;
 
-      console.log(`[FIXED-GRID] Successfully updated tracker with confidence: ${homographyData.confidence.toFixed(3)}`);
+      
       return homographyData;
 
     } catch (error) {
@@ -343,7 +343,7 @@ export class PlanarTrackerManager {
         // Look for the exact previous frame first
         const prevFramePos = point.framePositions.get(currentFrame - 1);
         if (prevFramePos) {
-          console.log(`[FIXED-GRID] Using exact previous frame ${currentFrame - 1} for point ${point.id}: (${prevFramePos.x.toFixed(1)}, ${prevFramePos.y.toFixed(1)})`);
+          
           return prevFramePos;
         }
         
@@ -354,7 +354,7 @@ export class PlanarTrackerManager {
           
         if (frameEntries.length > 0) {
           const mostRecentPosition = frameEntries[0][1];
-          console.log(`[FIXED-GRID] Using most recent frame ${frameEntries[0][0]} for point ${point.id}: (${mostRecentPosition.x.toFixed(1)}, ${mostRecentPosition.y.toFixed(1)})`);
+          
           return mostRecentPosition;
         }
       }
@@ -363,12 +363,12 @@ export class PlanarTrackerManager {
       if (point.trajectory.length > 1) {
         // Use previous frame position from trajectory
         const prevPos = point.trajectory[point.trajectory.length - 2];
-        console.log(`[FIXED-GRID] Using trajectory previous for point ${point.id}: (${prevPos.x.toFixed(1)}, ${prevPos.y.toFixed(1)})`);
+        
         return prevPos;
       } else {
         // Use current position as reference for first frame or after scrubbing
         const currentPos = { x: point.x, y: point.y };
-        console.log(`[FIXED-GRID] Using current position as reference for point ${point.id}: (${currentPos.x.toFixed(1)}, ${currentPos.y.toFixed(1)})`);
+        
         return currentPos;
       }
     });
@@ -393,7 +393,7 @@ export class PlanarTrackerManager {
       const dstMat = this.cv.matFromArray(targetPoints.length, 1, this.cv.CV_32FC2, dstFlat);
       const mask = new this.cv.Mat();
 
-      console.log(`[FIXED-GRID] Computing homography for ${trackerId} with ${sourcePoints.length} points`);
+      
 
       // Use RANSAC for robust estimation
       const homography = this.cv.findHomography(
@@ -407,7 +407,7 @@ export class PlanarTrackerManager {
       );
 
       if (!homography || homography.empty()) {
-        console.log('[FIXED-GRID] Homography computation failed');
+        
         srcMat.delete();
         dstMat.delete();
         mask.delete();
@@ -421,7 +421,7 @@ export class PlanarTrackerManager {
 
       // Check confidence threshold
       if (confidence < this.CONFIDENCE_THRESHOLD) {
-        console.log(`[FIXED-GRID] Low confidence: ${confidence.toFixed(3)} < ${this.CONFIDENCE_THRESHOLD}`);
+        
         srcMat.delete();
         dstMat.delete();
         mask.delete();
@@ -432,7 +432,7 @@ export class PlanarTrackerManager {
       // Extract homography matrix
       const matrixArray: number[] = Array.from(homography.data64F || homography.data32F);
 
-      console.log(`[FIXED-GRID] Homography confidence: ${confidence.toFixed(3)}, inliers: ${inlierCount}/${sourcePoints.length}`);
+      
 
       // Cleanup
       srcMat.delete();
@@ -461,7 +461,7 @@ export class PlanarTrackerManager {
     existingPoints: TrackingPoint[], 
     frameCount: number
   ): void {
-    console.log('[FIXED-GRID] Regenerating failed tracking points');
+    
 
     // Preserve high-confidence points
     const goodPoints = existingPoints.filter(p => 
@@ -472,7 +472,7 @@ export class PlanarTrackerManager {
     existingPoints.forEach(point => {
       if (point.confidence <= this.CONFIDENCE_THRESHOLD) {
         point.isActive = false;
-        console.log(`[FIXED-GRID] Deactivated point ${point.id} (confidence: ${point.confidence.toFixed(3)})`);
+        
       }
     });
 
@@ -499,7 +499,7 @@ export class PlanarTrackerManager {
         existingPoints.push(newPoint);
       }
       
-      console.log(`[FIXED-GRID] Added ${neededPoints} new tracking points`);
+      
     }
   }  /**
    * Update corner positions based on homography transformation
@@ -510,7 +510,7 @@ export class PlanarTrackerManager {
     frameCount: number
   ): void {
     if (!this.cv || homographyMatrix.length !== 9) {
-      console.log('[FIXED-GRID] Invalid homography matrix:', homographyMatrix.length, 'elements');
+      
       return;
     }
 
@@ -518,8 +518,8 @@ export class PlanarTrackerManager {
       // Use current corner positions as source (incremental tracking)
       const sourceCorners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
       
-      console.log('[FIXED-GRID] Applying incremental homography to corners');
-      console.log('[FIXED-GRID] Source corners:', sourceCorners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      
+      
 
       // Apply homography transformation to each corner
       const homMat = this.cv.matFromArray(3, 3, this.cv.CV_64FC1, homographyMatrix);
@@ -544,7 +544,7 @@ export class PlanarTrackerManager {
         } else {
           planarTracker.corners[index].x = newX;
           planarTracker.corners[index].y = newY;
-          console.log(`[FIXED-GRID] Corner ${index}: (${sourceCorner.x.toFixed(1)}, ${sourceCorner.y.toFixed(1)}) -> (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
+          
         }
         
         // Cleanup
@@ -557,8 +557,8 @@ export class PlanarTrackerManager {
       const centerY = planarTracker.corners.reduce((sum, c) => sum + c.y, 0) / 4;
       planarTracker.center = { x: centerX, y: centerY };
 
-      console.log('[FIXED-GRID] Updated corners:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
-      console.log('[FIXED-GRID] New center:', `(${planarTracker.center.x.toFixed(1)}, ${planarTracker.center.y.toFixed(1)})`);
+      
+      
 
       // Add to trajectory
       planarTracker.trajectory.push({
@@ -592,8 +592,8 @@ export class PlanarTrackerManager {
       const centerY = planarTracker.corners.reduce((sum, c) => sum + c.y, 0) / 4;
       planarTracker.center = { x: centerX, y: centerY };
       
-      console.log(`[FIXED-GRID] Manual corner ${cornerIndex} update: (${newX.toFixed(1)}, ${newY.toFixed(1)})`);
-      console.log('[FIXED-GRID] All corners after manual adjustment:', planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      
+      
       
       // Update the most recent trajectory entry to reflect the manual adjustment
       if (planarTracker.trajectory.length > 0) {
@@ -601,12 +601,12 @@ export class PlanarTrackerManager {
         lastTrajectoryEntry.corners = planarTracker.corners.map(c => ({ x: c.x, y: c.y }));
         lastTrajectoryEntry.center = { x: centerX, y: centerY };
         
-        console.log('[FIXED-GRID] Updated trajectory reference to manual adjustment');
+        
       }
       
       // Mark for feature point regeneration on next tracking frame
       (planarTracker as any).needsFeatureRegeneration = true;
-      console.log('[FIXED-GRID] Marked for feature point regeneration');
+      
     }
   }
 
@@ -619,7 +619,7 @@ export class PlanarTrackerManager {
     frameCount: number, 
     imageData?: ImageData
   ): TrackingPoint[] {
-    console.log('[FIXED-GRID] Regenerating feature points after manual adjustment');
+    
     
     // Preserve existing points that are still within the new boundary and have good confidence
     const preservedPoints = planarTracker.featurePoints.filter(point => {
@@ -627,12 +627,12 @@ export class PlanarTrackerManager {
       const goodConfidence = point.confidence > this.CONFIDENCE_THRESHOLD;
       
       if (withinBounds && goodConfidence) {
-        console.log(`[FIXED-GRID] Preserving point ${point.id} (confidence: ${point.confidence.toFixed(3)})`);
+        
         return true;
       } else {
         // Deactivate but preserve trajectory data
         point.isActive = false;
-        console.log(`[FIXED-GRID] Deactivating point ${point.id} (bounds: ${withinBounds}, confidence: ${point.confidence.toFixed(3)})`);
+        
         return false;
       }
     });
@@ -684,7 +684,7 @@ export class PlanarTrackerManager {
         }
       }
 
-      console.log(`[FIXED-GRID] Added ${addedCount} new points to reach target of ${this.GRID_SIZE}`);
+      
     }
 
     // Combine preserved and new points
@@ -696,7 +696,7 @@ export class PlanarTrackerManager {
     // Clear the regeneration flag
     delete (planarTracker as any).needsFeatureRegeneration;
     
-    console.log(`[FIXED-GRID] Feature point regeneration complete: ${preservedPoints.length} preserved + ${newPoints.length} new = ${allPoints.length} active`);
+    
     
     return allPoints;
   }
@@ -738,23 +738,23 @@ export class PlanarTrackerManager {
    * This is used during timeline scrubbing to ensure trackers appear at their correct positions
    */
   syncPlanarTrackerToFrame(planarTracker: PlanarTracker, frame: number): void {
-    console.log(`[FIXED-GRID] Syncing planar tracker ${planarTracker.id} to frame ${frame}`);
+    
     if (planarTracker.trajectory.length === 0) {
-      console.log(`[FIXED-GRID] No trajectory data available for ${planarTracker.id}`);
+      
       return;
     }
 
     // Look for exact frame match first
     const exactMatch = planarTracker.trajectory.find(entry => entry.frame === frame);
     if (exactMatch) {
-      console.log(`[FIXED-GRID] Found exact match for frame ${frame}`);
+      
       // Update corners and center to exact frame position
       planarTracker.center = { x: exactMatch.center.x, y: exactMatch.center.y };
       exactMatch.corners.forEach((corner, index) => {
         planarTracker.corners[index].x = corner.x;
         planarTracker.corners[index].y = corner.y;
       });
-      console.log(`[FIXED-GRID] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      
       return;
     }
 
@@ -769,14 +769,14 @@ export class PlanarTrackerManager {
     }
 
     if (mostRecentEntry) {
-      console.log(`[FIXED-GRID] Using most recent frame ${mostRecentFrame} for frame ${frame}`);
+      
       // Use most recent previous frame position
       planarTracker.center = { x: mostRecentEntry.center.x, y: mostRecentEntry.center.y };
       mostRecentEntry.corners.forEach((corner, index) => {
         planarTracker.corners[index].x = corner.x;
         planarTracker.corners[index].y = corner.y;
       });
-      console.log(`[FIXED-GRID] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      
       return;
     }
 
@@ -791,14 +791,14 @@ export class PlanarTrackerManager {
     }
 
     if (nearestFutureEntry) {
-      console.log(`[FIXED-GRID] Using nearest future frame ${nearestFutureFrame} for frame ${frame}`);
+      
       // Use nearest future frame position
       planarTracker.center = { x: nearestFutureEntry.center.x, y: nearestFutureEntry.center.y };
       nearestFutureEntry.corners.forEach((corner, index) => {
         planarTracker.corners[index].x = corner.x;
         planarTracker.corners[index].y = corner.y;
       });
-      console.log(`[FIXED-GRID] Updated corners to:`, planarTracker.corners.map((c, i) => `[${i}]: (${c.x.toFixed(1)}, ${c.y.toFixed(1)})`));
+      
     }
     // If no trajectory data at all, keep current positions (fallback)
   }
@@ -825,6 +825,6 @@ export class PlanarTrackerManager {
       frame: frameCount
     });
 
-    console.log(`[FIXED-GRID] Added trajectory entry for frame ${frameCount} without transformation`);
+    
   }
 }

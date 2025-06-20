@@ -117,8 +117,7 @@ export class Math3D {
       z: z / w
     };
   }
-  
-  // Project 3D point to 2D screen coordinates with perspective
+    // Project 3D point to 2D screen coordinates with perspective
   static projectToScreen(
     point3D: Vector3, 
     canvasWidth: number, 
@@ -127,19 +126,32 @@ export class Math3D {
     near: number = 0.1, 
     far: number = 1000
   ): Vector2 {
-    // Create perspective projection matrix
-    const aspect = canvasWidth / canvasHeight;
-    const fovRad = (fov * Math.PI) / 180;
-    const f = 1.0 / Math.tan(fovRad / 2.0);
+    // Simple perspective projection for screen-space coordinates
+    // Assume camera is at (0, 0, 500) looking at the screen plane
+    const cameraZ = 500;
+    const screenZ = 0; // Screen plane at Z = 0
     
-    // Apply perspective projection
-    const projectedX = (f / aspect) * point3D.x;
-    const projectedY = f * point3D.y;
-    const projectedZ = point3D.z;
+    // Apply Z-depth perspective scaling
+    // When Z is positive, text appears closer (larger)
+    // When Z is negative, text appears farther (smaller)
+    const distance = cameraZ - point3D.z;
     
-    // Convert to screen coordinates
-    const screenX = (projectedX + 1) * canvasWidth / 2;
-    const screenY = (1 - projectedY) * canvasHeight / 2;
+    // Prevent division by zero and invalid distances
+    if (distance <= 0) {
+      // If text is behind camera or at camera position, place it at screen edge
+      return { x: canvasWidth / 2, y: canvasHeight / 2 };
+    }
+    
+    // Calculate perspective scale factor
+    const perspectiveScale = cameraZ / distance;
+    
+    // Apply perspective to X and Y coordinates
+    // The further from camera (larger distance), the smaller the text appears
+    const centerX = canvasWidth / 2;
+    const centerY = canvasHeight / 2;
+    
+    const screenX = centerX + (point3D.x - centerX) * perspectiveScale;
+    const screenY = centerY + (point3D.y - centerY) * perspectiveScale;
     
     return { x: screenX, y: screenY };
   }
